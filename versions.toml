@@ -20,4 +20,3 @@ jetpack = "6.2"
 tensorrt     = "https://github.com/NVIDIA/TensorRT/releases"
 pytorch      = "https://github.com/pytorch/pytorch/releases"
 executorch   = "https://github.com/pytorch/executorch/releases"
-aot_inductor = "https://github.com/pytorch/pytorch/releases"   # bundled with PyTorch
