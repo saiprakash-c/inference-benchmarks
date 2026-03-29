@@ -66,21 +66,35 @@ RETRY_BASE_SECS = 2
 def get_pr_diff() -> str:
     """Return the full PR diff — everything this branch adds on top of main.
 
-    Uses the three-dot notation (merge-base diff) so the reviewer always sees
-    the squashed net change of the entire PR, not individual commits.
-    Tries origin/main first (CI and normal local), then main (local without
+    Finds the merge-base between main and HEAD, then diffs from there to the
+    working tree. This gives:
+      - In CI (clean working tree): committed changes on the branch only
+      - Locally: committed + staged + unstaged — the complete in-progress state
+
+    Tries origin/main first (CI and normal local use), then main (local without
     a fetched remote ref).
     """
     for base in ("origin/main", "main"):
-        # Verify the ref exists before diffing against it
         check = subprocess.run(
             ["git", "rev-parse", "--verify", base],
             cwd=str(REPO_ROOT), capture_output=True,
         )
         if check.returncode != 0:
             continue
+
+        merge_base = subprocess.run(
+            ["git", "merge-base", base, "HEAD"],
+            cwd=str(REPO_ROOT), capture_output=True, text=True,
+        )
+        if merge_base.returncode != 0:
+            continue
+
+        base_sha = merge_base.stdout.strip()
         result = subprocess.run(
-            ["git", "diff", f"{base}...HEAD"],
+            # Two-dot diff from merge-base to working tree:
+            # in CI this equals origin/main...HEAD; locally it also
+            # captures uncommitted (staged + unstaged) changes.
+            ["git", "diff", base_sha],
             cwd=str(REPO_ROOT), capture_output=True, text=True,
         )
         if result.returncode == 0:
