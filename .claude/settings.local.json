@@ -1,21 +1,28 @@
 {
   "permissions": {
+    "deny": [
+      "Bash(*--admin*)",
+      "Bash(*rm -rf*)"
+    ],
     "allow": [
-      "Bash(ln -sf CONTEXT.md CLAUDE.md)",
-      "Bash(ln -sf CONTEXT.md AGENTS.md)",
-      "Bash(cp -r benchmark/models/resnet50 models/)",
-      "Bash(cp -r benchmark/runtimes/pytorch runtimes/)",
-      "Bash(cp -r benchmark/runtimes/tensorrt runtimes/)",
-      "Bash(cp -r benchmark/runtimes/executorch runtimes/)",
-      "Bash(cp -r benchmark/runtimes/aot_inductor runtimes/)",
-      "Bash(sed -i '' 's|from benchmark.interface import RuntimeBase|from runtimes.base import RuntimeBase|g' runtimes/pytorch/BUILD runtimes/tensorrt/BUILD runtimes/executorch/BUILD runtimes/aot_inductor/BUILD)",
-      "Bash(sed -i '' 's|\"\"//benchmark:interface\"\"|\"\"//runtimes:base\"\"|g' runtimes/pytorch/BUILD runtimes/tensorrt/BUILD runtimes/executorch/BUILD runtimes/aot_inductor/BUILD)",
-      "Bash(sed -i '' 's|//benchmark/runtimes/|//runtimes/|g' docs/RUNTIMES.md)",
-      "Bash(sed -i '' 's|//benchmark/models/|//models/|g' docs/MODELS.md)",
-      "Bash(ls -d */)",
-      "Bash(grep -r \"benchmark/models\\\\|benchmark/runtimes\\\\|benchmark/interface\\\\|benchmark\\\\.interface\\\\|benchmark\\\\.models\\\\|benchmark\\\\.runtimes\" --include=*.py --include=*.md --include=*.toml --include=*.yml --exclude-dir=.git --exclude-dir=.claude .)",
-      "Bash(git init:*)",
-      "Bash(git add:*)"
+      "Bash(git*)",
+      "Bash(gh*)",
+      "Bash(python*)",
+      "Bash(pip*)",
+      "Bash(pip-compile*)",
+      "Bash(bazel*)",
+      "Bash(ls*)",
+      "Bash(cp*)",
+      "Bash(mv*)",
+      "Bash(mkdir*)",
+      "Bash(grep*)",
+      "Bash(sed*)",
+      "Bash(ln*)",
+      "Bash(cat*)",
+      "Bash(echo*)",
+      "Bash(sleep*)",
+      "Bash(which*)",
+      "Bash(find*)"
     ]
   }
 }
