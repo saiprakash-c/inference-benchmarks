@@ -148,6 +148,7 @@ from MODELS.md.
 
 ERROR [lint/print-statement]: print() call found in //runtimes/pytorch/runtime.py:42.
 Use structured logging (see OBSERVABILITY.md).
+# Note: only flags print() as a standalone statement at the start of a line.
 
 ERROR [lint/results-mutation]: results/foo.json was modified. results/ is
 append-only — existing files must not be mutated.

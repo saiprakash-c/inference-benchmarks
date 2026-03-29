@@ -12,11 +12,12 @@ jetpack      = "6.2"
 
 [docker]
 image   = "ghcr.io/saiprakash-c/inference-benchmarks:latest"
-digest  = "not-yet-built"   # update after first `bazel run //docker:push`
+digest  = ""   # set after first `//docker:push`; empty until first image is built
 cuda    = "12.8"
 jetpack = "6.2"
 
 [sources]
-tensorrt   = "https://github.com/NVIDIA/TensorRT/releases"
-pytorch    = "https://github.com/pytorch/pytorch/releases"
-executorch = "https://github.com/pytorch/executorch/releases"
+tensorrt     = "https://github.com/NVIDIA/TensorRT/releases"
+pytorch      = "https://github.com/pytorch/pytorch/releases"
+executorch   = "https://github.com/pytorch/executorch/releases"
+aot_inductor = "https://github.com/pytorch/pytorch/releases"   # bundled with PyTorch

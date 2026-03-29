@@ -56,7 +56,7 @@ All runtimes listed in RUNTIMES.md must appear here; //ci:lint enforces this.
 | Field | Description |
 |---|---|
 | `image` | Docker image name and tag (informational only — tag is mutable) |
-| `digest` | Full image digest (`sha256:...`) — this is the authoritative identifier |
+| `digest` | Full image digest (`sha256:...`) — this is the authoritative identifier. Empty string before the first `//docker:push`; required once any result files exist. |
 | `cuda` | CUDA version baked into the image |
 | `jetpack` | JetPack version baked into the image |
 
@@ -69,7 +69,9 @@ Authoritative URLs for where each runtime's releases are published. These are
 the URLs //versions:check fetches to detect new upstream versions. Every runtime
 in `[runtimes]` that has an upstream release page must have an entry here.
 `cuda` and `jetpack` are managed via the Docker image and do not require a
-`[sources]` entry.
+`[sources]` entry. Runtimes bundled inside another runtime (e.g. `aot_inductor`
+bundled with PyTorch) share the parent's `[sources]` entry and do not need their
+own.
 
 ## Docker Image Rebuild Trigger
 
@@ -99,7 +101,8 @@ When a rebuild is required:
 5. After a successful benchmark run, versions.toml is updated and committed
    alongside the new results/
 6. versions.toml is never manually edited — it is always written by //versions:check
-   (except [sources], which is edited when adding a new runtime)
+   (except [sources] and the initial seed value for a new runtime in [runtimes],
+   both of which are edited manually when onboarding a new runtime)
 
 ## Tracking New Runtimes
 

@@ -125,7 +125,10 @@ def check_versions_toml(runtimes: list[str]) -> list[str]:
                 f"Add '{name} = \"<version>\"' under [runtimes] in versions.toml."
             )
 
-    if not versions.get("docker", {}).get("digest"):
+    # Digest is only required once benchmark results exist — before the first
+    # docker build there is no digest yet and the field is intentionally empty.
+    has_results = any(RESULTS_DIR.glob("*.json"))
+    if has_results and not versions.get("docker", {}).get("digest"):
         errors.append(
             "[lint/versions-schema] versions.toml is missing [docker].digest. "
             "Run //docker:build and //docker:push, then record the digest."
