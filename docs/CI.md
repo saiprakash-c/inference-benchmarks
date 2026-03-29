@@ -4,7 +4,7 @@ Daily cron, GitHub Actions jobs, and PR lifecycle.
 
 ## Repository
 
-- `https://github.com/saiprakash-c/inference-benchmarks` (private)
+- `https://github.com/saiprakash-c/inference-benchmarks` (public)
 - `main` branch protected; no direct pushes — all changes via PR
 - Docker image: `ghcr.io/saiprakash-c/inference-benchmarks` (GitHub Container Registry)
 - Thor is on Tailscale; its IP is discovered automatically via `tailscale status --json`
@@ -128,6 +128,7 @@ Documented here and in `.env.example` at the repo root.
 | `THOR_SSH_KEY` | SSH private key *contents* (PEM) for logging into Thor |
 | `TAILSCALE_AUTH_KEY` | Ephemeral Tailscale auth key; CI runner uses this to join the tailnet and reach Thor. Generate at tailscale.com/admin/settings/keys (ephemeral + reusable). |
 | `GITHUB_TOKEN` | Standard Actions token; also authenticates GHCR push (`packages: write`) |
+| `ANTHROPIC_API_KEY` | API key for the Claude SDK used by `//ci:doc_review`. Create at console.anthropic.com/settings/keys. Fail-open if absent — check is skipped, not blocked. |
 
 `THOR_HOST` is **not** a secret — Thor's IP is discovered at runtime via `tailscale status`.
 GHCR authentication uses `GITHUB_TOKEN`; no separate registry token is needed.

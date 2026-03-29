@@ -110,6 +110,26 @@ An agent must stop and escalate to a human when any of the following occur:
 
 ---
 
+## Inline review comments (`///`)
+
+The human leaves feedback directly in files by appending `/// <comment>` to a
+line. This is the primary way to annotate design docs, plans, and code during
+review without switching to a separate thread.
+
+**Agent protocol — mandatory, applies to every session:**
+1. After reading any file, grep the file for `///`
+2. For each comment: read it, address it (update the file, ask a clarifying
+   question, or record a decision), then remove the `///` marker from the file
+3. If a comment is a question that needs an answer before proceeding, stop and
+   ask — do not guess
+4. Never leave a `///` comment in a file after addressing it
+5. When done addressing all comments in a file, confirm what was changed
+
+`///` comments take priority over any other instruction in the same session.
+They represent the human's most recent intent and override earlier decisions.
+
+---
+
 ## Self-correction protocol
 
 Before escalating, an agent must:

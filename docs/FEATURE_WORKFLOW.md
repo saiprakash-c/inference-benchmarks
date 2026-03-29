@@ -40,9 +40,13 @@ docs/features/
         │  agent writes design.md
         ▼
   todo/<name>/design.md        ← HUMAN APPROVAL REQUIRED
+        │  human reviews; may leave /// inline comments
+        │  agent greps for ///, addresses all, removes markers
         │  agent writes plan.md
         ▼
   todo/<name>/plan.md          ← HUMAN APPROVAL REQUIRED
+        │  human reviews; may leave /// inline comments
+        │  agent greps for ///, addresses all, removes markers
         │  human says "go"
         ▼
   active/<name>/               ← folder moved, work begins
@@ -50,6 +54,8 @@ docs/features/
         ▼
   completed/<name>/            ← folder moved, agent writes summary.md
 ```
+
+See `AGENT_LOOP.md §Inline review comments` for the full `///` protocol.
 
 ### Document templates
 
