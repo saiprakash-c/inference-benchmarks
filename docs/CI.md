@@ -81,6 +81,9 @@ PRs are short-lived — open and merged within one agent session where possible.
 4. Agent opens PR via `gh pr create`
 5. GitHub Actions runs `//ci:lint` + agent doc review automatically
 6. If all checks pass: agent merges via `gh pr merge --squash --delete-branch`
+   - If GitHub reports "not mergeable" despite all checks passing, wait 15–30s
+     and retry — this is a propagation delay, not a real failure
+   - Never use `--admin` to bypass branch protection; ask the human first
 
 **On mechanical lint failure:**
 1. Agent reads the error message — remediation instructions are embedded in every lint error
