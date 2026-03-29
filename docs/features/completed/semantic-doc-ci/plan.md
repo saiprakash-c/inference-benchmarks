@@ -1,5 +1,5 @@
 # Plan: semantic-doc-ci
-Status: in progress
+Status: completed
 
 ## Steps
 
@@ -9,7 +9,7 @@ Status: in progress
 4. ✅ Add `agent-doc-review` job to `.github/workflows/pr.yml`
 5. ✅ Add `ANTHROPIC_API_KEY` to `.env.example` and `docs/CI.md` secrets table
 6. ✅ Move feature folder to `docs/features/active/semantic-doc-ci/`
-7. Open PR, verify the check runs and passes on itself
+7. ✅ Open PR, verify the check runs and passes on itself
 
 ## Files to create / modify
 
