@@ -33,6 +33,11 @@ docs/AGENT_LOOP.md    — agent execution loop and escalation criteria
 docs/CI.md            — cron schedule, PR lifecycle, merge philosophy
 docs/WEBSITE.md       — results → static site pipeline
 
+## Git / GitHub rules
+- Never use `gh pr merge --admin` — it bypasses branch protection; ask the human first
+- If `gh pr merge` reports "not mergeable" but all checks are green, wait 15–30s and retry
+- Never add `Co-Authored-By` trailers to commits — commits appear as the repo owner's
+
 ## Key Bazel targets
 //benchmark:run, //versions:check, //tools:validate_results,
 //site:build, //site:deploy, //ci:lint, //ci:doc_gardening,
