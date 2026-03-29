@@ -115,7 +115,7 @@ by adding a reviewer; the agent never blocks on it by default.
 
 - `//ci:lint` must pass (hard block)
 - `//tools:validate_results` must pass (hard block)
-- Agent doc review must pass (hard block)
+- Agent doc review must pass (hard block; fail-open if `ANTHROPIC_API_KEY` is absent)
 - No required human reviewers — agent merges autonomously
 - Branches deleted after merge
 
@@ -127,7 +127,7 @@ Documented here and in `.env.example` at the repo root.
 |---|---|
 | `THOR_SSH_KEY` | SSH private key *contents* (PEM) for logging into Thor |
 | `TAILSCALE_AUTH_KEY` | Ephemeral Tailscale auth key; CI runner uses this to join the tailnet and reach Thor. Generate at tailscale.com/admin/settings/keys (ephemeral + reusable). |
-| `GITHUB_TOKEN` | Standard Actions token; also authenticates GHCR push (`packages: write`) |
+| `GITHUB_TOKEN` | Standard Actions token; also authenticates GHCR push (`packages: write`). Passed to `//ci:doc_review` as the `GH_TOKEN` env var so `gh pr comment` can post findings. |
 | `ANTHROPIC_API_KEY` | API key for the Claude SDK used by `//ci:doc_review`. Create at console.anthropic.com/settings/keys. Fail-open if absent — check is skipped, not blocked. |
 
 `THOR_HOST` is **not** a secret — Thor's IP is discovered at runtime via `tailscale status`.
