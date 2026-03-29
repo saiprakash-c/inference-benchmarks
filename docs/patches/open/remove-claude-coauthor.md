@@ -9,4 +9,5 @@ the AI tool used to produce them.
 
 ## Fix
 - Remove the `Co-Authored-By` trailer from all future commit messages
-- Update `CLAUDE.md` to explicitly prohibit adding it
+- `CONTEXT.md` already updated with the prohibition in this PR; `CLAUDE.md` is a
+  symlink to `CONTEXT.md` so no separate change needed
