@@ -64,17 +64,30 @@ RETRY_BASE_SECS = 2
 
 
 def get_pr_diff() -> str:
-    result = subprocess.run(
-        ["git", "diff", "origin/main...HEAD"],
-        cwd=str(REPO_ROOT), capture_output=True, text=True,
-    )
-    if result.returncode != 0:
-        # Fallback for local use when there's no origin/main yet
+    """Return the full PR diff — everything this branch adds on top of main.
+
+    Uses the three-dot notation (merge-base diff) so the reviewer always sees
+    the squashed net change of the entire PR, not individual commits.
+    Tries origin/main first (CI and normal local), then main (local without
+    a fetched remote ref).
+    """
+    for base in ("origin/main", "main"):
+        # Verify the ref exists before diffing against it
+        check = subprocess.run(
+            ["git", "rev-parse", "--verify", base],
+            cwd=str(REPO_ROOT), capture_output=True,
+        )
+        if check.returncode != 0:
+            continue
         result = subprocess.run(
-            ["git", "diff", "HEAD~1...HEAD"],
+            ["git", "diff", f"{base}...HEAD"],
             cwd=str(REPO_ROOT), capture_output=True, text=True,
         )
-    return result.stdout.strip()
+        if result.returncode == 0:
+            return result.stdout.strip()
+
+    L.warn("doc_review.diff", reason="could not find a main branch ref to diff against")
+    return ""
 
 
 def changed_files(diff: str) -> list[str]:
@@ -203,6 +216,7 @@ def call_claude(user_message: str) -> dict | None:
             message = client.messages.create(
                 model=MODEL,
                 max_tokens=2048,
+                temperature=0,
                 system=SYSTEM_PROMPT,
                 messages=[{"role": "user", "content": user_message}],
             )
