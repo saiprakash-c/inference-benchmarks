@@ -219,6 +219,10 @@ Feature/patch workflow checks (apply when docs/features/ or docs/patches/ files 
   active→"approved" or "in progress", completed→"completed"
 - If a plan.md step is implemented by code in the diff, the step should be marked
   complete in plan.md — flag if code is merged without the plan reflecting it
+- If ALL steps in plan.md are marked complete (✅) in this diff, the feature folder
+  must be moved to completed/ in the same PR — flag if it remains in active/
+- If only SOME steps are complete, plan.md must be updated to mark exactly those
+  steps ✅ so the doc reflects current progress — flag if completed steps are unmarked
 - A patch file in active/ must contain both ## Problem and ## Fix sections
 - A patch file in completed/ must have a Date completed field filled in
 - If a feature folder moved from todo/ to active/ or active/ to completed/ in the
