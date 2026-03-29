@@ -1,0 +1,81 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  lint:
+    name: Mechanical lint (//ci:lint)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pip deps
+        run: pip install -r requirements.txt
+
+      - name: Run //ci:lint
+        run: python ci/lint.py
+
+  validate-results:
+    name: Validate new result files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pip deps
+        run: pip install -r requirements.txt
+
+      - name: Find new result files
+        id: new_results
+        run: |
+          NEW=$(git diff --name-only origin/main...HEAD -- 'results/*.json' | tr '\n' ' ')
+          echo "files=${NEW}" >> $GITHUB_OUTPUT
+
+      - name: Validate new results
+        if: steps.new_results.outputs.files != ''
+        run: |
+          for f in ${{ steps.new_results.outputs.files }}; do
+            python tools/validate_results.py "$f"
+          done
+
+  dockerfile-lint:
+    name: Dockerfile lint (hadolint)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: docker/Dockerfile
+
+  python-lint:
+    name: Python lint (ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run ruff
+        run: |
+          pip install ruff
+          ruff check .

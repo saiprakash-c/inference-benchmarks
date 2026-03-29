@@ -1,0 +1,4 @@
+# Direct dependencies. Run pip-compile requirements.in > requirements.txt to regenerate.
+tomli-w>=1.0.0      # TOML writing (tomllib reads but doesn't write)
+jsonschema>=4.0.0   # JSON schema validation in //tools:validate_results
+jinja2>=3.0.0       # HTML templating in //site:build

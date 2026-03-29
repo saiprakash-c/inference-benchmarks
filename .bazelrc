@@ -1,0 +1,15 @@
+# Bzlmod is default in Bazel 7; explicit here for clarity.
+common --enable_bzlmod
+
+# Use the hermetic Python toolchain from rules_python.
+build --python_version=3.11
+
+# Tests: only print output on failure.
+test --test_output=errors
+
+# Lint target runs as a test; fail fast.
+test --test_timeout=120
+
+# CI: no interactive TTY.
+common:ci --noshow_progress
+common:ci --color=no

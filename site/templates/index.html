@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inference Runtime Benchmarks</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 960px; margin: 2rem auto; padding: 0 1rem; color: #111; }
+    h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+    .meta { color: #666; font-size: 0.85rem; margin-bottom: 2rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid #ddd; background: #f9f9f9; cursor: pointer; user-select: none; }
+    th:hover { background: #eee; }
+    td { padding: 0.4rem 0.75rem; border-bottom: 1px solid #eee; }
+    tr:hover td { background: #fafafa; }
+    .status-ok      { color: #1a7f37; font-weight: 600; }
+    .status-anomaly { color: #9a6700; font-weight: 600; }
+    .status-error   { color: #cf222e; font-weight: 600; }
+    .empty { color: #666; font-style: italic; padding: 2rem 0; }
+    .th-arrow::after { content: " ↕"; opacity: 0.4; }
+    .th-asc::after  { content: " ↑"; opacity: 1; }
+    .th-desc::after { content: " ↓"; opacity: 1; }
+  </style>
+</head>
+<body>
+  <h1>Inference Runtime Benchmarks</h1>
+  <p class="meta">
+    Hardware: Thor &nbsp;|&nbsp; Precision: FP32 &nbsp;|&nbsp; Updated: {{ generated_at }}
+  </p>
+
+  {% if rows %}
+  <table id="results">
+    <thead>
+      <tr>
+        <th class="th-arrow" data-col="0">Runtime</th>
+        <th class="th-arrow" data-col="1">Model</th>
+        <th class="th-arrow" data-col="2">Batch</th>
+        <th class="th-arrow" data-col="3">p50 (ms)</th>
+        <th class="th-arrow" data-col="4">p99 (ms)</th>
+        <th class="th-arrow" data-col="5">Throughput (inf/s)</th>
+        <th class="th-arrow" data-col="6">Status</th>
+        <th>Timestamp</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in rows %}
+      <tr>
+        <td>{{ r.runtime }}</td>
+        <td>{{ r.model }}</td>
+        <td>{{ r.batch_size }}</td>
+        <td>{{ "%.2f"|format(r.latency_ms.p50) }}</td>
+        <td>{{ "%.2f"|format(r.latency_ms.p99) }}</td>
+        <td>{{ "%.1f"|format(r.throughput) }}</td>
+        <td class="status-{{ r.status }}">{{ r.status }}</td>
+        <td>{{ r.timestamp[:19].replace("T", " ") }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="empty">No benchmark results yet.</p>
+  {% endif %}
+
+  <script>
+    // Lightweight client-side sort
+    const table = document.getElementById("results");
+    if (table) {
+      let sortCol = -1, sortAsc = true;
+      table.querySelectorAll("th[data-col]").forEach(th => {
+        th.addEventListener("click", () => {
+          const col = parseInt(th.dataset.col);
+          sortAsc = (col === sortCol) ? !sortAsc : true;
+          sortCol = col;
+          table.querySelectorAll("th").forEach(h => {
+            h.className = h.dataset.col !== undefined ? "th-arrow" : "";
+          });
+          th.className = sortAsc ? "th-asc" : "th-desc";
+          const tbody = table.querySelector("tbody");
+          const rows = Array.from(tbody.querySelectorAll("tr"));
+          rows.sort((a, b) => {
+            const av = a.cells[col].textContent.trim();
+            const bv = b.cells[col].textContent.trim();
+            const an = parseFloat(av), bn = parseFloat(bv);
+            const cmp = isNaN(an) ? av.localeCompare(bv) : an - bn;
+            return sortAsc ? cmp : -cmp;
+          });
+          rows.forEach(r => tbody.appendChild(r));
+        });
+      });
+    }
+  </script>
+</body>
+</html>

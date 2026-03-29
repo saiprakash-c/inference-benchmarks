@@ -1,0 +1,96 @@
+name: Daily Benchmark
+
+on:
+  schedule:
+    - cron: "0 0 * * *"   # midnight UTC
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Force benchmark run even if versions unchanged"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  packages: read   # GHCR pull
+
+jobs:
+  benchmark:
+    name: Run benchmark on Thor
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Join the tailnet so the runner can reach Thor
+      - name: Set up Tailscale
+        uses: tailscale/github-action@v2
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTH_KEY }}
+          args: "--accept-routes"
+
+      # Write SSH key from secret to a file
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.THOR_SSH_KEY }}" > ~/.ssh/thor_key
+          chmod 600 ~/.ssh/thor_key
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install pip deps
+        run: pip install -r requirements.txt
+
+      # Log in to GHCR so Thor can pull the image
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: saiprakash-c
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check versions
+        id: versions
+        env:
+          THOR_SSH_KEY: ~/.ssh/thor_key
+        run: |
+          python versions/check.py
+          echo "changed=$?" >> $GITHUB_OUTPUT
+
+      - name: Run benchmarks on Thor
+        if: steps.versions.outputs.changed == '1' || inputs.force
+        env:
+          THOR_SSH_KEY: ~/.ssh/thor_key
+        run: python tools/ssh_run.py //benchmark:run
+
+      - name: Validate results
+        if: steps.versions.outputs.changed == '1' || inputs.force
+        run: python tools/validate_results.py results/
+
+      - name: Commit and open PR
+        if: steps.versions.outputs.changed == '1' || inputs.force
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DATE=$(date +%Y-%m-%d)
+          BRANCH="benchmark/${DATE}"
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "${BRANCH}"
+          git add results/ versions.toml
+          git commit -m "benchmark: ${DATE} results
+
+          Automated daily benchmark run.
+          hw_id: thor"
+          git push origin "${BRANCH}"
+          gh pr create \
+            --repo saiprakash-c/inference-benchmarks \
+            --title "benchmark: ${DATE}" \
+            --body "Automated daily benchmark run. All CI checks must pass before merge." \
+            --base main \
+            --head "${BRANCH}"

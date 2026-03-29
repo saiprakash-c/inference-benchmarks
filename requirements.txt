@@ -1,0 +1,16 @@
+# Generated from requirements.in via pip-compile.
+# Regenerate: pip-compile requirements.in --output-file=requirements.txt
+attrs==24.2.0
+    # via jsonschema, referencing
+jinja2==3.1.4
+    # via -r requirements.in
+jsonschema==4.23.0
+    # via -r requirements.in
+markupsafe==2.1.5
+    # via jinja2
+referencing==0.35.1
+    # via jsonschema
+rpds-py==0.20.0
+    # via referencing, jsonschema
+tomli-w==1.1.0
+    # via -r requirements.in
