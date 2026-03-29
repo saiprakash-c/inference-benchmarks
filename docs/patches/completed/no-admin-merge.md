@@ -14,6 +14,5 @@ it is a brief propagation delay — not a real failure. The correct response
 is to wait and retry, not to escalate to --admin.
 
 ## Fix
-- Add explicit prohibition of `--admin` to `CLAUDE.md` and `docs/CI.md`
-- Document the 15–30s wait-and-retry pattern for propagation delays
-- Never use --admin without explicit human approval
+- Add explicit prohibition of `--admin` and the 15–30s retry pattern to `docs/CI.md`
+- (`CLAUDE.md` received the same rule in a prior commit on main before this branch was cut)
