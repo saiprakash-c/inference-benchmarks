@@ -125,7 +125,10 @@ def check_versions_toml(runtimes: list[str]) -> list[str]:
                 f"Add '{name} = \"<version>\"' under [runtimes] in versions.toml."
             )
 
-    if not versions.get("docker", {}).get("digest"):
+    # Digest is only required once benchmark results exist — before the first
+    # docker build there is no digest yet and the field is intentionally empty.
+    has_results = any(RESULTS_DIR.glob("*.json"))
+    if has_results and not versions.get("docker", {}).get("digest"):
         errors.append(
             "[lint/versions-schema] versions.toml is missing [docker].digest. "
             "Run //docker:build and //docker:push, then record the digest."
@@ -136,7 +139,9 @@ def check_versions_toml(runtimes: list[str]) -> list[str]:
 
 def check_no_print(python_dirs: list[Path]) -> list[str]:
     errors = []
-    print_re = re.compile(r"\bprint\s*\(")
+    # Match print( only when it is the first non-whitespace token on the line
+    # (i.e. an actual statement), not when it appears inside a string or comment.
+    print_re = re.compile(r"^\s*print\s*\(")
     for src_dir in python_dirs:
         for py_file in src_dir.rglob("*.py"):
             text = py_file.read_text()

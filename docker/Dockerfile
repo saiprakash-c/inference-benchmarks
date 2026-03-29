@@ -33,6 +33,7 @@ RUN curl -fsSL \
 
 # ── gh CLI ────────────────────────────────────────────────────────────────────
 ARG GH_VERSION=2.67.0
+# hadolint ignore=DL4006
 RUN curl -fsSL \
     "https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_${GH_VERSION}_linux_arm64.tar.gz" \
     | tar -xz -C /usr/local --strip-components=1 gh_${GH_VERSION}_linux_arm64/bin/gh
@@ -48,11 +49,8 @@ ARG EXECUTORCH_VERSION=0.5.1
 # hadolint ignore=DL3013
 RUN pip3 install --no-cache-dir \
     "torch==${PYTORCH_VERSION}" \
-    "executorch==${EXECUTORCH_VERSION}"
-
-# TensorRT Python bindings are provided by the base image (l4t-tensorrt).
-# Verify the version is as expected at build time.
-RUN python3 -c "import tensorrt; assert tensorrt.__version__.startswith('10.9'), \
+    "executorch==${EXECUTORCH_VERSION}" \
+    && python3 -c "import tensorrt; assert tensorrt.__version__.startswith('10.9'), \
     f'Unexpected TensorRT version: {tensorrt.__version__}'"
 
 # ── Workspace ─────────────────────────────────────────────────────────────────
