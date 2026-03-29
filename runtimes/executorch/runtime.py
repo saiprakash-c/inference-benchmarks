@@ -2,7 +2,7 @@
 ExecuTorch runtime adapter.
 
 Stub — implementation pending architecture decisions.
-See docs/exec-plans/active/initial-scaffold.md and AGENT_LOOP.md.
+See AGENT_LOOP.md.
 """
 
 from typing import Any

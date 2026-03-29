@@ -20,8 +20,7 @@ Published site (updated daily)
 
 - Reads all JSON files from results/
 - Aggregates by (runtime, model, precision) and computes trends
-- Renders a static site to site/ using a templating approach (TBD pending
-  decision stub 3 in initial-scaffold.md)
+- Renders a static site to site/ using a templating approach
 - site/ is gitignored — it is always generated, never manually edited
 
 ## //site:deploy
@@ -46,6 +45,5 @@ to //site:build. The site regenerates on the next cron run.
 
 ## Hosting Decision
 
-Pending resolution of decision stub 3 in docs/exec-plans/active/initial-scaffold.md.
-Current default assumption: GitHub Pages (static). If dynamic hosting is chosen,
-update this document and the //site:deploy implementation accordingly.
+GitHub Pages (static). Site is regenerated on each daily benchmark run and pushed
+to the gh-pages branch by //site:deploy.

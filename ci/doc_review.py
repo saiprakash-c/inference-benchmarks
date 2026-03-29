@@ -210,7 +210,6 @@ Rules:
 - If no findings, return {"status": "pass", "findings": []}
 - Only report drift that is directly visible in the diff — do not speculate about
   code not shown
-- Do not report on files in docs/exec-plans/ (those are decision-history docs, not invariants)
 - Do not report errors on files in docs/features/todo/ or docs/patches/open/ — these are
   pre-design drafts, not invariants; they may be intentionally incomplete or inconsistent
   with the codebase until a design is approved and work begins
