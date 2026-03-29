@@ -39,6 +39,7 @@ TIER1_DOCS = [
     "docs/OBSERVABILITY.md",
     "docs/VERSIONING.md",
     "docs/RUNTIMES.md",
+    "docs/FEATURE_WORKFLOW.md",
 ]
 ```
 

@@ -1,14 +1,14 @@
 # Plan: semantic-doc-ci
-Status: approved
+Status: in progress
 
 ## Steps
 
-1. Add `anthropic` to `requirements.in` and regenerate `requirements.txt`
-2. Create `ci/doc_review.py` — the reviewer script (CI + local modes)
-3. Add `doc_review` py_binary to `ci/BUILD`
-4. Add `agent-doc-review` job to `.github/workflows/pr.yml`
-5. Add `ANTHROPIC_API_KEY` to `.env.example` and `docs/CI.md` secrets table
-6. Move feature folder to `docs/features/active/semantic-doc-ci/`
+1. ✅ Add `anthropic` to `requirements.in` and regenerate `requirements.txt`
+2. ✅ Create `ci/doc_review.py` — the reviewer script (CI + local modes)
+3. ✅ Add `doc_review` py_binary to `ci/BUILD`
+4. ✅ Add `agent-doc-review` job to `.github/workflows/pr.yml`
+5. ✅ Add `ANTHROPIC_API_KEY` to `.env.example` and `docs/CI.md` secrets table
+6. ✅ Move feature folder to `docs/features/active/semantic-doc-ci/`
 7. Open PR, verify the check runs and passes on itself
 
 ## Files to create / modify
