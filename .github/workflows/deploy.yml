@@ -5,9 +5,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: write   # needed for git subtree push to gh-pages
-  pages: write
-  id-token: write
+  contents: write   # needed to push gh-pages branch
 
 jobs:
   deploy:
@@ -15,8 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0   # full history for subtree push
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -29,10 +25,9 @@ jobs:
       - name: Build site
         run: python site/build.py
 
-      - name: Configure git
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
       - name: Deploy to gh-pages
-        run: python site/deploy.py
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site/public
+          force_orphan: true
