@@ -39,6 +39,7 @@ TIER1_DOCS = [
     "docs/OBSERVABILITY.md",
     "docs/VERSIONING.md",
     "docs/RUNTIMES.md",
+    "docs/FEATURE_WORKFLOW.md",
 ]
 
 # ── Tier-2: included when a file under the key prefix changes ─────────────────
@@ -144,11 +145,36 @@ def get_tier2_docs(diff: str) -> dict[str, str]:
         for prefix, doc_list in TIER2_MAP.items():
             if f.startswith(prefix):
                 to_load.update(doc_list)
+
     docs = {}
     for rel in to_load:
         content = load_doc(rel)
         if content:
             docs[rel] = content
+
+    # For feature/patch files in the diff, load all .md files from that
+    # specific feature directory or the patch file itself for full context.
+    feature_dirs: set[Path] = set()
+    for f in files:
+        p = Path(f)
+        # docs/features/<stage>/<name>/<file>.md → load the whole <name>/ dir
+        if len(p.parts) >= 4 and p.parts[0] == "docs" and p.parts[1] == "features":
+            feature_dir = REPO_ROOT / p.parts[0] / p.parts[1] / p.parts[2] / p.parts[3]
+            if feature_dir.is_dir():
+                feature_dirs.add(feature_dir)
+        # docs/patches/<stage>/<name>.md → load the patch file itself
+        elif len(p.parts) >= 4 and p.parts[0] == "docs" and p.parts[1] == "patches":
+            patch_file = REPO_ROOT / f
+            if patch_file.is_file():
+                content = patch_file.read_text()
+                docs[f] = content
+
+    for feature_dir in feature_dirs:
+        for md_file in sorted(feature_dir.glob("*.md")):
+            rel = str(md_file.relative_to(REPO_ROOT))
+            if rel not in docs:
+                docs[rel] = md_file.read_text()
+
     return docs
 
 
@@ -184,8 +210,19 @@ Rules:
 - If no findings, return {"status": "pass", "findings": []}
 - Only report drift that is directly visible in the diff — do not speculate about
   code not shown
-- Do not report on files in docs/features/, docs/patches/, or docs/exec-plans/
-  (those are planning docs, not invariants)
+- Do not report on files in docs/exec-plans/ (those are decision-history docs, not invariants)
+
+Feature/patch workflow checks (apply when docs/features/ or docs/patches/ files appear in the diff):
+- A feature directory in active/ must have requirements.md, design.md, and plan.md
+- A feature directory in completed/ must also have summary.md
+- A feature's plan.md Status field must match its folder: todo→"awaiting approval",
+  active→"approved" or "in progress", completed→"completed"
+- If a plan.md step is implemented by code in the diff, the step should be marked
+  complete in plan.md — flag if code is merged without the plan reflecting it
+- A patch file in active/ must contain both ## Problem and ## Fix sections
+- A patch file in completed/ must have a Date completed field filled in
+- If a feature folder moved from todo/ to active/ or active/ to completed/ in the
+  diff, verify the move is consistent (all required docs present, status field updated)
 """
 
 
