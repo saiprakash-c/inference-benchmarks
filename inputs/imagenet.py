@@ -11,7 +11,6 @@ from runtimes/, benchmark/, results/, or site/.
 from pathlib import Path
 from typing import Any
 
-
 # Standard ImageNet per-channel normalisation
 NORMALIZE_MEAN = (0.485, 0.456, 0.406)
 NORMALIZE_STD  = (0.229, 0.224, 0.225)

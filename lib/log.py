@@ -1,7 +1,7 @@
 """
 Structured JSON logger for all benchmark targets.
 
-No print() calls anywhere — use log() from this module.
+No bare stdout writes anywhere — use log() from this module.
 Output format: {"level": "...", "event": "...", "ts": "...", "data": {...}}
 """
 

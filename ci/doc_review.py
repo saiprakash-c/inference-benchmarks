@@ -278,11 +278,12 @@ def report(result: dict | None, ci_mode: bool) -> int:
     if ci_mode:
         post_pr_comment(comment)
     else:
-        # Local mode: print human-readable output
-        print("\n" + comment + "\n")
+        # Local mode: write human-readable output to stdout
+        sys.stdout.write("\n" + comment + "\n\n")
         if findings:
-            print("--- raw findings ---")
-            print(json.dumps(findings, indent=2))
+            sys.stdout.write("--- raw findings ---\n")
+            sys.stdout.write(json.dumps(findings, indent=2) + "\n")
+        sys.stdout.flush()
 
     return 1 if errors else 0
 

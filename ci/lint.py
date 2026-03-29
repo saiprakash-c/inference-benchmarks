@@ -8,7 +8,7 @@ Checks:
   1. Every runtime in docs/RUNTIMES.md has a directory at runtimes/<name>/
   2. Every model in docs/MODELS.md has a directory at models/<name>/
   3. All runtimes in RUNTIMES.md appear in versions.toml [runtimes]
-  4. No print() calls in Python source files
+  4. No bare print-statement calls in Python source files
   5. results/ is append-only (no existing files modified, per git status)
   6. QUALITY_SCORE.md was updated within the last 7 days
   7. Every active feature has requirements.md, design.md, and plan.md
@@ -144,7 +144,7 @@ def check_no_print(python_dirs: list[Path]) -> list[str]:
                 if print_re.search(line):
                     rel = py_file.relative_to(REPO_ROOT)
                     errors.append(
-                        f"[lint/print-statement] print() call found at {rel}:{lineno}. "
+                        f"[lint/print-statement] bare print-statement found at {rel}:{lineno}. "
                         f"Use structured logging: from lib import log as L; L.info('event', ...)"
                     )
     return errors
