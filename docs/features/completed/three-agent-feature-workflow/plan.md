@@ -1,10 +1,10 @@
 # Plan: three-agent-feature-workflow
 
-Status: awaiting approval
+Status: in progress
 
 ## Steps
 
-1. **Create `docs/agents/coder.md`**
+1. ✅ **Create `docs/agents/coder.md`**
   System prompt and I/O contract for the Coder agent. Must specify:
   - On first run: read `plan.md`, `requirements.md`, `design.md`; execute
   every plan step in order; do not modify `requirements.md`, `design.md`,
@@ -14,7 +14,7 @@ Status: awaiting approval
   every failing check; do not re-do work that already passed
   - Grep all touched files for `///` comments and address them
   - Commit changes with a message matching repo conventions (no Co-Authored-By)
-2. **Create `docs/agents/evaluator.md`**
+2. ✅ **Create `docs/agents/evaluator.md`**
   System prompt and checklist for the Evaluator agent. Must specify:
   - Inputs: `requirements.md`, `design.md`, `plan.md`, `AGENT_LOOP.md`,
   `CLAUDE.md`, lint rules, `git diff <base>...HEAD`, any `///` comments
@@ -27,7 +27,7 @@ Status: awaiting approval
   subsection per failing check with actionable description)
   - On clean pass: write the file with empty Findings, then delete it and exit
   - Do not modify any code or planning docs
-3. **Create `.claude/commands/feature.md` (the `/feature` skill)**
+3. ✅ **Create `.claude/commands/feature.md` (the `/feature` skill)**
   The orchestrating skill. Must:
   - Parse argument as `[plan|code] <name>` or `<name>`
   - Detect current stage from filesystem (see design.md §Stage detection)
@@ -52,7 +52,7 @@ Status: awaiting approval
        terminal; prompt human to review and merge
   - **Full pipeline `/feature <name>`:** detect stage and dispatch to planning
   or coding sub-command as appropriate
-4. **Update `docs/AGENT_LOOP.md` — feature sub-section only**
+4. ✅ **Update `docs/AGENT_LOOP.md` — feature sub-section only**
   Replace the current "On receiving requirements for a new feature" steps 1–8
    with a condensed description:
   - Main agent writes `design.md` and `plan.md` directly
@@ -64,7 +64,7 @@ Status: awaiting approval
   - Human merges
    Retain the patch sub-section, `///` protocol section, and all other
    content exactly as-is.
-5. **Update `docs/FEATURE_WORKFLOW.md` — §Stage progression, feature track only**
+5. ✅ **Update `docs/FEATURE_WORKFLOW.md` — §Stage progression, feature track only**
   Update the stage progression diagram and prose to reflect:
   - `design.md` and `plan.md` are written by the **main agent** (not a
   launched agent)
@@ -72,19 +72,19 @@ Status: awaiting approval
   - `evaluation_coder.md` is ephemeral; never committed
   - `summary.md` written by Coder after clean Evaluator pass, before PR
    Do not touch the patch track or document templates section.
-6. **Update `ci/lint.py` — one new check**
+6. ✅ **Update `ci/lint.py` — one new check**
    `check_no_evaluation_file_committed()`: scan `docs/features/active/` and
    `docs/features/todo/` for `evaluation_coder.md`. If found, emit:
    `[lint/evaluation-file-committed] docs/features/active/<name>/evaluation_coder.md`
    `must not be committed. Delete it before committing.`
    Wire into `main()`.
-7. **Update `docs/CI.md` — branch naming**
+7. ✅ **Update `docs/CI.md` — branch naming**
   Add `feature/<name>` to the branch-naming table with description:
    "PRs opened by the Coder agent for feature implementations."
-8. **Update `.gitignore`**
+8. ✅ **Update `.gitignore`**
   Add `evaluation_coder.md` exclusion under `docs/features/`:
    If a broader `evaluation_*.md` pattern already covers it, skip.
-9. **Run `//ci:lint` locally**
+9. ✅ **Run `//ci:lint` locally**
   `bazel run //ci:lint` must exit 0. The new evaluation-file check must pass
    (no `evaluation_coder.md` files exist). All pre-existing checks must still
    pass.

@@ -1,6 +1,6 @@
 # Design: three-agent-feature-workflow
 
-Status: awaiting approval
+Status: approved
 
 ## Approach
 
