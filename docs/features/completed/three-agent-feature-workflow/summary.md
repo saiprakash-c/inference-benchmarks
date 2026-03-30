@@ -24,7 +24,7 @@ A three-role feature pipeline orchestrated by the main agent (Claude Code itself
 
 ## Deviations from plan
 
-- None. All 8 file-change steps executed as specified.
+- None. All 9 plan steps executed as specified (steps 1–8 are file changes; step 9 is a lint validation run with no file artifact).
 
 ## Lessons learned
 
