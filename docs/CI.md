@@ -43,6 +43,7 @@ matches its documented interface.
 | Pattern | When to use |
 |---|---|
 | `benchmark/YYYY-MM-DD` | Daily benchmark result PRs |
+| `feature/<name>` | PRs opened by the Coder agent for feature implementations. |
 | `fix/doc-sync-<description>` | Self-correction PRs from agent doc review |
 | `chore/version-bump-<runtime>` | PRs that update versions.toml for a new runtime release |
 

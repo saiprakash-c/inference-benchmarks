@@ -37,23 +37,38 @@ docs/features/
         │
         ▼
   todo/<name>/requirements.md
-        │  agent writes design.md
+        │  main agent writes design.md (no separate Planner agent)
         ▼
   todo/<name>/design.md        ← HUMAN APPROVAL REQUIRED
         │  human reviews; may leave /// inline comments
-        │  agent greps for ///, addresses all, removes markers
-        │  agent writes plan.md
+        │  main agent greps for ///, addresses all, removes markers
+        │  main agent writes plan.md
         ▼
   todo/<name>/plan.md          ← HUMAN APPROVAL REQUIRED
         │  human reviews; may leave /// inline comments
-        │  agent greps for ///, addresses all, removes markers
+        │  main agent greps for ///, addresses all, removes markers
         │  human says "go"
         ▼
-  active/<name>/               ← folder moved, work begins
+  active/<name>/               ← folder moved, Coder+Evaluator loop begins
+        │
+        │  main agent launches Coder agent (docs/agents/coder.md)
+        │  main agent displays git diff after each Coder run
+        │  main agent launches Evaluator agent (docs/agents/evaluator.md)
+        │  Evaluator writes evaluation_coder.md (ephemeral — never committed)
+        │  if findings: main agent re-launches Coder with evaluation_coder.md
+        │  loop repeats until Evaluator clean pass (deletes evaluation_coder.md)
+        │
+        │  Coder agent writes summary.md (after clean Evaluator pass)
+        │  human reviews final git diff and merges PR
         │  work merged to main
         ▼
-  completed/<name>/            ← folder moved, agent writes summary.md
+  completed/<name>/            ← folder moved, summary.md present
 ```
+
+- `evaluation_coder.md` is ephemeral: written by Evaluator, deleted on clean pass,
+  never committed. A lint check enforces this.
+- `summary.md` is written by Coder only after the Evaluator signals a clean pass.
+- The PR is not opened until Evaluator finds no issues.
 
 See `AGENT_LOOP.md §Inline review comments` for the full `///` protocol.
 
