@@ -58,7 +58,7 @@ docs/features/
         │  if findings: main agent re-launches Coder with evaluation_coder.md
         │  loop repeats until Evaluator clean pass (deletes evaluation_coder.md)
         │
-        │  main agent writes summary.md (after clean Evaluator pass)
+        │  Coder agent writes summary.md (after clean Evaluator pass)
         │  human reviews final git diff and merges PR
         │  work merged to main
         ▼
