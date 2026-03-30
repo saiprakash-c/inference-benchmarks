@@ -13,6 +13,7 @@ Checks:
   6. QUALITY_SCORE.md was updated within the last 7 days
   7. Every active feature has requirements.md, design.md, and plan.md
   8. Every active patch has ## Problem and ## Fix sections
+  9. evaluation_coder.md must not be committed under docs/features/
 """
 
 import re
@@ -50,6 +51,7 @@ PYTHON_SOURCE_DIRS = [
 QUALITY_SCORE_MAX_AGE_DAYS = 7
 
 FEATURES_ACTIVE_DIR = REPO_ROOT / "docs" / "features" / "active"
+FEATURES_TODO_DIR   = REPO_ROOT / "docs" / "features" / "todo"
 PATCHES_ACTIVE_DIR  = REPO_ROOT / "docs" / "patches"  / "active"
 FEATURE_REQUIRED_DOCS = {"requirements.md", "design.md", "plan.md"}
 
@@ -219,6 +221,25 @@ def check_active_patches() -> list[str]:
     return errors
 
 
+def check_no_evaluation_file_committed() -> list[str]:
+    """evaluation_coder.md must never be committed under docs/features/."""
+    errors = []
+    for search_dir in (FEATURES_ACTIVE_DIR, FEATURES_TODO_DIR):
+        if not search_dir.exists():
+            continue
+        for eval_file in search_dir.rglob("evaluation_coder.md"):
+            rel = eval_file.relative_to(REPO_ROOT)
+            errors.append(
+                f"[lint/evaluation-file-committed] {rel} "
+                f"must not be committed. "
+                f"Delete it before committing. "
+                f"evaluation_coder.md is ephemeral — the Evaluator agent deletes it "
+                f"on a clean pass. Add docs/features/**/evaluation_coder.md to .gitignore "
+                f"to prevent accidental staging."
+            )
+    return errors
+
+
 def check_quality_score_freshness() -> list[str]:
     try:
         result = subprocess.run(
@@ -258,6 +279,7 @@ def main() -> int:
     all_errors += check_quality_score_freshness()
     all_errors += check_active_features()
     all_errors += check_active_patches()
+    all_errors += check_no_evaluation_file_committed()
 
     for err in all_errors:
         L.error("lint.fail", message=err)
@@ -266,7 +288,7 @@ def main() -> int:
         L.error("lint.summary", total_errors=len(all_errors))
         return 1
 
-    L.info("lint.pass", checks_run=6)
+    L.info("lint.pass", checks_run=9)
     return 0
 
 

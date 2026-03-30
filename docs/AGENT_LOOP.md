@@ -58,17 +58,32 @@ Triggered when the human provides requirements or names a bug/change.
 
 ### On receiving requirements for a new feature
 
-1. Create `docs/features/todo/<name>/requirements.md` from what was provided.
-2. Read ARCHITECTURE.md and affected component docs to understand the system.
-3. Write `docs/features/todo/<name>/design.md` — approach, components affected,
-   tradeoffs. **Stop and wait for human approval.**
-4. Once approved, write `docs/features/todo/<name>/plan.md` — step-by-step
-   tasks, files to create/modify, validation approach. **Stop and wait.**
-5. Once approved, move folder to `docs/features/active/<name>/`.
-6. Execute the plan. Open PRs per the benchmark loop steps 7–11.
-7. On merge, move folder to `docs/features/completed/<name>/`.
-8. Write `docs/features/completed/<name>/summary.md` — what was built,
-   deviations from plan, and **lessons learned for future agents**.
+The main agent handles planning and orchestration directly — no separate Planner
+agent is launched. The pipeline runs via the `/feature` skill (`.claude/commands/feature.md`).
+Agent prompts live in `docs/agents/`.
+
+1. **Plan** — Main agent writes `design.md` and `plan.md` directly in
+   `docs/features/todo/<name>/`. Human reviews via the `///` protocol; main agent
+   addresses all comments. Human says "go"; main agent moves the folder to
+   `docs/features/active/<name>/`.
+
+2. **Code** — Main agent runs `/feature <name>` (or `/feature code <name>`) to
+   launch the Coder agent. After each Coder run, the main agent captures
+   `BEFORE_SHA=$(git rev-parse HEAD)` before launch and runs
+   `git diff $BEFORE_SHA..HEAD` after, printing the full diff in the terminal.
+
+3. **Evaluate** — Main agent launches the Evaluator agent. Evaluator writes
+   `evaluation_coder.md` with pass/fail per check. If findings exist, main agent
+   re-launches Coder with `evaluation_coder.md` as additional input. Loop repeats
+   until Evaluator finds no issues (clean pass → Evaluator deletes the file).
+
+4. **Merge** — On clean pass, main agent prints the final diff and prompts the
+   human to review and merge. PR is never opened until Evaluator is satisfied.
+   On merge, main agent moves folder to `docs/features/completed/<name>/`.
+
+5. **Escalate** — If the same Evaluator check fails three consecutive times,
+   main agent halts the loop and surfaces the issue to the human with the last
+   `evaluation_coder.md` content inline.
 
 ### On receiving a bug fix or small change (patch)
 

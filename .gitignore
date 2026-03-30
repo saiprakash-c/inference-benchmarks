@@ -22,3 +22,6 @@ venv/
 .idea/
 .vscode/
 *.swp
+
+# Ephemeral evaluation files — must never be committed
+docs/features/**/evaluation_coder.md
