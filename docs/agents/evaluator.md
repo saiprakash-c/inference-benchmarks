@@ -51,7 +51,6 @@ Verify:
 - No `gh pr merge --admin` usage in any file or script
 - No `print()` statements added to Python source files (use `L.info` / `L.error`)
 - No `evaluation_coder.md` staged or committed
-- Exec-plan hygiene: no orphaned exec-plan files
 - Doc accuracy: any doc updated by Coder accurately describes the current code
 
 ### Check 4 — `///` comments

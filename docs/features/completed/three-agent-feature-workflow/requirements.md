@@ -81,8 +81,7 @@ PR is never opened until Evaluator finds no issues.
 - Checks:
   1. Every requirement in `requirements.md` is addressed in the implementation
   2. Every plan step is reflected in the diff
-  3. No repo conventions are violated (commit trailers, merge flags, exec-plan
-     hygiene, doc accuracy)
+  3. No repo conventions are violated (commit trailers, merge flags, doc accuracy)
   4. No unanswered `///` comments remain in any file touched by Coder
   5. `summary.md` is present, complete, and accurate
 - Writes `evaluation_coder.md` with pass/fail per check and a findings section

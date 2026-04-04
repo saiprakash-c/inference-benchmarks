@@ -20,9 +20,6 @@ docs/patches/completed/                — completed patches with lessons
 ## Docs
 docs/design-docs/core-beliefs.md       — principles and philosophy
 docs/design-docs/benchmark-methodology.md — how results are collected
-docs/exec-plans/active/                — current execution plans
-docs/exec-plans/completed/             — decision history
-docs/exec-plans/tech-debt-tracker.md  — known debt, prioritized
 
 ## Specs
 docs/RUNTIMES.md      — pluggability contract, how to add a runtime
