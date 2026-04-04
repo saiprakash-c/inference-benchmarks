@@ -216,7 +216,7 @@ def check_active_patches() -> list[str]:
             errors.append(
                 f"[lint/patch-incomplete] docs/patches/active/{patch_file.name} "
                 f"is missing a '{section}' section. "
-                f"Add the section or move back to docs/patches/open/."
+                f"Add the section or move back to docs/patches/todo/."
             )
     return errors
 
