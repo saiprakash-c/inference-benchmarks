@@ -28,7 +28,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from lib import log as L  # noqa: E402
 
-REPO_ROOT = Path(__file__).parent.parent
+REPO_ROOT = Path(os.environ.get("BUILD_WORKSPACE_DIRECTORY", Path(__file__).parent.parent))
 
 # ── Tier-1: always included regardless of what changed ────────────────────────
 
