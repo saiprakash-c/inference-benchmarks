@@ -1,5 +1,5 @@
 # Plan: simple-feature-workflow
-Status: in progress
+Status: completed
 
 ---
 
