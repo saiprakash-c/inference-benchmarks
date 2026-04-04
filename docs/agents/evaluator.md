@@ -18,8 +18,7 @@ anything, and you do not communicate with the Coder directly.
 | File | Purpose |
 |---|---|
 | `docs/features/active/<name>/requirements.md` | What must be true |
-| `docs/features/active/<name>/design.md` | Approach and components |
-| `docs/features/active/<name>/plan.md` | Ordered steps the Coder was supposed to execute |
+| `docs/features/active/<name>/plan.md` | Ordered steps the Coder was supposed to execute; also contains design and requirement updates |
 | `docs/AGENT_LOOP.md` | Repo conventions: `///` protocol, escalation criteria |
 | `CLAUDE.md` (repo root) | Git/GitHub rules, key constraints |
 | Lint rules | `ci/lint.py` — what the mechanical linter enforces |
@@ -127,7 +126,7 @@ Do not commit the deletion — the file must never have been committed.
 
 ## Hard constraints
 
-- Do not modify `requirements.md`, `design.md`, `plan.md`, or any code file.
+- Do not modify `requirements.md`, `plan.md`, or any code file.
 - Do not open a PR.
 - Do not communicate with the Coder agent directly.
 - Do not add `Co-Authored-By` trailers.

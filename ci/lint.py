@@ -11,7 +11,7 @@ Checks:
   4. No print() calls in Python source files
   5. results/ is append-only (no existing files modified, per git status)
   6. QUALITY_SCORE.md was updated within the last 7 days
-  7. Every active feature has requirements.md, design.md, and plan.md
+  7. Every active feature has requirements.md and plan.md
   8. Every active patch has ## Problem and ## Fix sections
   9. evaluation_coder.md must not be committed under docs/features/
 """
@@ -53,7 +53,7 @@ QUALITY_SCORE_MAX_AGE_DAYS = 7
 FEATURES_ACTIVE_DIR = REPO_ROOT / "docs" / "features" / "active"
 FEATURES_TODO_DIR   = REPO_ROOT / "docs" / "features" / "todo"
 PATCHES_ACTIVE_DIR  = REPO_ROOT / "docs" / "patches"  / "active"
-FEATURE_REQUIRED_DOCS = {"requirements.md", "design.md", "plan.md"}
+FEATURE_REQUIRED_DOCS = {"requirements.md", "plan.md"}
 
 
 # ── Parsers ────────────────────────────────────────────────────────────────────
@@ -181,7 +181,7 @@ def check_results_append_only() -> list[str]:
 
 
 def check_active_features() -> list[str]:
-    """Every active feature directory must have requirements.md, design.md, plan.md."""
+    """Every active feature directory must have requirements.md and plan.md."""
     errors = []
     if not FEATURES_ACTIVE_DIR.exists():
         return []
@@ -193,8 +193,8 @@ def check_active_features() -> list[str]:
         for doc in sorted(missing):
             errors.append(
                 f"[lint/feature-incomplete] docs/features/active/{feature_dir.name}/ "
-                f"is missing {doc}. A feature must have requirements.md, design.md, "
-                f"and plan.md before it can be active. "
+                f"is missing {doc}. A feature must have requirements.md and plan.md "
+                f"before it can be active. "
                 f"Move back to docs/features/todo/ or add the missing document."
             )
     return errors

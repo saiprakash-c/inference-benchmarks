@@ -215,7 +215,7 @@ Rules:
   with the codebase until a design is approved and work begins
 
 Feature/patch workflow checks (apply when docs/features/ or docs/patches/ files appear in the diff):
-- A feature directory in active/ must have requirements.md, design.md, and plan.md
+- A feature directory in active/ must have requirements.md and plan.md
 - A feature directory in completed/ must also have summary.md
 - A feature's plan.md Status field must match its folder: todo→"awaiting approval",
   active→"approved" or "in progress", completed→"completed"
