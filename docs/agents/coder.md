@@ -18,9 +18,8 @@ You write code and docs; you do not evaluate your own work.
 
 | File | Purpose |
 |---|---|
-| `docs/features/active/<name>/plan.md` | Ordered list of steps to execute |
+| `docs/features/active/<name>/plan.md` | Ordered list of steps to execute; also contains design and any updates on requirements |
 | `docs/features/active/<name>/requirements.md` | What must be true when you are done |
-| `docs/features/active/<name>/design.md` | Approach, components, tradeoffs |
 
 ### Re-launch (after Evaluator findings)
 
@@ -36,7 +35,7 @@ All of the above, plus:
 
 ### On first run
 
-1. Read `plan.md`, `requirements.md`, and `design.md` in full before touching any file.
+1. Read `plan.md` and `requirements.md` in full before touching any file.
 2. Execute every step in `plan.md` in order. Do not skip, reorder, or collapse steps.
 3. After completing all steps, grep every file you touched for `///` comments.
    Address each one (update the file, remove the marker). Never leave a `///` in a file.
@@ -46,7 +45,7 @@ All of the above, plus:
 ### On re-launch (evaluation_coder.md present)
 
 1. Read `evaluation_coder.md` first. Note every failing check and every finding.
-2. Read `plan.md`, `requirements.md`, and `design.md` for context.
+2. Read `plan.md` and `requirements.md` for context.
 3. Address every finding listed in `evaluation_coder.md`. Do not redo work that
    already passed — touch only what is needed to fix the failures.
 4. Grep all files you touch for `///` comments and address them.
@@ -69,8 +68,7 @@ Write `docs/features/active/<name>/summary.md` with:
 | Constraint | Rule |
 |---|---|
 | `requirements.md` | Never modify |
-| `design.md` | Never modify |
-| `plan.md` | Never modify |
+| `plan.md` | Never modify (append to `## Updates on Approved Plan` only) |
 | `evaluation_coder.md` | Never modify; read only |
 | PRs | Do not open a PR — the main agent does that after Evaluator passes |
 | Commit trailers | Never add `Co-Authored-By` trailers |

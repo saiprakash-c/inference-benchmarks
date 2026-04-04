@@ -1,6 +1,6 @@
 # FEATURE WORKFLOW
 
-Two tracks for all work: **features** (design-first, approval-gated) and
+Two tracks for all work: **features** (plan-first, approval-gated) and
 **patches** (describe-and-do, no approvals needed). Every piece of work
 lives in one of these two tracks — nothing is worked on outside them.
 
@@ -15,17 +15,14 @@ or has architectural impact.
 
 ```
 docs/features/
-  todo/<name>/           ← requirements + design + plan accumulate here
-    requirements.md      ← always created first, from user requirements
-    design.md            ← created by agent, awaits human approval
-    plan.md              ← created by agent after design approved, awaits approval
+  todo/<name>/           ← requirements.md (human) + plan.md (agent) accumulate here
+    requirements.md      ← always created first, from user requirements; never modified by agent
+    plan.md              ← created by agent, awaits human approval
   active/<name>/         ← folder moved here once plan is approved
     requirements.md
-    design.md
     plan.md
   completed/<name>/      ← folder moved here once work is merged
     requirements.md
-    design.md
     plan.md
     summary.md           ← written by agent on completion
 ```
@@ -36,33 +33,28 @@ docs/features/
 [requirements captured]
         │
         ▼
-  todo/<name>/requirements.md
-        │  main agent writes design.md (no separate Planner agent)
+  todo/<name>/requirements.md    ← human writes this; agent never touches it
+        │  agent writes plan.md
         ▼
-  todo/<name>/design.md        ← HUMAN APPROVAL REQUIRED
+  todo/<name>/plan.md            ← HUMAN APPROVAL REQUIRED
         │  human reviews; may leave /// inline comments
-        │  main agent greps for ///, addresses all, removes markers
-        │  main agent writes plan.md
-        ▼
-  todo/<name>/plan.md          ← HUMAN APPROVAL REQUIRED
-        │  human reviews; may leave /// inline comments
-        │  main agent greps for ///, addresses all, removes markers
+        │  agent greps for ///, addresses all, removes markers
         │  human says "go"
         ▼
-  active/<name>/               ← folder moved, Coder+Evaluator loop begins
+  active/<name>/                 ← folder moved, Coder+Evaluator loop begins
         │
-        │  main agent launches Coder agent (docs/agents/coder.md)
-        │  main agent displays git diff after each Coder run
-        │  main agent launches Evaluator agent (docs/agents/evaluator.md)
+        │  agent launches Coder agent (docs/agents/coder.md)
+        │  agent displays git diff after each Coder run
+        │  agent launches Evaluator agent (docs/agents/evaluator.md)
         │  Evaluator writes evaluation_coder.md (ephemeral — never committed)
-        │  if findings: main agent re-launches Coder with evaluation_coder.md
+        │  if findings: agent re-launches Coder with evaluation_coder.md
         │  loop repeats until Evaluator clean pass (deletes evaluation_coder.md)
         │
         │  Coder agent writes summary.md (after clean Evaluator pass)
         │  human reviews final git diff and merges PR
         │  work merged to main
         ▼
-  completed/<name>/            ← folder moved, summary.md present
+  completed/<name>/              ← folder moved, summary.md present
 ```
 
 - `evaluation_coder.md` is ephemeral: written by Evaluator, deleted on clean pass,
@@ -74,57 +66,41 @@ See `AGENT_LOOP.md §Inline review comments` for the full `///` protocol.
 
 ### Document templates
 
-**`requirements.md`**
+**`requirements.md`** ← human writes; agent never modifies
 ```markdown
 # Requirements: <name>
 Date: YYYY-MM-DD
-Status: todo
 
 ## Goal
 One sentence.
 
 ## Requirements
 - ...
-
-## Out of scope
-- ...
-
-## Open questions
-- ...
 ```
 
-**`design.md`**
-```markdown
-# Design: <name>
-Status: awaiting approval
-
-## Approach
-...
-
-## Components affected
-- component/ — what changes
-
-## Tradeoffs considered
-...
-
-## Open questions
-- ...
-```
-
-**`plan.md`**
+**`plan.md`** ← agent writes; five fixed sections
 ```markdown
 # Plan: <name>
-Status: awaiting approval
+Status: awaiting approval | in progress | completed
 
-## Steps
-1. ...
-2. ...
+---
 
-## Files to create / modify
-- path/to/file.py — what changes
+## Requirements from User
+(summarised from requirements.md)
 
-## Test / validation
-...
+## Updates on User Requirements
+(agent additions/subtractions with rationale; empty if none)
+
+## Design
+(visual-first — diagrams, tables, ASCII art; minimal prose)
+
+## Tasks
+- [ ] step one
+- [ ] step two
+- [ ] ...
+
+## Updates on Approved Plan
+_(append here after approval — never modify sections above)_
 ```
 
 **`summary.md`**
@@ -199,16 +175,15 @@ If during a patch an agent discovers the fix is more complex than expected
 ## Lint enforcement (`//ci:lint`)
 
 - Every directory in `docs/features/active/` must contain
-  `requirements.md`, `design.md`, and `plan.md` — missing any of these
-  is a lint error.
+  `requirements.md` and `plan.md` — missing either is a lint error.
 - Every file in `docs/patches/active/` must contain a `## Problem`
   and a `## Fix` section — missing either is a lint error.
 
 Error format:
 ```
 [lint/feature-incomplete]: docs/features/active/my_feature/ is missing
-plan.md. A feature must have requirements.md, design.md, and plan.md
-before it can be active. Move back to todo/ or add the missing document.
+plan.md. A feature must have requirements.md and plan.md before it can
+be active. Move back to todo/ or add the missing document.
 
 [lint/patch-incomplete]: docs/patches/active/my_fix.md is missing
 ## Fix section. Add the section or move back to open/.
