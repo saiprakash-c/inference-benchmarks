@@ -1,3 +1,5 @@
+load("@pip//:requirements.bzl", "requirement")
+
 py_test(
     name = "lint",
     srcs = ["lint.py"],
@@ -14,7 +16,10 @@ py_binary(
     name = "doc_review",
     srcs = ["doc_review.py"],
     main = "doc_review.py",
-    deps = ["//lib:log"],
+    deps = [
+        "//lib:log",
+        requirement("anthropic"),
+    ],
     visibility = ["//visibility:public"],
 )
 
