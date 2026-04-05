@@ -54,13 +54,33 @@ def load(model_name: str, device: str) -> Any:
 
 def _load_resnet50(device: str) -> Any:
     import torchvision.models as tv_models  # type: ignore[import]
-    from torch.nn.utils.fusion import fuse_conv_bn_eval  # type: ignore[import]
     weights = tv_models.ResNet50_Weights.IMAGENET1K_V2
     model = tv_models.resnet50(weights=weights).eval()
     # Fold every Conv+BN pair into a single Conv before moving to device.
-    # This eliminates BN as a separate kernel in all runtimes (AOT, TRT, PyTorch).
-    model = fuse_conv_bn_eval(model)
-    return model.to(device)
+    # torch.ao.quantization.fuse_modules walks the module tree and merges
+    # Conv2d+BatchNorm2d into a single Conv2d with absorbed BN params.
+    model = torch.ao.quantization.fuse_modules(model, _resnet_conv_bn_pairs(model))  # type: ignore[attr-defined]
+    return model.eval().to(device)
+
+
+def _resnet_conv_bn_pairs(model: Any) -> list[list[str]]:
+    """Return all ['conv', 'bn'] submodule name pairs eligible for fusion in a ResNet."""
+    import torch.nn as nn
+    pairs = []
+    for name, mod in model.named_modules():
+        # For each BatchNorm2d, find if the preceding sibling is a Conv2d.
+        parent_name, _, child_name = name.rpartition(".")
+        if not isinstance(mod, nn.BatchNorm2d):
+            continue
+        parent = model.get_submodule(parent_name) if parent_name else model
+        children = list(parent.named_children())
+        for i, (cname, cmod) in enumerate(children):
+            if cname == child_name and i > 0:
+                prev_name, prev_mod = children[i - 1]
+                if isinstance(prev_mod, nn.Conv2d):
+                    prefix = f"{parent_name}." if parent_name else ""
+                    pairs.append([f"{prefix}{prev_name}", f"{prefix}{child_name}"])
+    return pairs
 
 
 def _load_dinov2_b(device: str) -> Any:
