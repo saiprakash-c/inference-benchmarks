@@ -102,18 +102,7 @@ docker run --rm --gpus all ubuntu:22.04 nvidia-smi
 
 ---
 
-## Stage 5 — GHCR login (manual, once per token rotation)
-
-Thor needs to pull the benchmark image from GHCR. Generate a GitHub PAT with
-`read:packages` scope at https://github.com/settings/tokens, then on Thor:
-
-```bash
-echo YOUR_GITHUB_PAT | docker login ghcr.io -u saiprakash-c --password-stdin
-```
-
----
-
-## Stage 6 — Verify
+## Stage 5 — Verify
 
 Run the verification script from your Mac:
 
@@ -127,6 +116,6 @@ All checks must pass before running benchmarks.
 
 ## Re-provisioning a new Thor
 
-Repeat Stages 1–6 in order. Stage 3 onwards can be done entirely over SSH
+Repeat Stages 1–5 in order. Stage 3 onwards can be done entirely over SSH
 once Tailscale is up. The only stage requiring physical access is Stage 1–2
 (initial boot + Tailscale auth in browser).

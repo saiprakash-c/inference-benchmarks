@@ -63,14 +63,14 @@ def main() -> int:
     rc, out, _ = run(["ssh", THOR_HOST, "grep JETPACK_VERSION /etc/environment"])
     results.append(check("jetpack_version", rc == 0 and "JETPACK_VERSION" in out, out))
 
-    # ── Check 6: GHCR login ───────────────────────────────────────────────────
-    rc, out, err = run(["ssh", THOR_HOST,
+    # ── Check 6: GHCR pull (public image, no auth needed) ────────────────────
+    rc, out, _ = run(["ssh", THOR_HOST,
         f"docker pull {GHCR_IMAGE} 2>&1 | tail -1"], timeout=120)
     ghcr_ok = rc == 0 or "Status: Image is up to date" in out or "Downloaded newer image" in out
     results.append(check("ghcr_pull", ghcr_ok,
-        "skipped (image not yet pushed)" if "not found" in err.lower() else out))
+        "skipped — image not yet pushed to GHCR" if not ghcr_ok else out))
 
-    # ── Summary ───────────────────────────────────────────────────────────────
+# ── Summary ───────────────────────────────────────────────────────────────
     passed = sum(results)
     total = len(results)
     if all(results):
