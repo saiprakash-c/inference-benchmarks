@@ -1,0 +1,1508 @@
+[
+  {
+    "model": "resnet50",
+    "runtime": "tensorrt",
+    "precision": "fp32",
+    "warmup_iters": 10,
+    "profile_iters": 5,
+    "total_cuda_us": 3255.4,
+    "n_ops": 59,
+    "layers": [
+      {
+        "name": "node_Conv_753_myl0_2",
+        "cuda_time_us": 140.665602684021,
+        "calls": 5,
+        "pct_of_total": 4.32
+      },
+      {
+        "name": "node_Conv_849_myl0_51",
+        "cuda_time_us": 105.1519975066185,
+        "calls": 5,
+        "pct_of_total": 3.23
+      },
+      {
+        "name": "node_Conv_841_myl0_47",
+        "cuda_time_us": 105.08160144090652,
+        "calls": 5,
+        "pct_of_total": 3.23
+      },
+      {
+        "name": "node_Conv_855_myl0_54",
+        "cuda_time_us": 104.25599813461304,
+        "calls": 5,
+        "pct_of_total": 3.2
+      },
+      {
+        "name": "node_Conv_845_myl0_49",
+        "cuda_time_us": 96.3263988494873,
+        "calls": 5,
+        "pct_of_total": 2.96
+      },
+      {
+        "name": "node_linear_myl0_57",
+        "cuda_time_us": 89.19679820537567,
+        "calls": 5,
+        "pct_of_total": 2.74
+      },
+      {
+        "name": "node_Conv_801_myl0_27",
+        "cuda_time_us": 80.85760027170181,
+        "calls": 5,
+        "pct_of_total": 2.48
+      },
+      {
+        "name": "node_Conv_757_myl0_5",
+        "cuda_time_us": 78.09280157089233,
+        "calls": 5,
+        "pct_of_total": 2.4
+      },
+      {
+        "name": "node_Conv_771_myl0_12",
+        "cuda_time_us": 78.04160118103027,
+        "calls": 5,
+        "pct_of_total": 2.4
+      },
+      {
+        "name": "node_Conv_765_myl0_9",
+        "cuda_time_us": 77.95200049877167,
+        "calls": 5,
+        "pct_of_total": 2.39
+      },
+      {
+        "name": "node_Conv_781_myl0_17",
+        "cuda_time_us": 73.5488012433052,
+        "calls": 5,
+        "pct_of_total": 2.26
+      },
+      {
+        "name": "node_Conv_839_myl0_46",
+        "cuda_time_us": 68.35840046405792,
+        "calls": 5,
+        "pct_of_total": 2.1
+      },
+      {
+        "name": "node_Conv_767_myl0_10",
+        "cuda_time_us": 63.77599835395813,
+        "calls": 5,
+        "pct_of_total": 1.96
+      },
+      {
+        "name": "node_Conv_761_myl0_7",
+        "cuda_time_us": 63.74399811029434,
+        "calls": 5,
+        "pct_of_total": 1.96
+      },
+      {
+        "name": "node_Conv_773_myl0_13",
+        "cuda_time_us": 62.17600032687187,
+        "calls": 5,
+        "pct_of_total": 1.91
+      },
+      {
+        "name": "node_Conv_851_myl0_52",
+        "cuda_time_us": 59.17440056800842,
+        "calls": 5,
+        "pct_of_total": 1.82
+      },
+      {
+        "name": "node_Conv_843_myl0_48",
+        "cuda_time_us": 58.83520022034645,
+        "calls": 5,
+        "pct_of_total": 1.81
+      },
+      {
+        "name": "node_Conv_857_myl0_55",
+        "cuda_time_us": 58.73279944062233,
+        "calls": 5,
+        "pct_of_total": 1.8
+      },
+      {
+        "name": "node_Conv_775_myl0_14",
+        "cuda_time_us": 58.45759958028793,
+        "calls": 5,
+        "pct_of_total": 1.8
+      },
+      {
+        "name": "node_Conv_847_myl0_50",
+        "cuda_time_us": 56.00640028715134,
+        "calls": 5,
+        "pct_of_total": 1.72
+      },
+      {
+        "name": "node_Conv_853_myl0_53",
+        "cuda_time_us": 55.3023986518383,
+        "calls": 5,
+        "pct_of_total": 1.7
+      },
+      {
+        "name": "node_Conv_793_myl0_23",
+        "cuda_time_us": 53.964799642562866,
+        "calls": 5,
+        "pct_of_total": 1.66
+      },
+      {
+        "name": "node_Conv_799_myl0_26",
+        "cuda_time_us": 53.75999957323074,
+        "calls": 5,
+        "pct_of_total": 1.65
+      },
+      {
+        "name": "node_Conv_787_myl0_20",
+        "cuda_time_us": 53.26079949736595,
+        "calls": 5,
+        "pct_of_total": 1.64
+      },
+      {
+        "name": "node_Conv_831_myl0_42",
+        "cuda_time_us": 50.25919899344444,
+        "calls": 5,
+        "pct_of_total": 1.54
+      },
+      {
+        "name": "node_Conv_825_myl0_39",
+        "cuda_time_us": 50.23360028862953,
+        "calls": 5,
+        "pct_of_total": 1.54
+      },
+      {
+        "name": "node_Conv_829_myl0_41",
+        "cuda_time_us": 49.824000149965286,
+        "calls": 5,
+        "pct_of_total": 1.53
+      },
+      {
+        "name": "node_Conv_759_myl0_6",
+        "cuda_time_us": 49.59359988570213,
+        "calls": 5,
+        "pct_of_total": 1.52
+      },
+      {
+        "name": "node_Conv_809_myl0_31",
+        "cuda_time_us": 49.215999990701675,
+        "calls": 5,
+        "pct_of_total": 1.51
+      },
+      {
+        "name": "node_Conv_827_myl0_40",
+        "cuda_time_us": 49.164799600839615,
+        "calls": 5,
+        "pct_of_total": 1.51
+      },
+      {
+        "name": "node_Conv_819_myl0_36",
+        "cuda_time_us": 48.58880043029785,
+        "calls": 5,
+        "pct_of_total": 1.49
+      },
+      {
+        "name": "node_Conv_821_myl0_37",
+        "cuda_time_us": 48.56960028409958,
+        "calls": 5,
+        "pct_of_total": 1.49
+      },
+      {
+        "name": "node_Conv_833_myl0_43",
+        "cuda_time_us": 48.313599824905396,
+        "calls": 5,
+        "pct_of_total": 1.48
+      },
+      {
+        "name": "node_Conv_815_myl0_34",
+        "cuda_time_us": 48.204800486564636,
+        "calls": 5,
+        "pct_of_total": 1.48
+      },
+      {
+        "name": "node_Conv_837_myl0_45",
+        "cuda_time_us": 48.16639944911003,
+        "calls": 5,
+        "pct_of_total": 1.48
+      },
+      {
+        "name": "node_Conv_835_myl0_44",
+        "cuda_time_us": 47.69279956817627,
+        "calls": 5,
+        "pct_of_total": 1.47
+      },
+      {
+        "name": "node_Conv_811_myl0_32",
+        "cuda_time_us": 47.494399547576904,
+        "calls": 5,
+        "pct_of_total": 1.46
+      },
+      {
+        "name": "node_Conv_813_myl0_33",
+        "cuda_time_us": 47.00160026550293,
+        "calls": 5,
+        "pct_of_total": 1.44
+      },
+      {
+        "name": "node_Conv_823_myl0_38",
+        "cuda_time_us": 46.76479995250702,
+        "calls": 5,
+        "pct_of_total": 1.44
+      },
+      {
+        "name": "node_Conv_817_myl0_35",
+        "cuda_time_us": 46.3359996676445,
+        "calls": 5,
+        "pct_of_total": 1.42
+      },
+      {
+        "name": "node_Conv_803_myl0_28",
+        "cuda_time_us": 46.3296003639698,
+        "calls": 5,
+        "pct_of_total": 1.42
+      },
+      {
+        "name": "node_Conv_769_myl0_11",
+        "cuda_time_us": 45.79839929938316,
+        "calls": 5,
+        "pct_of_total": 1.41
+      },
+      {
+        "name": "node_Conv_763_myl0_8",
+        "cuda_time_us": 45.60000002384186,
+        "calls": 5,
+        "pct_of_total": 1.4
+      },
+      {
+        "name": "node_Conv_807_myl0_30",
+        "cuda_time_us": 45.40160000324249,
+        "calls": 5,
+        "pct_of_total": 1.39
+      },
+      {
+        "name": "node_Conv_789_myl0_21",
+        "cuda_time_us": 44.8575995862484,
+        "calls": 5,
+        "pct_of_total": 1.38
+      },
+      {
+        "name": "node_Conv_783_myl0_18",
+        "cuda_time_us": 44.84479948878288,
+        "calls": 5,
+        "pct_of_total": 1.38
+      },
+      {
+        "name": "node_Conv_805_myl0_29",
+        "cuda_time_us": 44.60799992084503,
+        "calls": 5,
+        "pct_of_total": 1.37
+      },
+      {
+        "name": "node_Conv_795_myl0_24",
+        "cuda_time_us": 44.19199973344803,
+        "calls": 5,
+        "pct_of_total": 1.36
+      },
+      {
+        "name": "node_Conv_777_myl0_15",
+        "cuda_time_us": 42.93760061264038,
+        "calls": 5,
+        "pct_of_total": 1.32
+      },
+      {
+        "name": "node_max_pool2d_myl0_3",
+        "cuda_time_us": 40.985600650310516,
+        "calls": 5,
+        "pct_of_total": 1.26
+      },
+      {
+        "name": "node_Conv_779_myl0_16",
+        "cuda_time_us": 40.377599745988846,
+        "calls": 5,
+        "pct_of_total": 1.24
+      },
+      {
+        "name": "node_Conv_797_myl0_25",
+        "cuda_time_us": 39.846400171518326,
+        "calls": 5,
+        "pct_of_total": 1.22
+      },
+      {
+        "name": "node_Conv_785_myl0_19",
+        "cuda_time_us": 39.50720056891441,
+        "calls": 5,
+        "pct_of_total": 1.21
+      },
+      {
+        "name": "node_Conv_791_myl0_22",
+        "cuda_time_us": 39.321599900722504,
+        "calls": 5,
+        "pct_of_total": 1.21
+      },
+      {
+        "name": "__myl_MoveConc_myl0_1",
+        "cuda_time_us": 25.631999969482422,
+        "calls": 5,
+        "pct_of_total": 0.79
+      },
+      {
+        "name": "node_Conv_755_myl0_4",
+        "cuda_time_us": 25.088000297546387,
+        "calls": 5,
+        "pct_of_total": 0.77
+      },
+      {
+        "name": "node_mean_myl0_56",
+        "cuda_time_us": 18.592000007629395,
+        "calls": 5,
+        "pct_of_total": 0.57
+      },
+      {
+        "name": "__mye4007_myl0_0",
+        "cuda_time_us": 9.164799936115742,
+        "calls": 5,
+        "pct_of_total": 0.28
+      },
+      {
+        "name": "__mye4009_myl0_58",
+        "cuda_time_us": 2.176000038161874,
+        "calls": 5,
+        "pct_of_total": 0.07
+      }
+    ],
+    "timestamp": "2026-04-05T11:06:25.994625+00:00"
+  },
+  {
+    "model": "resnet50",
+    "runtime": "tensorrt",
+    "precision": "fp16",
+    "warmup_iters": 10,
+    "profile_iters": 5,
+    "total_cuda_us": 2635.58,
+    "n_ops": 60,
+    "layers": [
+      {
+        "name": "node_Conv_753_myl0_2",
+        "cuda_time_us": 121.82400077581406,
+        "calls": 5,
+        "pct_of_total": 4.62
+      },
+      {
+        "name": "node_Conv_849_myl0_51",
+        "cuda_time_us": 85.58720052242279,
+        "calls": 5,
+        "pct_of_total": 3.25
+      },
+      {
+        "name": "node_Conv_841_myl0_47",
+        "cuda_time_us": 84.7104012966156,
+        "calls": 5,
+        "pct_of_total": 3.21
+      },
+      {
+        "name": "node_Conv_855_myl0_54",
+        "cuda_time_us": 84.1728001832962,
+        "calls": 5,
+        "pct_of_total": 3.19
+      },
+      {
+        "name": "node_Conv_845_myl0_49",
+        "cuda_time_us": 80.98559975624084,
+        "calls": 5,
+        "pct_of_total": 3.07
+      },
+      {
+        "name": "node_linear_myl0_57",
+        "cuda_time_us": 72.27520197629929,
+        "calls": 5,
+        "pct_of_total": 2.74
+      },
+      {
+        "name": "node_Conv_851_myl0_52",
+        "cuda_time_us": 58.0095998942852,
+        "calls": 5,
+        "pct_of_total": 2.2
+      },
+      {
+        "name": "node_Conv_781_myl0_17",
+        "cuda_time_us": 57.657600194215775,
+        "calls": 5,
+        "pct_of_total": 2.19
+      },
+      {
+        "name": "node_Conv_807_myl0_30",
+        "cuda_time_us": 55.97440078854561,
+        "calls": 5,
+        "pct_of_total": 2.12
+      },
+      {
+        "name": "node_Conv_857_myl0_55",
+        "cuda_time_us": 55.27679994702339,
+        "calls": 5,
+        "pct_of_total": 2.1
+      },
+      {
+        "name": "node_Conv_761_myl0_7",
+        "cuda_time_us": 54.38719987869263,
+        "calls": 5,
+        "pct_of_total": 2.06
+      },
+      {
+        "name": "node_Conv_767_myl0_10",
+        "cuda_time_us": 50.98240077495575,
+        "calls": 5,
+        "pct_of_total": 1.93
+      },
+      {
+        "name": "node_Conv_773_myl0_13",
+        "cuda_time_us": 50.758400559425354,
+        "calls": 5,
+        "pct_of_total": 1.93
+      },
+      {
+        "name": "__myl_Corr_myl0_48",
+        "cuda_time_us": 50.278400629758835,
+        "calls": 5,
+        "pct_of_total": 1.91
+      },
+      {
+        "name": "__myl_Corr_myl0_53",
+        "cuda_time_us": 48.80640059709549,
+        "calls": 5,
+        "pct_of_total": 1.85
+      },
+      {
+        "name": "__myl_Corr_myl0_50",
+        "cuda_time_us": 48.53760078549385,
+        "calls": 5,
+        "pct_of_total": 1.84
+      },
+      {
+        "name": "node_Conv_799_myl0_26",
+        "cuda_time_us": 47.00160101056099,
+        "calls": 5,
+        "pct_of_total": 1.78
+      },
+      {
+        "name": "node_Conv_829_myl0_41",
+        "cuda_time_us": 46.50240018963814,
+        "calls": 5,
+        "pct_of_total": 1.76
+      },
+      {
+        "name": "node_Conv_823_myl0_38",
+        "cuda_time_us": 46.12480103969574,
+        "calls": 5,
+        "pct_of_total": 1.75
+      },
+      {
+        "name": "node_Conv_803_myl0_28",
+        "cuda_time_us": 45.37600055336952,
+        "calls": 5,
+        "pct_of_total": 1.72
+      },
+      {
+        "name": "node_max_pool2d_myl0_3",
+        "cuda_time_us": 45.1712004840374,
+        "calls": 5,
+        "pct_of_total": 1.71
+      },
+      {
+        "name": "node_Conv_811_myl0_32",
+        "cuda_time_us": 45.16479969024658,
+        "calls": 5,
+        "pct_of_total": 1.71
+      },
+      {
+        "name": "node_Conv_817_myl0_35",
+        "cuda_time_us": 44.84479948878288,
+        "calls": 5,
+        "pct_of_total": 1.7
+      },
+      {
+        "name": "node_Conv_835_myl0_44",
+        "cuda_time_us": 44.60800066590309,
+        "calls": 5,
+        "pct_of_total": 1.69
+      },
+      {
+        "name": "__myl_Corr_myl0_23",
+        "cuda_time_us": 44.16000097990036,
+        "calls": 5,
+        "pct_of_total": 1.68
+      },
+      {
+        "name": "__myl_Corr_myl0_20",
+        "cuda_time_us": 44.121600687503815,
+        "calls": 5,
+        "pct_of_total": 1.67
+      },
+      {
+        "name": "__myl_Corr_myl0_5",
+        "cuda_time_us": 44.019199907779694,
+        "calls": 5,
+        "pct_of_total": 1.67
+      },
+      {
+        "name": "__myl_Corr_myl0_6",
+        "cuda_time_us": 42.5087995827198,
+        "calls": 5,
+        "pct_of_total": 1.61
+      },
+      {
+        "name": "__myl_Corr_myl0_14",
+        "cuda_time_us": 42.4575999379158,
+        "calls": 5,
+        "pct_of_total": 1.61
+      },
+      {
+        "name": "__myl_Corr_myl0_27",
+        "cuda_time_us": 39.75039944052696,
+        "calls": 5,
+        "pct_of_total": 1.51
+      },
+      {
+        "name": "__myl_Corr_myl0_33",
+        "cuda_time_us": 39.263999462127686,
+        "calls": 5,
+        "pct_of_total": 1.49
+      },
+      {
+        "name": "__myl_Corr_myl0_46",
+        "cuda_time_us": 38.707200437784195,
+        "calls": 5,
+        "pct_of_total": 1.47
+      },
+      {
+        "name": "__myl_Corr_myl0_42",
+        "cuda_time_us": 38.42560052871704,
+        "calls": 5,
+        "pct_of_total": 1.46
+      },
+      {
+        "name": "__myl_Corr_myl0_39",
+        "cuda_time_us": 38.41279894113541,
+        "calls": 5,
+        "pct_of_total": 1.46
+      },
+      {
+        "name": "__myl_Corr_myl0_9",
+        "cuda_time_us": 38.39359953999519,
+        "calls": 5,
+        "pct_of_total": 1.46
+      },
+      {
+        "name": "__myl_Corr_myl0_12",
+        "cuda_time_us": 38.361600041389465,
+        "calls": 5,
+        "pct_of_total": 1.46
+      },
+      {
+        "name": "__myl_Corr_myl0_45",
+        "cuda_time_us": 37.91999965906143,
+        "calls": 5,
+        "pct_of_total": 1.44
+      },
+      {
+        "name": "__myl_Corr_myl0_36",
+        "cuda_time_us": 37.50400021672249,
+        "calls": 5,
+        "pct_of_total": 1.42
+      },
+      {
+        "name": "__myl_Corr_myl0_22",
+        "cuda_time_us": 37.491199374198914,
+        "calls": 5,
+        "pct_of_total": 1.42
+      },
+      {
+        "name": "__myl_Corr_myl0_15",
+        "cuda_time_us": 37.0048001408577,
+        "calls": 5,
+        "pct_of_total": 1.4
+      },
+      {
+        "name": "__myl_Corr_myl0_19",
+        "cuda_time_us": 36.99839934706688,
+        "calls": 5,
+        "pct_of_total": 1.4
+      },
+      {
+        "name": "__myl_Corr_myl0_25",
+        "cuda_time_us": 35.91680005192757,
+        "calls": 5,
+        "pct_of_total": 1.36
+      },
+      {
+        "name": "__myl_Corr_myl0_16",
+        "cuda_time_us": 35.334400087594986,
+        "calls": 5,
+        "pct_of_total": 1.34
+      },
+      {
+        "name": "__myl_Corr_myl0_8",
+        "cuda_time_us": 35.1295992732048,
+        "calls": 5,
+        "pct_of_total": 1.33
+      },
+      {
+        "name": "__myl_Corr_myl0_29",
+        "cuda_time_us": 34.540800005197525,
+        "calls": 5,
+        "pct_of_total": 1.31
+      },
+      {
+        "name": "__myl_Corr_myl0_11",
+        "cuda_time_us": 33.4976002573967,
+        "calls": 5,
+        "pct_of_total": 1.27
+      },
+      {
+        "name": "__myl_Corr_myl0_31",
+        "cuda_time_us": 33.2736000418663,
+        "calls": 5,
+        "pct_of_total": 1.26
+      },
+      {
+        "name": "__myl_Corr_myl0_40",
+        "cuda_time_us": 32.998399809002876,
+        "calls": 5,
+        "pct_of_total": 1.25
+      },
+      {
+        "name": "__myl_Corr_myl0_18",
+        "cuda_time_us": 32.364799827337265,
+        "calls": 5,
+        "pct_of_total": 1.23
+      },
+      {
+        "name": "__myl_Corr_myl0_24",
+        "cuda_time_us": 32.13439956307411,
+        "calls": 5,
+        "pct_of_total": 1.22
+      },
+      {
+        "name": "__myl_Corr_myl0_34",
+        "cuda_time_us": 32.12160021066666,
+        "calls": 5,
+        "pct_of_total": 1.22
+      },
+      {
+        "name": "__myl_Corr_myl0_21",
+        "cuda_time_us": 32.05759972333908,
+        "calls": 5,
+        "pct_of_total": 1.22
+      },
+      {
+        "name": "__myl_Corr_myl0_37",
+        "cuda_time_us": 30.848000198602676,
+        "calls": 5,
+        "pct_of_total": 1.17
+      },
+      {
+        "name": "__myl_Corr_myl0_43",
+        "cuda_time_us": 30.566399917006493,
+        "calls": 5,
+        "pct_of_total": 1.16
+      },
+      {
+        "name": "__myl_CastConc_myl0_1",
+        "cuda_time_us": 29.56799939274788,
+        "calls": 5,
+        "pct_of_total": 1.12
+      },
+      {
+        "name": "node_Conv_755_myl0_4",
+        "cuda_time_us": 28.947199881076813,
+        "calls": 5,
+        "pct_of_total": 1.1
+      },
+      {
+        "name": "node_mean_myl0_56",
+        "cuda_time_us": 23.628799989819527,
+        "calls": 5,
+        "pct_of_total": 0.9
+      },
+      {
+        "name": "__myl_Cast_myl0_58",
+        "cuda_time_us": 13.132799975574017,
+        "calls": 5,
+        "pct_of_total": 0.5
+      },
+      {
+        "name": "__mye7502_myl0_0",
+        "cuda_time_us": 5.408000014722347,
+        "calls": 5,
+        "pct_of_total": 0.21
+      },
+      {
+        "name": "__mye7504_myl0_59",
+        "cuda_time_us": 3.5968000069260597,
+        "calls": 5,
+        "pct_of_total": 0.14
+      }
+    ],
+    "timestamp": "2026-04-05T11:08:12.309239+00:00"
+  },
+  {
+    "model": "dinov2_b",
+    "runtime": "tensorrt",
+    "precision": "fp32",
+    "warmup_iters": 10,
+    "profile_iters": 5,
+    "total_cuda_us": 39040.42,
+    "n_ops": 126,
+    "layers": [
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_66",
+        "cuda_time_us": 1077.132797241211,
+        "calls": 5,
+        "pct_of_total": 2.76
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_26",
+        "cuda_time_us": 1055.23202419281,
+        "calls": 5,
+        "pct_of_total": 2.7
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_6",
+        "cuda_time_us": 1049.6511936187744,
+        "calls": 5,
+        "pct_of_total": 2.69
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_116",
+        "cuda_time_us": 1045.574402809143,
+        "calls": 5,
+        "pct_of_total": 2.68
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_46",
+        "cuda_time_us": 1043.6800003051758,
+        "calls": 5,
+        "pct_of_total": 2.67
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_86",
+        "cuda_time_us": 1037.945580482483,
+        "calls": 5,
+        "pct_of_total": 2.66
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_106",
+        "cuda_time_us": 1030.2464008331299,
+        "calls": 5,
+        "pct_of_total": 2.64
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_56",
+        "cuda_time_us": 1029.6000003814697,
+        "calls": 5,
+        "pct_of_total": 2.64
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_36",
+        "cuda_time_us": 1024.0384101867676,
+        "calls": 5,
+        "pct_of_total": 2.62
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_96",
+        "cuda_time_us": 1021.6063737869263,
+        "calls": 5,
+        "pct_of_total": 2.62
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_76",
+        "cuda_time_us": 1020.8448171615601,
+        "calls": 5,
+        "pct_of_total": 2.61
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_16",
+        "cuda_time_us": 1017.2864198684692,
+        "calls": 5,
+        "pct_of_total": 2.61
+      },
+      {
+        "name": "node_MatMul_395_myl0_55",
+        "cuda_time_us": 799.8335957527161,
+        "calls": 5,
+        "pct_of_total": 2.05
+      },
+      {
+        "name": "node_MatMul_194_myl0_25",
+        "cuda_time_us": 779.3855905532837,
+        "calls": 5,
+        "pct_of_total": 2.0
+      },
+      {
+        "name": "node_MatMul_797_myl0_115",
+        "cuda_time_us": 779.2703986167908,
+        "calls": 5,
+        "pct_of_total": 2.0
+      },
+      {
+        "name": "node_MatMul_596_myl0_85",
+        "cuda_time_us": 777.510404586792,
+        "calls": 5,
+        "pct_of_total": 1.99
+      },
+      {
+        "name": "node_MatMul_462_myl0_65",
+        "cuda_time_us": 776.1920094490051,
+        "calls": 5,
+        "pct_of_total": 1.99
+      },
+      {
+        "name": "node_MatMul_730_myl0_105",
+        "cuda_time_us": 772.1215963363647,
+        "calls": 5,
+        "pct_of_total": 1.98
+      },
+      {
+        "name": "node_MatMul_60_myl0_5",
+        "cuda_time_us": 766.8736100196838,
+        "calls": 5,
+        "pct_of_total": 1.96
+      },
+      {
+        "name": "node_MatMul_529_myl0_75",
+        "cuda_time_us": 765.4080033302307,
+        "calls": 5,
+        "pct_of_total": 1.96
+      },
+      {
+        "name": "node_MatMul_663_myl0_95",
+        "cuda_time_us": 761.1711978912354,
+        "calls": 5,
+        "pct_of_total": 1.95
+      },
+      {
+        "name": "node_MatMul_261_myl0_35",
+        "cuda_time_us": 760.8895897865295,
+        "calls": 5,
+        "pct_of_total": 1.95
+      },
+      {
+        "name": "node_MatMul_127_myl0_15",
+        "cuda_time_us": 758.239996433258,
+        "calls": 5,
+        "pct_of_total": 1.94
+      },
+      {
+        "name": "node_MatMul_328_myl0_45",
+        "cuda_time_us": 757.5487971305847,
+        "calls": 5,
+        "pct_of_total": 1.94
+      },
+      {
+        "name": "node_scaled_dot_product_attention_6_myl0_67",
+        "cuda_time_us": 745.4592108726501,
+        "calls": 5,
+        "pct_of_total": 1.91
+      },
+      {
+        "name": "node_scaled_dot_product_attention_2_myl0_27",
+        "cuda_time_us": 735.3664040565491,
+        "calls": 5,
+        "pct_of_total": 1.88
+      },
+      {
+        "name": "node_scaled_dot_product_attention_10_myl0_107",
+        "cuda_time_us": 734.2848062515259,
+        "calls": 5,
+        "pct_of_total": 1.88
+      },
+      {
+        "name": "node_scaled_dot_product_attention_4_myl0_47",
+        "cuda_time_us": 729.0687918663025,
+        "calls": 5,
+        "pct_of_total": 1.87
+      },
+      {
+        "name": "node_scaled_dot_product_attention_9_myl0_97",
+        "cuda_time_us": 717.6448106765747,
+        "calls": 5,
+        "pct_of_total": 1.84
+      },
+      {
+        "name": "node_scaled_dot_product_attention_5_myl0_57",
+        "cuda_time_us": 714.2015933990479,
+        "calls": 5,
+        "pct_of_total": 1.83
+      },
+      {
+        "name": "node_scaled_dot_product_attention_8_myl0_87",
+        "cuda_time_us": 706.8159937858582,
+        "calls": 5,
+        "pct_of_total": 1.81
+      },
+      {
+        "name": "node_scaled_dot_product_attention_myl0_7",
+        "cuda_time_us": 703.3087968826294,
+        "calls": 5,
+        "pct_of_total": 1.8
+      },
+      {
+        "name": "node_scaled_dot_product_attention_7_myl0_77",
+        "cuda_time_us": 700.7936000823975,
+        "calls": 5,
+        "pct_of_total": 1.8
+      },
+      {
+        "name": "node_scaled_dot_product_attention_11_myl0_117",
+        "cuda_time_us": 697.8048086166382,
+        "calls": 5,
+        "pct_of_total": 1.79
+      },
+      {
+        "name": "node_scaled_dot_product_attention_3_myl0_37",
+        "cuda_time_us": 696.7872023582458,
+        "calls": 5,
+        "pct_of_total": 1.78
+      },
+      {
+        "name": "node_scaled_dot_product_attention_1_myl0_17",
+        "cuda_time_us": 696.780800819397,
+        "calls": 5,
+        "pct_of_total": 1.78
+      },
+      {
+        "name": "node_conv2d_myl0_2",
+        "cuda_time_us": 207.32160210609436,
+        "calls": 5,
+        "pct_of_total": 0.53
+      },
+      {
+        "name": "node_MatMul_606_myl0_90",
+        "cuda_time_us": 190.15679955482483,
+        "calls": 5,
+        "pct_of_total": 0.49
+      },
+      {
+        "name": "node_MatMul_740_myl0_110",
+        "cuda_time_us": 188.4095996618271,
+        "calls": 5,
+        "pct_of_total": 0.48
+      },
+      {
+        "name": "node_MatMul_204_myl0_30",
+        "cuda_time_us": 186.23360395431519,
+        "calls": 5,
+        "pct_of_total": 0.48
+      },
+      {
+        "name": "node_MatMul_673_myl0_100",
+        "cuda_time_us": 185.16480028629303,
+        "calls": 5,
+        "pct_of_total": 0.47
+      },
+      {
+        "name": "node_MatMul_271_myl0_40",
+        "cuda_time_us": 184.32640135288239,
+        "calls": 5,
+        "pct_of_total": 0.47
+      },
+      {
+        "name": "node_MatMul_405_myl0_60",
+        "cuda_time_us": 181.52960240840912,
+        "calls": 5,
+        "pct_of_total": 0.46
+      },
+      {
+        "name": "node_MatMul_338_myl0_50",
+        "cuda_time_us": 177.5168001651764,
+        "calls": 5,
+        "pct_of_total": 0.45
+      },
+      {
+        "name": "node_MatMul_70_myl0_10",
+        "cuda_time_us": 177.45919823646545,
+        "calls": 5,
+        "pct_of_total": 0.45
+      },
+      {
+        "name": "node_MatMul_807_myl0_120",
+        "cuda_time_us": 176.52480006217957,
+        "calls": 5,
+        "pct_of_total": 0.45
+      },
+      {
+        "name": "node_MatMul_472_myl0_70",
+        "cuda_time_us": 176.3968050479889,
+        "calls": 5,
+        "pct_of_total": 0.45
+      },
+      {
+        "name": "node_MatMul_137_myl0_20",
+        "cuda_time_us": 172.47999906539917,
+        "calls": 5,
+        "pct_of_total": 0.44
+      },
+      {
+        "name": "node_MatMul_539_myl0_80",
+        "cuda_time_us": 167.1679973602295,
+        "calls": 5,
+        "pct_of_total": 0.43
+      },
+      {
+        "name": "__mye117951+__mye117939+__mye117927_myl0_4",
+        "cuda_time_us": 141.15199744701385,
+        "calls": 5,
+        "pct_of_total": 0.36
+      },
+      {
+        "name": "__mye118797+__mye118785+__mye118773_myl0_94",
+        "cuda_time_us": 139.23199772834778,
+        "calls": 5,
+        "pct_of_total": 0.36
+      },
+      {
+        "name": "__mye118421+__mye118409+__mye118397_myl0_54",
+        "cuda_time_us": 136.38399839401245,
+        "calls": 5,
+        "pct_of_total": 0.35
+      },
+      {
+        "name": "__mye118045+__mye118033+__mye118021_myl0_14",
+        "cuda_time_us": 133.3696037530899,
+        "calls": 5,
+        "pct_of_total": 0.34
+      },
+      {
+        "name": "__mye118139+__mye118127+__mye118115_myl0_24",
+        "cuda_time_us": 133.2863986492157,
+        "calls": 5,
+        "pct_of_total": 0.34
+      },
+      {
+        "name": "__mye118327+__mye118315+__mye118303_myl0_44",
+        "cuda_time_us": 132.15360343456268,
+        "calls": 5,
+        "pct_of_total": 0.34
+      },
+      {
+        "name": "__mye118233+__mye118221+__mye118209_myl0_34",
+        "cuda_time_us": 131.85920119285583,
+        "calls": 5,
+        "pct_of_total": 0.34
+      },
+      {
+        "name": "__mye118985+__mye118973+__mye118961_myl0_114",
+        "cuda_time_us": 129.6960026025772,
+        "calls": 5,
+        "pct_of_total": 0.33
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_121",
+        "cuda_time_us": 127.76320129632951,
+        "calls": 5,
+        "pct_of_total": 0.33
+      },
+      {
+        "name": "__mye118515+__mye118503+__mye118491_myl0_64",
+        "cuda_time_us": 126.1695995926857,
+        "calls": 5,
+        "pct_of_total": 0.32
+      },
+      {
+        "name": "__mye118703+__mye118691+__mye118679_myl0_84",
+        "cuda_time_us": 125.99040269851686,
+        "calls": 5,
+        "pct_of_total": 0.32
+      },
+      {
+        "name": "__mye118609+__mye118597+__mye118585_myl0_74",
+        "cuda_time_us": 125.63840299844742,
+        "calls": 5,
+        "pct_of_total": 0.32
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_71",
+        "cuda_time_us": 124.6655985713005,
+        "calls": 5,
+        "pct_of_total": 0.32
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_91",
+        "cuda_time_us": 123.0976015329361,
+        "calls": 5,
+        "pct_of_total": 0.32
+      },
+      {
+        "name": "__mye118891+__mye118879+__mye118867_myl0_104",
+        "cuda_time_us": 121.84320092201233,
+        "calls": 5,
+        "pct_of_total": 0.31
+      },
+      {
+        "name": "node_MatMul_615_myl0_92",
+        "cuda_time_us": 120.72959989309311,
+        "calls": 5,
+        "pct_of_total": 0.31
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_31",
+        "cuda_time_us": 120.62080055475235,
+        "calls": 5,
+        "pct_of_total": 0.31
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_101",
+        "cuda_time_us": 120.19840031862259,
+        "calls": 5,
+        "pct_of_total": 0.31
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_111",
+        "cuda_time_us": 119.42400187253952,
+        "calls": 5,
+        "pct_of_total": 0.31
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_51",
+        "cuda_time_us": 118.1439995765686,
+        "calls": 5,
+        "pct_of_total": 0.3
+      },
+      {
+        "name": "node_MatMul_79_myl0_12",
+        "cuda_time_us": 117.81120151281357,
+        "calls": 5,
+        "pct_of_total": 0.3
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_61",
+        "cuda_time_us": 117.70880073308945,
+        "calls": 5,
+        "pct_of_total": 0.3
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_41",
+        "cuda_time_us": 116.77440106868744,
+        "calls": 5,
+        "pct_of_total": 0.3
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_21",
+        "cuda_time_us": 116.37120097875595,
+        "calls": 5,
+        "pct_of_total": 0.3
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_81",
+        "cuda_time_us": 116.17280095815659,
+        "calls": 5,
+        "pct_of_total": 0.3
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_11",
+        "cuda_time_us": 115.34080058336258,
+        "calls": 5,
+        "pct_of_total": 0.3
+      },
+      {
+        "name": "node_MatMul_414_myl0_62",
+        "cuda_time_us": 113.96480053663254,
+        "calls": 5,
+        "pct_of_total": 0.29
+      },
+      {
+        "name": "node_MatMul_347_myl0_52",
+        "cuda_time_us": 113.07519972324371,
+        "calls": 5,
+        "pct_of_total": 0.29
+      },
+      {
+        "name": "node_MatMul_213_myl0_32",
+        "cuda_time_us": 112.7039983868599,
+        "calls": 5,
+        "pct_of_total": 0.29
+      },
+      {
+        "name": "node_MatMul_280_myl0_42",
+        "cuda_time_us": 111.4111989736557,
+        "calls": 5,
+        "pct_of_total": 0.29
+      },
+      {
+        "name": "node_MatMul_816_myl0_122",
+        "cuda_time_us": 111.3215982913971,
+        "calls": 5,
+        "pct_of_total": 0.29
+      },
+      {
+        "name": "node_MatMul_146_myl0_22",
+        "cuda_time_us": 109.82399880886078,
+        "calls": 5,
+        "pct_of_total": 0.28
+      },
+      {
+        "name": "node_MatMul_481_myl0_72",
+        "cuda_time_us": 109.58719849586487,
+        "calls": 5,
+        "pct_of_total": 0.28
+      },
+      {
+        "name": "node_MatMul_749_myl0_112",
+        "cuda_time_us": 108.98559838533401,
+        "calls": 5,
+        "pct_of_total": 0.28
+      },
+      {
+        "name": "node_MatMul_548_myl0_82",
+        "cuda_time_us": 107.95519798994064,
+        "calls": 5,
+        "pct_of_total": 0.28
+      },
+      {
+        "name": "node_MatMul_682_myl0_102",
+        "cuda_time_us": 105.8943971991539,
+        "calls": 5,
+        "pct_of_total": 0.27
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_33",
+        "cuda_time_us": 86.28480136394501,
+        "calls": 5,
+        "pct_of_total": 0.22
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_73",
+        "cuda_time_us": 84.13439840078354,
+        "calls": 5,
+        "pct_of_total": 0.22
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_63",
+        "cuda_time_us": 83.76319855451584,
+        "calls": 5,
+        "pct_of_total": 0.21
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_53",
+        "cuda_time_us": 81.81760162115097,
+        "calls": 5,
+        "pct_of_total": 0.21
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_113",
+        "cuda_time_us": 81.15199953317642,
+        "calls": 5,
+        "pct_of_total": 0.21
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_13",
+        "cuda_time_us": 80.5311992764473,
+        "calls": 5,
+        "pct_of_total": 0.21
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_103",
+        "cuda_time_us": 80.19839972257614,
+        "calls": 5,
+        "pct_of_total": 0.21
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_93",
+        "cuda_time_us": 80.14719933271408,
+        "calls": 5,
+        "pct_of_total": 0.21
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_83",
+        "cuda_time_us": 79.76960092782974,
+        "calls": 5,
+        "pct_of_total": 0.2
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_43",
+        "cuda_time_us": 79.57760095596313,
+        "calls": 5,
+        "pct_of_total": 0.2
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_23",
+        "cuda_time_us": 78.3615991473198,
+        "calls": 5,
+        "pct_of_total": 0.2
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMean_myl0_123",
+        "cuda_time_us": 59.62879955768585,
+        "calls": 5,
+        "pct_of_total": 0.15
+      },
+      {
+        "name": "__myl_MoveConc_myl0_1",
+        "cuda_time_us": 53.20959985256195,
+        "calls": 5,
+        "pct_of_total": 0.14
+      },
+      {
+        "name": "__myl_TranConcAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_3",
+        "cuda_time_us": 47.436799854040146,
+        "calls": 5,
+        "pct_of_total": 0.12
+      },
+      {
+        "name": "node_MatMul_202_myl0_28",
+        "cuda_time_us": 42.6304005086422,
+        "calls": 5,
+        "pct_of_total": 0.11
+      },
+      {
+        "name": "node_MatMul_470_myl0_68",
+        "cuda_time_us": 42.00960025191307,
+        "calls": 5,
+        "pct_of_total": 0.11
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_69",
+        "cuda_time_us": 41.03040024638176,
+        "calls": 5,
+        "pct_of_total": 0.11
+      },
+      {
+        "name": "node_MatMul_604_myl0_88",
+        "cuda_time_us": 40.48000127077103,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "node_MatMul_403_myl0_58",
+        "cuda_time_us": 40.428800135850906,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "node_MatMul_68_myl0_8",
+        "cuda_time_us": 40.089599788188934,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_89",
+        "cuda_time_us": 40.01280069351196,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "node_MatMul_671_myl0_98",
+        "cuda_time_us": 39.929600805044174,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "node_MatMul_537_myl0_78",
+        "cuda_time_us": 39.820801466703415,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "node_MatMul_269_myl0_38",
+        "cuda_time_us": 39.769601076841354,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "node_MatMul_805_myl0_118",
+        "cuda_time_us": 39.660800248384476,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_99",
+        "cuda_time_us": 39.62880074977875,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "node_MatMul_336_myl0_48",
+        "cuda_time_us": 39.584001153707504,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "node_MatMul_135_myl0_18",
+        "cuda_time_us": 39.54560086131096,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "node_MatMul_738_myl0_108",
+        "cuda_time_us": 39.289601147174835,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_119",
+        "cuda_time_us": 39.18080031871796,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_59",
+        "cuda_time_us": 39.17440101504326,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_29",
+        "cuda_time_us": 38.8095997273922,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_19",
+        "cuda_time_us": 38.77760097384453,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_9",
+        "cuda_time_us": 38.76480087637901,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_49",
+        "cuda_time_us": 38.64319995045662,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_109",
+        "cuda_time_us": 37.60000094771385,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_79",
+        "cuda_time_us": 37.57440075278282,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_39",
+        "cuda_time_us": 37.17760071158409,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "__mye123206_myl0_0",
+        "cuda_time_us": 13.824000232852995,
+        "calls": 5,
+        "pct_of_total": 0.04
+      },
+      {
+        "name": "__myl_AddSqrtDivMulMulAddSlic_myl0_124",
+        "cuda_time_us": 6.451200041919947,
+        "calls": 5,
+        "pct_of_total": 0.02
+      },
+      {
+        "name": "__mye123208_myl0_125",
+        "cuda_time_us": 1.9071999937295914,
+        "calls": 5,
+        "pct_of_total": 0.0
+      }
+    ],
+    "timestamp": "2026-04-05T11:09:19.826484+00:00"
+  }
+]
