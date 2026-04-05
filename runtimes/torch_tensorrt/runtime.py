@@ -135,7 +135,12 @@ def _compile_and_cache(
     # compiled is a GraphModule — callable directly, no .module() needed.
 
     cache_path.parent.mkdir(parents=True, exist_ok=True)
-    torch_tensorrt.save(compiled, str(cache_path), inputs=[dummy_input])
-    L.info("torch_tensorrt.cache.saved", path=str(cache_path))
+    try:
+        torch_tensorrt.save(compiled, str(cache_path), inputs=[dummy_input])
+        L.info("torch_tensorrt.cache.saved", path=str(cache_path))
+    except Exception as exc:  # noqa: BLE001
+        # Flash attention (fp16) outputs torch.uint64 tensors internally; the EP
+        # serializer doesn't support that dtype. Skip cache — model still runs.
+        L.warn("torch_tensorrt.cache.save_skipped", reason=str(exc)[:120])
 
     return compiled
