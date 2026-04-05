@@ -59,7 +59,7 @@ RUN curl -fsSL \
 # Jetson wheels come from pypi.jetson-ai-lab.io; PyPI is the fallback.
 COPY pyproject.toml /workspace/pyproject.toml
 # hadolint ignore=DL3013
-RUN pip3 install --no-cache-dir \
+RUN pip3 install --no-cache-dir --break-system-packages \
     --extra-index-url https://pypi.jetson-ai-lab.io/jp7/cu130 \
     "/workspace[gpu]"
 
