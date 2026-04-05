@@ -200,8 +200,12 @@ def run(config: BenchmarkConfig) -> int:
                 any_failed = True
                 continue
 
-            result = _run_single_benchmark(model_key, runtime_key, input_key, versions)
-            _write_result_json(result, runtime_key, model_key)
+            try:
+                result = _run_single_benchmark(model_key, runtime_key, input_key, versions)
+                _write_result_json(result, runtime_key, model_key)
+            except Exception as exc:  # noqa: BLE001
+                L.error("benchmark.failed", model=model_key, runtime=runtime_key, error=str(exc))
+                any_failed = True
 
     completion_timestamp = _utcnow_iso8601()
     _update_versions_toml_last_benchmarked(completion_timestamp)
