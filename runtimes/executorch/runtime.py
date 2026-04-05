@@ -56,8 +56,8 @@ class ExecuTorchRuntime(RuntimeBase):
 
     def version(self) -> str:
         """Return the installed ExecuTorch version string."""
-        import executorch  # type: ignore[import]
-        return executorch.__version__
+        from importlib.metadata import version as pkg_version
+        return pkg_version("executorch")
 
 
 def _export_and_cache(pte_path: Path) -> None:
