@@ -10,12 +10,12 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-# CPU/Mac dev — standard PyPI wheels
+# Dev container: lint, CI tooling, Thor orchestration — no inference libs
 dev = [
-    "torch>=2.7.0",
-    "executorch>=0.5.1",
+    "pytest>=8.0.0",
+    "ruff>=0.4.0",
 ]
-# Jetson/GPU — same packages; Dockerfile adds --extra-index-url for Jetson wheels
+# Runtime container (Thor/GPU only) — Dockerfile adds Jetson wheel index
 gpu = [
     "torch>=2.7.0",
     "executorch>=0.5.1",

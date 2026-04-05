@@ -1,18 +1,16 @@
 # inference-benchmarks dev image
 #
-# Lightweight development environment for Mac and CI.
-# No GPU required — PyTorch runs on CPU.
-# Use for: linting, doc review, harness development, result processing.
+# Lightweight environment for Mac and CI.
+# No inference libs — use for: linting, doc review, Thor orchestration, CI tooling.
 #
 # Run:  docker compose run dev <command>
 
-FROM python:3.12-slim
+FROM python:3.12-slim-bookworm
 
 # ── System dependencies ────────────────────────────────────────────────────────
 # hadolint ignore=DL3008
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
-    git \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
