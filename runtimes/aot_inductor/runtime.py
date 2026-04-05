@@ -13,7 +13,7 @@ import torch  # type: ignore[import]
 
 from lib import log as L
 from models import loader
-from runtimes.base import RuntimeBase
+from runtimes.base import PRECISION_TO_DTYPE, RuntimeBase
 
 AOT_CACHE_DIR = Path("/tmp/aot_cache")
 
@@ -34,8 +34,7 @@ class AOTInductorRuntime(RuntimeBase):
             so_path = _compile_and_cache(model_name, cache_path, device, precision)
 
         runner = torch._export.aot_load(so_path, device)  # type: ignore[attr-defined]
-        dtype = torch.float16 if precision == "fp16" else torch.float32
-        return {"runner": runner, "dtype": dtype, "device": device}
+        return {"runner": runner, "dtype": PRECISION_TO_DTYPE[precision], "device": device}
 
     def run(self, handle: Any, input_tensor: Any, n_iters: int) -> list[float]:
         """Run inference n_iters times with CUDA-synchronised timing; return latencies in ms."""
@@ -65,10 +64,8 @@ def _compile_and_cache(model_name: str, cache_path: Path, device: str, precision
     """Compile model via AOT Inductor, write the .so to cache_path, return its path string."""
     from torch.export import export as torch_export  # type: ignore[import]
 
-    dtype = torch.float16 if precision == "fp16" else torch.float32
-    model = loader.load(model_name, device)
-    if precision == "fp16":
-        model = model.half()
+    dtype = PRECISION_TO_DTYPE[precision]
+    model = loader.load(model_name, device).to(dtype=dtype)
     in_shape = loader.input_shape(model_name)
     dummy_input = torch.zeros(*in_shape, dtype=dtype, device=device)
 
