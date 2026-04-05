@@ -78,16 +78,36 @@ def _compile_and_cache(model_name: str, cache_path: Path, device: str, precision
     # freezing:                  fold BN params into preceding Conv weights (removes BN kernels)
     # layout_optimization:       keep conv tensors in NHWC throughout, eliminating layout copies
     # coordinate_descent_tuning: lightweight Triton tile search (avoids full max_autotune overhead)
-    with torch.inference_mode():
-        exported_program = torch_export(model, (dummy_input,))
-        graph_module = exported_program.module()
+    # Apply inductor config flags (freezing, layout_optimization, etc.) as global
+    # config before export — the options dict only handles aot_inductor.* keys.
+    import torch._inductor.config as inductor_cfg  # type: ignore[import]
+    inductor_flags = {k: v for k, v in compile_options.items()
+                      if not k.startswith("aot_inductor.")}
+    aot_options = {k: v for k, v in compile_options.items()
+                   if k.startswith("aot_inductor.")}
 
-    cache_path.parent.mkdir(parents=True, exist_ok=True)
+    old_vals = {k: getattr(inductor_cfg, k, None) for k in inductor_flags}
+    for k, v in inductor_flags.items():
+        setattr(inductor_cfg, k, v)
 
-    so_path = torch._inductor.aot_compile(  # type: ignore[attr-defined]
-        graph_module,
-        (dummy_input,),
-        options={"aot_inductor.output_path": str(cache_path), **compile_options},
-    )
+    try:
+        with torch.inference_mode():
+            exported_program = torch_export(model, (dummy_input,))
+            graph_module = exported_program.module()
+
+        cache_path.parent.mkdir(parents=True, exist_ok=True)
+
+        so_path = torch._inductor.aot_compile(  # type: ignore[attr-defined]
+            graph_module,
+            (dummy_input,),
+            options={"aot_inductor.output_path": str(cache_path), **aot_options},
+        )
+    finally:
+        # Restore original inductor config to avoid polluting other compilations.
+        for k, v in old_vals.items():
+            if v is None:
+                delattr(inductor_cfg, k)
+            else:
+                setattr(inductor_cfg, k, v)
     L.info("aot_inductor.cache.saved", path=so_path)
     return so_path
