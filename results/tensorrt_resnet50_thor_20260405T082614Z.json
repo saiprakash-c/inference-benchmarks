@@ -1,0 +1,20 @@
+{
+  "runtime": "tensorrt",
+  "model": "resnet50",
+  "precision": "fp32",
+  "batch_size": 1,
+  "latency_ms": {
+    "p50": 1.5973644331097603,
+    "p99": 2.0337212295271456
+  },
+  "throughput": 626.0312169673097,
+  "hw_id": "thor",
+  "docker_image": "sha256:d8acc2edfce791a3d425295c253259cf15338ba81d7ffa6819a920d90550690e",
+  "sw_versions": {
+    "tensorrt": "10.16.0.72",
+    "cuda": "13.0",
+    "driver": "580.00"
+  },
+  "timestamp": "2026-04-05T08:26:14.195596+00:00",
+  "status": "ok"
+}
