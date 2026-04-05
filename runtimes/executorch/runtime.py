@@ -86,6 +86,10 @@ def _export_and_cache_cuda(pte_path: Path) -> None:
     from executorch.backends.cuda.cuda_partitioner import CudaPartitioner  # type: ignore[import]
     from executorch.exir import to_edge_transform_and_lower, EdgeCompileConfig  # type: ignore[import]
 
+    # Allow ATEN (cuDNN/cuBLAS) kernels as fallback so convolution has valid choices.
+    torch._inductor.config.max_autotune_conv_backends = "ATEN"  # type: ignore[attr-defined]
+    torch._inductor.config.max_autotune_gemm_backends = "ATEN"  # type: ignore[attr-defined]
+
     weights = tv_models.ResNet50_Weights.IMAGENET1K_V2
     model = tv_models.resnet50(weights=weights).eval().cuda()
     dummy_input = torch.zeros(1, 3, 224, 224, dtype=torch.float32, device="cuda")
