@@ -1,3 +1,6 @@
+# ── git safe directory (Docker volume mounts may have uid mismatch) ──────────
+git config --global --add safe.directory /workspace 2>/dev/null
+
 # ── colored prompt ────────────────────────────────────────────────────────────
 _git_branch() { git -C "$PWD" branch --show-current 2>/dev/null; }
 _branch_part() { local b; b=$(_git_branch); [ -n "$b" ] && printf "  (%s)" "$b"; }

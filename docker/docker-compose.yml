@@ -18,7 +18,8 @@ services:
       - ..:/workspace
       - ~/.ssh:/home/saip/.ssh:ro
       - ~/.claude:/home/saip/.claude
-      - ~/.gitconfig:/home/saip/.gitconfig:ro
+      - ~/.claude.json:/home/saip/.claude.json
+      - ~/.gitconfig:/home/saip/.gitconfig
       - ~/.config/gh:/home/saip/.config/gh:ro
       - ~/.zsh_history:/home/saip/.zsh_history
     working_dir: /workspace
@@ -27,6 +28,9 @@ services:
     environment:
       - TERM=xterm-256color
       - ANTHROPIC_API_KEY
+      - GIT_CONFIG_COUNT=1
+      - GIT_CONFIG_KEY_0=credential.helper
+      - GIT_CONFIG_VALUE_0=/usr/local/bin/gh auth git-credential
 
   runtime:
     image: ghcr.io/saiprakash-c/inference-benchmarks:latest
@@ -35,7 +39,8 @@ services:
       - ..:/workspace
       - ~/.ssh:/home/saip/.ssh:ro
       - ~/.claude:/home/saip/.claude
-      - ~/.gitconfig:/home/saip/.gitconfig:ro
+      - ~/.claude.json:/home/saip/.claude.json
+      - ~/.gitconfig:/home/saip/.gitconfig
       - ~/.config/gh:/home/saip/.config/gh:ro
       - ~/.zsh_history:/home/saip/.zsh_history
     working_dir: /workspace
