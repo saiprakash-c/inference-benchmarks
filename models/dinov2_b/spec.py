@@ -21,6 +21,7 @@ TASK    = "vision_encoder"
 INPUT_SHAPE = (1, 3, 518, 518)
 
 ACTIVE_PRECISION = "fp32"
+SUPPORTED_PRECISIONS = ["fp32", "fp16"]
 INPUT_KEY = "dinov2"
 EXCLUDED_RUNTIMES: frozenset[str] = frozenset({"executorch"})
 
