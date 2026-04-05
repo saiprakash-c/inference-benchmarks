@@ -37,15 +37,16 @@ class TensorRTRuntime(RuntimeBase):
         else:
             L.info("tensorrt.init.cache_miss", engine_path=str(engine_cache_path))
             onnx_bytes = _export_to_onnx(model_name)
-            engine = _build_engine_from_onnx(onnx_bytes)
+            engine = _build_engine_from_onnx(onnx_bytes, precision)
             _save_engine_to_cache(engine, engine_cache_path)
 
         context = engine.create_execution_context()
 
+        dtype = torch.float16 if precision == "fp16" else torch.float32
         in_shape = loader.input_shape(model_name)
         out_shape = loader.output_shape(model_name)
-        input_gpu_buffer = torch.zeros(*in_shape, dtype=torch.float32, device="cuda").contiguous()
-        output_gpu_buffer = torch.zeros(*out_shape, dtype=torch.float32, device="cuda").contiguous()
+        input_gpu_buffer = torch.zeros(*in_shape, dtype=dtype, device="cuda").contiguous()
+        output_gpu_buffer = torch.zeros(*out_shape, dtype=dtype, device="cuda").contiguous()
 
         return {
             "context": context,
@@ -60,7 +61,8 @@ class TensorRTRuntime(RuntimeBase):
         input_gpu_buffer: torch.Tensor = handle["input_gpu"]
         output_gpu_buffer: torch.Tensor = handle["output_gpu"]
 
-        gpu_input = input_tensor.to("cuda") if not input_tensor.is_cuda else input_tensor
+        buf_dtype = input_gpu_buffer.dtype
+        gpu_input = input_tensor.to(device="cuda", dtype=buf_dtype)
         input_gpu_buffer.copy_(gpu_input)
 
         bindings = [input_gpu_buffer.data_ptr(), output_gpu_buffer.data_ptr()]
@@ -108,7 +110,7 @@ def _export_to_onnx(model_name: str) -> bytes:
     return onnx_buffer.getvalue()
 
 
-def _build_engine_from_onnx(onnx_bytes: bytes) -> Any:
+def _build_engine_from_onnx(onnx_bytes: bytes, precision: str) -> Any:
     """Parse ONNX bytes and build a TensorRT ICudaEngine."""
     builder = trt.Builder(_TRT_LOGGER)
     network_flags = 1 << int(trt.NetworkDefinitionCreationFlag.EXPLICIT_BATCH)
@@ -121,6 +123,8 @@ def _build_engine_from_onnx(onnx_bytes: bytes) -> Any:
 
     build_config = builder.create_builder_config()
     build_config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, 1 << 30)  # 1 GiB
+    if precision == "fp16":
+        build_config.set_flag(trt.BuilderFlag.FP16)
 
     serialized_engine = builder.build_serialized_network(network, build_config)
     if serialized_engine is None:

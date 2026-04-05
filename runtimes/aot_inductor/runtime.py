@@ -31,19 +31,21 @@ class AOTInductorRuntime(RuntimeBase):
             so_path = str(cache_path)
         else:
             L.info("aot_inductor.init.cache_miss", so_path=str(cache_path))
-            so_path = _compile_and_cache(model_name, cache_path, device)
+            so_path = _compile_and_cache(model_name, cache_path, device, precision)
 
         runner = torch._export.aot_load(so_path, device)  # type: ignore[attr-defined]
-        return runner
+        dtype = torch.float16 if precision == "fp16" else torch.float32
+        return {"runner": runner, "dtype": dtype, "device": device}
 
     def run(self, handle: Any, input_tensor: Any, n_iters: int) -> list[float]:
         """Run inference n_iters times with CUDA-synchronised timing; return latencies in ms."""
-        device_tensor = input_tensor.to("cuda") if not input_tensor.is_cuda else input_tensor
+        device_tensor = input_tensor.to(device=handle["device"], dtype=handle["dtype"])
+        runner = handle["runner"]
         latencies: list[float] = []
         for _ in range(n_iters):
             torch.cuda.synchronize()
             start_time = time.perf_counter()
-            handle(device_tensor)
+            runner(device_tensor)
             torch.cuda.synchronize()
             end_time = time.perf_counter()
             latencies.append((end_time - start_time) * 1000.0)
@@ -51,7 +53,7 @@ class AOTInductorRuntime(RuntimeBase):
 
     def teardown(self, handle: Any) -> None:
         """Delete the runner handle and release CUDA memory."""
-        del handle
+        del handle["runner"]
         torch.cuda.empty_cache()
 
     def version(self) -> str:
@@ -59,13 +61,16 @@ class AOTInductorRuntime(RuntimeBase):
         return torch.__version__
 
 
-def _compile_and_cache(model_name: str, cache_path: Path, device: str) -> str:
+def _compile_and_cache(model_name: str, cache_path: Path, device: str, precision: str) -> str:
     """Compile model via AOT Inductor, write the .so to cache_path, return its path string."""
     from torch.export import export as torch_export  # type: ignore[import]
 
+    dtype = torch.float16 if precision == "fp16" else torch.float32
     model = loader.load(model_name, device)
+    if precision == "fp16":
+        model = model.half()
     in_shape = loader.input_shape(model_name)
-    dummy_input = torch.zeros(*in_shape, dtype=torch.float32, device=device)
+    dummy_input = torch.zeros(*in_shape, dtype=dtype, device=device)
 
     # aot_compile requires a GraphModule; export first then extract .module().
     exported_program = torch_export(model, (dummy_input,))

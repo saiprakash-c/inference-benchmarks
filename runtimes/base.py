@@ -16,6 +16,8 @@ from typing import Any
 
 class RuntimeBase(ABC):
 
+    SUPPORTED_PRECISIONS: frozenset[str] = frozenset({"fp32", "fp16"})
+
     @abstractmethod
     def init(self, model_path: str, precision: str, device: str) -> Any:
         """Load the model and allocate runtime resources. Returns an opaque handle."""
