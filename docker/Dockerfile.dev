@@ -36,6 +36,14 @@ COPY pyproject.toml /workspace/pyproject.toml
 # hadolint ignore=DL3013
 RUN pip install --no-cache-dir "/workspace[dev]"
 
+# ── User ──────────────────────────────────────────────────────────────────────
+ARG UID=501
+RUN useradd -m -u ${UID} -s /bin/bash saip && \
+    echo 'PS1="\[\033[01;32m\]saip@dev\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "' \
+    >> /home/saip/.bashrc
+
+USER saip
+
 # ── Workspace ─────────────────────────────────────────────────────────────────
 WORKDIR /workspace
 

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Enter the runtime container (GPU, Thor only).
+# Repo is mounted at /workspace; network is host.
+set -euo pipefail
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+docker compose -f "$REPO_ROOT/docker/docker-compose.yml" run --rm \
+    --entrypoint bash \
+    runtime
