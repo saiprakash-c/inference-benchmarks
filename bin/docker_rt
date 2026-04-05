@@ -4,5 +4,5 @@
 set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 docker compose -f "$REPO_ROOT/docker/docker-compose.yml" run --rm \
-    --entrypoint bash \
+    --entrypoint zsh \
     runtime

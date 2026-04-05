@@ -20,7 +20,7 @@ services:
       - ~/.claude:/home/saip/.claude
       - ~/.claude.json:/home/saip/.claude.json
       - ~/.gitconfig:/home/saip/.gitconfig
-      - ~/.config/gh:/home/saip/.config/gh:ro
+      - ~/.config/gh:/home/saip/.config/gh
       - ~/.zsh_history:/home/saip/.zsh_history
     working_dir: /workspace
     hostname: inference-benchmarks-dev
@@ -41,7 +41,7 @@ services:
       - ~/.claude:/home/saip/.claude
       - ~/.claude.json:/home/saip/.claude.json
       - ~/.gitconfig:/home/saip/.gitconfig
-      - ~/.config/gh:/home/saip/.config/gh:ro
+      - ~/.config/gh:/home/saip/.config/gh
       - ~/.zsh_history:/home/saip/.zsh_history
     working_dir: /workspace
     hostname: inference-benchmarks-rt
