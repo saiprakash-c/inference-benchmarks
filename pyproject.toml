@@ -19,6 +19,7 @@ dev = [
 gpu = [
     "torch>=2.7.0",
     "torchvision>=0.20.0",
+    "torch-tensorrt>=2.7.0",
     "onnx>=1.16.0",
     "onnxscript>=0.1.0",
     "executorch>=0.5.1",

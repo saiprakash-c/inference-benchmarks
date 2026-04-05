@@ -4,7 +4,7 @@ last_benchmarked = "2026-04-05T18:18:03.961707+00:00"
 
 [runtimes]
 tensorrt = "10.16.0.72"
-torch_tensorrt = "2.7.0"
+torch_tensorrt = "2.11.0"
 pytorch = "2.11.0"
 executorch = "1.2.0"
 aot_inductor = "2.11.0"
