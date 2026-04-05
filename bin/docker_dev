@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Enter the dev container (CPU-only, Mac/CI).
+# Repo is mounted at /workspace; network is host.
+set -euo pipefail
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
+# Ensure bind-mounted paths exist (Docker creates a dir if the host path is missing)
+touch ~/.gitconfig ~/.claude.json
+mkdir -p ~/.claude ~/.config/gh
+
+docker compose -f "$REPO_ROOT/docker/docker-compose.yml" run --rm --build \
+    --entrypoint zsh \
+    dev

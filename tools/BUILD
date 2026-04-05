@@ -20,6 +20,14 @@ py_binary(
 )
 
 py_binary(
+    name = "verify_thor",
+    srcs = ["verify_thor.py"],
+    main = "verify_thor.py",
+    deps = ["//lib:log"],
+    visibility = ["//visibility:public"],
+)
+
+py_binary(
     name = "update_quality",
     srcs = ["update_quality.py"],
     main = "update_quality.py",

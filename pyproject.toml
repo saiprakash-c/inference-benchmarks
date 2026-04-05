@@ -2,6 +2,24 @@
 name = "inference-benchmarks"
 version = "0.1.0"
 requires-python = ">=3.11"
+dependencies = [
+    "anthropic>=0.40.0",
+    "jsonschema>=4.0.0",
+    "jinja2>=3.0.0",
+    "tomli-w>=1.0.0",
+]
+
+[project.optional-dependencies]
+# Dev container: lint, CI tooling, Thor orchestration — no inference libs
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.4.0",
+]
+# Runtime container (Thor/GPU only) — Dockerfile adds Jetson wheel index
+gpu = [
+    "torch>=2.7.0",
+    "executorch>=0.5.1",
+]
 
 [tool.ruff]
 line-length = 100

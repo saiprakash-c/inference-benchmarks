@@ -9,38 +9,44 @@ permissions:
   packages: read
 
 jobs:
-  lint:
-    name: Mechanical lint (//ci:lint)
+  build-dev:
+    name: Build dev image
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
+      - name: Build dev image
+        run: docker compose -f docker/docker-compose.yml build dev
 
-      - name: Install pip deps
-        run: pip install -r requirements.txt
+  build-runtime:
+    name: Build runtime image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build runtime image
+        run: docker compose -f docker/docker-compose.yml build runtime
+
+  lint:
+    name: Mechanical lint (//ci:lint)
+    runs-on: ubuntu-latest
+    needs: [build-dev]
+    steps:
+      - uses: actions/checkout@v4
 
       - name: Run //ci:lint
-        run: python ci/lint.py
+        run: |
+          docker compose -f docker/docker-compose.yml run --rm \
+            --entrypoint python3 dev ci/lint.py
 
   validate-results:
     name: Validate new result files
     runs-on: ubuntu-latest
+    needs: [build-dev]
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Install pip deps
-        run: pip install -r requirements.txt
 
       - name: Find new result files
         id: new_results
@@ -52,7 +58,8 @@ jobs:
         if: steps.new_results.outputs.files != ''
         run: |
           for f in ${{ steps.new_results.outputs.files }}; do
-            python tools/validate_results.py "$f"
+            docker compose -f docker/docker-compose.yml run --rm \
+              --entrypoint python3 dev tools/validate_results.py "$f"
           done
 
   dockerfile-lint:
@@ -63,22 +70,22 @@ jobs:
       - uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: docker/Dockerfile
+      - uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: docker/Dockerfile.dev
 
   python-lint:
     name: Python lint (ruff)
     runs-on: ubuntu-latest
+    needs: [build-dev]
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
       - name: Run ruff
         run: |
-          pip install ruff
-          ruff check .
+          docker compose -f docker/docker-compose.yml run --rm \
+            -e RUFF_CACHE_DIR=/tmp/ruff_cache \
+            --entrypoint ruff dev check .
 
   agent-doc-review:
     name: Agent doc review
@@ -92,16 +99,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Install pip deps
-        run: pip install -r requirements.txt
-
       - name: Run doc review
-        run: python ci/doc_review.py
+        run: |
+          docker compose -f docker/docker-compose.yml run --rm \
+            --entrypoint python3 dev ci/doc_review.py
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

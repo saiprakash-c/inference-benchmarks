@@ -1,0 +1,61 @@
+name: inference-benchmarks
+
+# inference-benchmarks compose services
+#
+# dev     — CPU-only, for Mac/CI development (runs anywhere)
+# runtime — GPU-enabled, for benchmark runs on Thor (requires nvidia runtime)
+#
+# Usage:
+#   docker compose run dev     bazel run //ci:lint
+#   docker compose run runtime bazel run //benchmark:run
+
+services:
+  dev:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.dev
+      args:
+        USERNAME: ${USER}
+        UID: ${UID:-1000}
+    volumes:
+      - ..:/workspace
+      - ~/.ssh:/home/saip/.ssh:ro
+      - ~/.claude:/home/saip/.claude
+      - ~/.claude.json:/home/saip/.claude.json
+      - ~/.gitconfig:/home/saip/.gitconfig
+      - ~/.config/gh:/home/saip/.config/gh
+      - ~/.zsh_history:/home/saip/.zsh_history
+    working_dir: /workspace
+    hostname: inference-benchmarks-dev
+    network_mode: host
+    environment:
+      - TERM=xterm-256color
+      - ANTHROPIC_API_KEY
+      - GIT_CONFIG_COUNT=1
+      - GIT_CONFIG_KEY_0=credential.helper
+      - GIT_CONFIG_VALUE_0=/usr/local/bin/gh auth git-credential
+
+  runtime:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        USERNAME: ${USER}
+        UID: ${UID:-1000}
+    image: ghcr.io/saiprakash-c/inference-benchmarks:latest
+    runtime: nvidia
+    volumes:
+      - ..:/workspace
+      - ~/.ssh:/home/saip/.ssh:ro
+      - ~/.claude:/home/saip/.claude
+      - ~/.claude.json:/home/saip/.claude.json
+      - ~/.gitconfig:/home/saip/.gitconfig
+      - ~/.config/gh:/home/saip/.config/gh
+      - ~/.zsh_history:/home/saip/.zsh_history
+    working_dir: /workspace
+    hostname: inference-benchmarks-rt
+    network_mode: host
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+      - TERM=xterm-256color
