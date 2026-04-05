@@ -3,18 +3,18 @@ last_checked     = "2026-03-28T00:00:00Z"
 last_benchmarked = "2026-03-27T00:00:00Z"
 
 [runtimes]
-tensorrt     = "10.9.0"
+tensorrt     = "10.13.3"
 pytorch      = "2.7.0"
 executorch   = "0.5.1"
 aot_inductor = "2.7.0"   # bundled with PyTorch; version tracks pytorch
-cuda         = "12.8"
-jetpack      = "6.2"
+cuda         = "13.0"
+jetpack      = "7.1"
 
 [docker]
 image   = "ghcr.io/saiprakash-c/inference-benchmarks:latest"
 digest  = ""   # set after first `//docker:push`; empty until first image is built
-cuda    = "12.8"
-jetpack = "6.2"
+cuda    = "13.0"
+jetpack = "7.1"
 
 [sources]
 tensorrt     = "https://github.com/NVIDIA/TensorRT/releases"

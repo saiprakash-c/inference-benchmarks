@@ -1,7 +1,8 @@
 # inference-benchmarks runtime image
 #
 # Execution environment for benchmark runs on Thor (Jetson AGX Thor).
-# Base: l4t-tensorrt (TensorRT + CUDA pre-installed for Jetson).
+# Base: nvcr.io/nvidia/cuda:13.0.2-runtime-ubuntu24.04 (arm64).
+# TensorRT 10.x installed via NVIDIA Jetson apt repo (r38.4).
 # Python deps installed from pyproject.toml [project.optional-dependencies.gpu].
 #
 # Versions here must match versions.toml [docker] section exactly.
@@ -11,8 +12,7 @@
 # Push:   bazel run //docker:push
 # After push: update [docker].digest in versions.toml with the new digest.
 
-# hadolint ignore=DL3006
-FROM nvcr.io/nvidia/l4t-tensorrt:r10.9.0-runtime
+FROM nvcr.io/nvidia/cuda:13.0.2-runtime-ubuntu24.04
 
 LABEL org.opencontainers.image.source="https://github.com/saiprakash-c/inference-benchmarks"
 LABEL org.opencontainers.image.description="Inference benchmark environment: TensorRT + PyTorch + ExecuTorch on Jetson AGX Thor"
@@ -25,7 +25,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     git \
     ca-certificates \
+    gnupg \
     zsh \
+    && rm -rf /var/lib/apt/lists/*
+
+# ── TensorRT via NVIDIA Jetson apt repo ───────────────────────────────────────
+# Adds the Jetson r38.4 package repo and installs TensorRT 10.x (CUDA 13.0).
+# hadolint ignore=DL3008
+RUN curl -fsSL https://repo.download.nvidia.com/jetson/jetson-ota-public.asc \
+    | gpg --dearmor -o /usr/share/keyrings/nvidia-jetson.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/nvidia-jetson.gpg] \
+https://repo.download.nvidia.com/jetson/common r38.4 main" \
+    > /etc/apt/sources.list.d/nvidia-jetson.list && \
+    apt-get update && apt-get install -y --no-install-recommends \
+    tensorrt \
     && rm -rf /var/lib/apt/lists/*
 
 # ── Bazel ─────────────────────────────────────────────────────────────────────
@@ -44,7 +57,6 @@ RUN curl -fsSL \
 
 # ── Python deps from pyproject.toml ───────────────────────────────────────────
 # Jetson wheels come from pypi.jetson-ai-lab.io; PyPI is the fallback.
-# TensorRT Python bindings are pre-installed via the l4t-tensorrt base image.
 COPY pyproject.toml /workspace/pyproject.toml
 # hadolint ignore=DL3013
 RUN pip3 install --no-cache-dir \
