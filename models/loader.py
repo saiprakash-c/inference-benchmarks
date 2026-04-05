@@ -54,8 +54,13 @@ def load(model_name: str, device: str) -> Any:
 
 def _load_resnet50(device: str) -> Any:
     import torchvision.models as tv_models  # type: ignore[import]
+    from torch.nn.utils.fusion import fuse_conv_bn_eval  # type: ignore[import]
     weights = tv_models.ResNet50_Weights.IMAGENET1K_V2
-    return tv_models.resnet50(weights=weights).eval().to(device)
+    model = tv_models.resnet50(weights=weights).eval()
+    # Fold every Conv+BN pair into a single Conv before moving to device.
+    # This eliminates BN as a separate kernel in all runtimes (AOT, TRT, PyTorch).
+    model = fuse_conv_bn_eval(model)
+    return model.to(device)
 
 
 def _load_dinov2_b(device: str) -> Any:
