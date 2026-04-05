@@ -12,7 +12,7 @@ jetpack = "38.4.0"
 
 [docker]
 image = "ghcr.io/saiprakash-c/inference-benchmarks:latest"
-digest = "sha256:f8c6eeaf853a43c9c9220c6302c6b9ecebf84235f74487157833245cdc6d1bd1"
+digest = "sha256:7a3e918f3e78abccc82ac56ede38daa39956d7ab266b85f1eaa89d2a4d5c056c"
 cuda = "13.0"
 jetpack = "38.4.0"
 
