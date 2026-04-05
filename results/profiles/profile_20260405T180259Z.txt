@@ -1,0 +1,297 @@
+
+============================================================================
+  resnet50  |  pytorch  |  FP32    [total CUDA: 27.585 ms]
+============================================================================
+  Op / Layer                                        CUDA µs  Calls   %Total
+  ---------------------------------------------- ---------- ------ --------
+  aten::cudnn_convolution                           10456.6    265    37.9%
+  void cudnn::engines_precompiled::nchwToNhwcKe      3505.5    160    12.7%
+  sm80_xmma_fprop_implicit_gemm_tf32f32_tf32f32      2303.7     40     8.3%
+  aten::cudnn_batch_norm                             1872.1    265     6.8%
+  void cudnn::bn_fw_inf_1C11_kernel_NCHW<float,      1872.1    265     6.8%
+  sm80_xmma_fprop_implicit_gemm_tf32f32_tf32f32      1251.1     40     4.5%
+  cutlass3x_sm100_tensorop_s128x128x8tf32gemm_f       758.1     75     2.8%
+  aten::clamp_min_                                    631.7    245     2.3%
+  void at::native::vectorized_elementwise_kerne       631.7    245     2.3%
+  void implicit_convolve_sgemm<float, float, 12       565.9      5     2.0%
+  void cutlass::Kernel2<cutlass_80_tensorop_s16       500.4     15     1.8%
+  cutlass3x_sm100_tensorop_s64x64x8tf32implicit       374.8     15     1.4%
+  aten::add_                                          369.6     80     1.3%
+  void at::native::vectorized_elementwise_kerne       369.6     80     1.3%
+  void cutlass::Kernel2<cutlass_80_tensorop_s16       297.3     10     1.1%
+  cutlass3x_sm100_tensorop_s64x64x8tf32gemm_f32       233.5     25     0.8%
+  aten::addmm                                         224.9      5     0.8%
+  std::enable_if<true, void>::type internal::ge       224.9      5     0.8%
+  void cutlass::Kernel2<cutlass_80_tensorop_s16       223.6     20     0.8%
+  aten::max_pool2d_with_indices                       147.6      5     0.5%
+  Top-20 ops account for 97.2% of total CUDA time
+
+
+============================================================================
+  resnet50  |  pytorch  |  FP16    [total CUDA: 36.514 ms]
+============================================================================
+  Op / Layer                                        CUDA µs  Calls   %Total
+  ---------------------------------------------- ---------- ------ --------
+  aten::cudnn_convolution                           12270.5    265    33.6%
+  void cudnn::engines_precompiled::nchwToNhwcKe      5214.6    175    14.3%
+  aten::native_batch_norm                            3257.8    265     8.9%
+  void at::native::batch_norm_transform_input_k      2572.0    265     7.0%
+  cutlass3x_sm100_tensorop_s64x64x16implicit_ge      1552.8     75     4.2%
+  void cutlass::Kernel2<cutlass_75_wmma_tensoro      1309.6     25     3.6%
+  aten::copy_                                        1117.1    265     3.1%
+  void at::native::unrolled_elementwise_kernel<      1117.1    265     3.1%
+  void cutlass::Kernel2<cutlass_80_tensorop_f16       881.7     30     2.4%
+  void implicit_convolve_sgemm<__half, __half,        835.4      5     2.3%
+  aten::clamp_min_                                    796.9    245     2.2%
+  void at::native::vectorized_elementwise_kerne       796.9    245     2.2%
+  void at::native::vectorized_elementwise_kerne       685.8    265     1.9%
+  cutlass3x_sm100_tensorop_s128x64x16implicit_g       655.5     15     1.8%
+  void cutlass::Kernel2<cutlass_80_tensorop_f16       417.5     25     1.1%
+  void cudnn::engines_precompiled::nhwcToNchwKe       412.6     95     1.1%
+  aten::add_                                          324.5     80     0.9%
+  void at::native::vectorized_elementwise_kerne       324.5     80     0.9%
+  aten::max_pool2d_with_indices                       213.2      5     0.6%
+  void at::native::(anonymous namespace)::max_p       213.2      5     0.6%
+  Top-20 ops account for 95.8% of total CUDA time
+
+
+============================================================================
+  resnet50  |  aot_inductor  |  FP32    [total CUDA: 13.198 ms]
+============================================================================
+  Op / Layer                                        CUDA µs  Calls   %Total
+  ---------------------------------------------- ---------- ------ --------
+  aten::cudnn_convolution                            4897.7    265    37.1%
+  cutlass3x_sm100_tensorop_s64x64x8tf32implicit      1396.2     85    10.6%
+  cutlass3x_sm100_tensorop_s128x64x8tf32gemm_f3      1061.6     50     8.0%
+  triton_poi_fused__native_batch_norm_legit_no_      1008.7     15     7.6%
+  cutlass3x_sm100_tensorop_s128x128x8tf32gemm_f       757.4     65     5.7%
+  cutlass3x_sm100_tensorop_s64x64x8tf32implicit       574.6     15     4.3%
+  void convolve_common_engine_float_NHWC<float,       568.1      5     4.3%
+  triton_poi_fused__native_batch_norm_legit_no_       544.1     30     4.1%
+  cutlass3x_sm100_tensorop_s128x256x8tf32gemm_f       330.1     30     2.5%
+  std::enable_if<true, void>::type internal::ge       287.0      5     2.2%
+  cutlass3x_sm100_tensorop_s128x128x8tf32implic       209.7     15     1.6%
+  triton_poi_fused__native_batch_norm_legit_no_       187.6     10     1.4%
+  triton_poi_fused__native_batch_norm_legit_no_       146.6     25     1.1%
+  triton_poi_fused__native_batch_norm_legit_no_       141.4     30     1.1%
+  triton_poi_fused__native_batch_norm_legit_no_       132.0     55     1.0%
+  triton_poi_fused__native_batch_norm_legit_no_       127.7      5     1.0%
+  triton_poi_fused__native_batch_norm_legit_no_       118.6     20     0.9%
+  triton_poi_fused__native_batch_norm_legit_no_       111.5     15     0.8%
+  triton_poi_fused__native_batch_norm_legit_no_       104.5     35     0.8%
+  triton_poi_fused__native_batch_norm_legit_no_        65.6      5     0.5%
+  Top-20 ops account for 96.7% of total CUDA time
+
+
+============================================================================
+  resnet50  |  aot_inductor  |  FP16    [total CUDA: 7.600 ms]
+============================================================================
+  Op / Layer                                        CUDA µs  Calls   %Total
+  ---------------------------------------------- ---------- ------ --------
+  aten::cudnn_convolution                            2619.2    265    34.5%
+  cutlass3x_sm100_tensorop_s64x64x16implicit_ge       786.0     55    10.3%
+  triton_poi_fused__native_batch_norm_legit_no_       553.6     15     7.3%
+  triton_poi_fused__native_batch_norm_legit_no_       309.5     30     4.1%
+  cutlass3x_sm100_tensorop_s128x64x16implicit_g       272.1     30     3.6%
+  sm80_xmma_fprop_implicit_gemm_indexed_wo_smem       255.3      5     3.4%
+  nvjet_sm110_hsh_112x64_64x9_2x1_v_bz_TNN            223.8     15     2.9%
+  nvjet_sm110_hsh_256x40_64x5_2x1_v_bz_TNT            205.6     30     2.7%
+  nvjet_sm110_hsh_128x160_64x8_2x1_2cta_v_bz_TN       201.4     40     2.6%
+  nvjet_sm110_hsh_64x40_64x16_2x1_v_bz_TNT            162.7     25     2.1%
+  nvjet_sm110_hsh_64x32_64x16_2x2_2cta_h_bz_TNT       150.6     10     2.0%
+  triton_poi_fused__native_batch_norm_legit_no_       148.7     30     2.0%
+  triton_poi_fused__native_batch_norm_legit_no_       144.6     15     1.9%
+  triton_poi_fused__native_batch_norm_legit_no_       143.0     25     1.9%
+  nvjet_sm110_hsh_64x8_64x16_4x1_v_bz_bias_TNT        124.3      5     1.6%
+  triton_poi_fused__native_batch_norm_legit_no_       118.1     55     1.6%
+  triton_poi_fused__native_batch_norm_legit_no_       113.1     35     1.5%
+  triton_poi_fused__native_batch_norm_legit_no_       110.3     10     1.4%
+  cutlass3x_sm100_tensorop_s128x128x16implicit_       107.8     10     1.4%
+  triton_poi_fused__native_batch_norm_legit_no_       103.5      5     1.4%
+  Top-20 ops account for 90.2% of total CUDA time
+
+
+============================================================================
+  resnet50  |  tensorrt  |  FP32    [total CUDA: 2.179 ms]
+============================================================================
+  Op / Layer                                        CUDA µs  Calls   %Total
+  ---------------------------------------------- ---------- ------ --------
+  node_Conv_855_myl0_54                                98.3      5     4.5%
+  node_Conv_849_myl0_51                                96.6      5     4.4%
+  node_Conv_841_myl0_47                                91.5      5     4.2%
+  node_Conv_845_myl0_49                                81.8      5     3.8%
+  node_linear_myl0_57                                  76.9      5     3.5%
+  node_Conv_753_myl0_2                                 69.7      5     3.2%
+  node_Conv_765_myl0_9                                 48.4      5     2.2%
+  node_Conv_857_myl0_55                                47.9      5     2.2%
+  node_Conv_757_myl0_5                                 47.8      5     2.2%
+  node_Conv_843_myl0_48                                47.4      5     2.2%
+  node_Conv_771_myl0_12                                47.2      5     2.2%
+  node_Conv_851_myl0_52                                46.8      5     2.1%
+  node_Conv_801_myl0_27                                46.4      5     2.1%
+  node_Conv_847_myl0_50                                46.2      5     2.1%
+  node_Conv_853_myl0_53                                45.7      5     2.1%
+  node_Conv_781_myl0_17                                44.2      5     2.0%
+  node_Conv_775_myl0_14                                40.5      5     1.9%
+  node_Conv_761_myl0_7                                 37.2      5     1.7%
+  node_Conv_767_myl0_10                                36.7      5     1.7%
+  node_Conv_829_myl0_41                                36.3      5     1.7%
+  Top-20 ops account for 52.0% of total CUDA time
+
+
+============================================================================
+  resnet50  |  tensorrt  |  FP16    [total CUDA: 2.621 ms]
+============================================================================
+  Op / Layer                                        CUDA µs  Calls   %Total
+  ---------------------------------------------- ---------- ------ --------
+  node_Conv_753_myl0_2                                122.0      5     4.7%
+  node_Conv_855_myl0_54                                85.8      5     3.3%
+  node_Conv_841_myl0_47                                85.5      5     3.3%
+  node_Conv_849_myl0_51                                85.4      5     3.3%
+  node_Conv_845_myl0_49                                80.6      5     3.1%
+  node_linear_myl0_57                                  71.8      5     2.7%
+  node_Conv_781_myl0_17                                59.8      5     2.3%
+  node_Conv_807_myl0_30                                56.0      5     2.1%
+  node_Conv_761_myl0_7                                 53.1      5     2.0%
+  __myl_Corr_myl0_52                                   51.3      5     2.0%
+  node_Conv_773_myl0_13                                50.8      5     1.9%
+  node_Conv_767_myl0_10                                50.6      5     1.9%
+  __myl_Corr_myl0_48                                   50.4      5     1.9%
+  __myl_Corr_myl0_55                                   50.1      5     1.9%
+  __myl_Corr_myl0_50                                   48.8      5     1.9%
+  __myl_Corr_myl0_53                                   47.7      5     1.8%
+  node_Conv_803_myl0_28                                47.4      5     1.8%
+  node_Conv_811_myl0_32                                46.6      5     1.8%
+  node_Conv_817_myl0_35                                45.8      5     1.8%
+  node_max_pool2d_myl0_3                               45.8      5     1.8%
+  Top-20 ops account for 47.1% of total CUDA time
+
+
+============================================================================
+  dinov2_b  |  pytorch  |  FP32    [total CUDA: 823.837 ms]
+============================================================================
+  Op / Layer                                        CUDA µs  Calls   %Total
+  ---------------------------------------------- ---------- ------ --------
+  aten::addmm                                      317070.2    240    38.5%
+  void cutlass::Kernel2<cutlass_80_simt_sgemm_2    236801.0    180    28.7%
+  void magma_sgemmEx_kernel<float, float, float     80153.4     60     9.7%
+  aten::_efficient_attention_forward                73970.5     60     9.0%
+  fmha_cutlassF_f32_aligned_64x64_rf_sm80(PyTor     73970.5     60     9.0%
+  aten::gelu                                         6192.6     60     0.8%
+  void at::native::vectorized_elementwise_kerne      6192.6     60     0.8%
+  aten::native_layer_norm                            4633.8    125     0.6%
+  void at::native::(anonymous namespace)::vecto      4633.8    125     0.6%
+  aten::add                                          4082.9    125     0.5%
+  void at::native::vectorized_elementwise_kerne      4082.9    125     0.5%
+  aten::mul                                          2880.5    120     0.3%
+  void at::native::elementwise_kernel<128, 2, a      2880.5    120     0.3%
+  aten::cudnn_convolution                            2371.1      5     0.3%
+  sm80_xmma_fprop_implicit_gemm_indexed_wo_smem      1226.6      5     0.1%
+  void cudnn::engines_precompiled::nchwToNhwcKe      1023.1     10     0.1%
+  Activity Buffer Request                             463.3      1     0.1%
+  aten::cat                                           355.9      5     0.0%
+  void at::native::(anonymous namespace)::CatAr       355.9      5     0.0%
+  aten::add_                                          129.5      5     0.0%
+  Top-20 ops account for 100.0% of total CUDA time
+
+
+============================================================================
+  dinov2_b  |  pytorch  |  FP16    [total CUDA: 73.793 ms]
+============================================================================
+  Op / Layer                                        CUDA µs  Calls   %Total
+  ---------------------------------------------- ---------- ------ --------
+  aten::addmm                                       12168.6    240    16.5%
+  aten::_flash_attention_forward                    10739.9     60    14.6%
+  void pytorch_flash::flash_fwd_kernel<Flash_fw     10739.9     60    14.6%
+  nvjet_sm110_hsh_176x128_64x5_2x1_v_bz_bias_TN      4450.4     60     6.0%
+  aten::native_layer_norm                            4192.0    125     5.7%
+  void at::native::(anonymous namespace)::vecto      4192.0    125     5.7%
+  nvjet_sm110_hsh_192x288_64x5_2x1_2cta_v_bz_bi      4044.2    120     5.5%
+  nvjet_sm110_hsh_256x128_64x4_1x1_h_bz_bias_TN      3674.0     60     5.0%
+  aten::gelu                                         2987.8     60     4.0%
+  void at::native::vectorized_elementwise_kerne      2987.8     60     4.0%
+  aten::mul                                          2741.5    120     3.7%
+  void at::native::elementwise_kernel<128, 4, a      2741.5    120     3.7%
+  aten::cudnn_convolution                            2441.9      5     3.3%
+  sm80_xmma_fprop_implicit_gemm_indexed_wo_smem      1360.1      5     1.8%
+  void cudnn::engines_precompiled::nchwToNhwcKe      1014.8     10     1.4%
+  aten::add                                           949.2    125     1.3%
+  void at::native::vectorized_elementwise_kerne       949.2    125     1.3%
+  Activity Buffer Request                             474.3      1     0.6%
+  aten::cat                                           326.8      5     0.4%
+  void at::native::(anonymous namespace)::CatAr       326.8      5     0.4%
+  Top-20 ops account for 99.6% of total CUDA time
+
+
+============================================================================
+  dinov2_b  |  aot_inductor  |  FP32    [total CUDA: 477.816 ms]
+============================================================================
+  Op / Layer                                        CUDA µs  Calls   %Total
+  ---------------------------------------------- ---------- ------ --------
+  void cutlass::Kernel2<cutlass_80_simt_sgemm_2    234273.5    180    49.0%
+  void magma_sgemmEx_kernel<float, float, float     80135.1     60    16.8%
+  aten::_efficient_attention_forward                73963.8     60    15.5%
+  fmha_cutlassF_f32_aligned_64x64_rf_sm80(PyTor     73963.8     60    15.5%
+  triton_per_fused_add_addmm_mul_native_layer_n      3975.1     55     0.8%
+  triton_poi_fused_addmm_gelu_view_2                 3927.6     60     0.8%
+  aten::cudnn_convolution                            2351.8      5     0.5%
+  triton_per_fused_add_addmm_mul_native_layer_n      1986.5     55     0.4%
+  sm80_xmma_fprop_implicit_gemm_indexed_wo_smem      1227.6      5     0.3%
+  void cudnn::engines_precompiled::nchwToNhwcKe      1025.0     10     0.2%
+  triton_red_fused_add_addmm_cat_convolution_ex       340.4      5     0.1%
+  triton_red_fused_add_cat_convolution_expand_n       235.1      5     0.1%
+  triton_per_fused_add_addmm_mul_native_layer_n       180.9      5     0.0%
+  Memset (Device)                                     130.5    120     0.0%
+  void cudnn::engines_precompiled::nhwcToNchwKe        99.1      5     0.0%
+  Top-20 ops account for 100.0% of total CUDA time
+
+
+============================================================================
+  dinov2_b  |  aot_inductor  |  FP16    [total CUDA: 43.236 ms]
+============================================================================
+  Op / Layer                                        CUDA µs  Calls   %Total
+  ---------------------------------------------- ---------- ------ --------
+  aten::_flash_attention_forward                    10727.2     60    24.8%
+  void pytorch_flash::flash_fwd_kernel<Flash_fw     10727.2     60    24.8%
+  nvjet_sm110_hsh_176x128_64x5_2x1_v_bz_bias_TN      5002.2     60    11.6%
+  nvjet_sm110_hsh_256x128_64x4_1x1_h_bz_bias_TN      3590.8     60     8.3%
+  nvjet_sm110_hsh_192x288_64x5_2x1_2cta_v_bz_bi      3451.7    120     8.0%
+  triton_poi_fused_gelu_view_2                       2824.1     60     6.5%
+  aten::cudnn_convolution                            2423.7      5     5.6%
+  sm80_xmma_fprop_implicit_gemm_indexed_wo_smem      1350.8      5     3.1%
+  void cudnn::engines_precompiled::nchwToNhwcKe      1006.4     10     2.3%
+  triton_per_fused_add_mul_native_layer_norm_vi       822.8     55     1.9%
+  triton_per_fused_add_mul_native_layer_norm_vi       703.4     55     1.6%
+  triton_red_fused_add_cat_convolution_expand_m       232.7      5     0.5%
+  triton_red_fused_add_cat_convolution_expand_n       218.2      5     0.5%
+  triton_per_fused_add_mul_native_layer_norm_vi        87.9      5     0.2%
+  void cudnn::engines_precompiled::nhwcToNchwKe        66.5      5     0.1%
+  Top-20 ops account for 100.0% of total CUDA time
+
+
+============================================================================
+  dinov2_b  |  tensorrt  |  FP32    [total CUDA: 38.512 ms]
+============================================================================
+  Op / Layer                                        CUDA µs  Calls   %Total
+  ---------------------------------------------- ---------- ------ --------
+  __myl_MaxrSubExpSumDivMul_myl0_106                 1073.6      5     2.8%
+  __myl_MaxrSubExpSumDivMul_myl0_86                  1061.7      5     2.8%
+  __myl_MaxrSubExpSumDivMul_myl0_76                  1057.1      5     2.7%
+  __myl_MaxrSubExpSumDivMul_myl0_46                  1054.9      5     2.7%
+  __myl_MaxrSubExpSumDivMul_myl0_16                  1053.5      5     2.7%
+  __myl_MaxrSubExpSumDivMul_myl0_26                  1042.4      5     2.7%
+  __myl_MaxrSubExpSumDivMul_myl0_36                  1033.8      5     2.7%
+  __myl_MaxrSubExpSumDivMul_myl0_66                  1032.0      5     2.7%
+  __myl_MaxrSubExpSumDivMul_myl0_96                  1028.6      5     2.7%
+  __myl_MaxrSubExpSumDivMul_myl0_6                   1025.0      5     2.7%
+  __myl_MaxrSubExpSumDivMul_myl0_56                  1023.7      5     2.7%
+  __myl_MaxrSubExpSumDivMul_myl0_116                 1023.1      5     2.7%
+  node_MatMul_194_myl0_25                             807.6      5     2.1%
+  node_MatMul_596_myl0_85                             788.1      5     2.0%
+  node_MatMul_663_myl0_95                             779.7      5     2.0%
+  node_MatMul_328_myl0_45                             776.6      5     2.0%
+  node_MatMul_730_myl0_105                            762.8      5     2.0%
+  node_MatMul_127_myl0_15                             761.8      5     2.0%
+  node_MatMul_797_myl0_115                            761.3      5     2.0%
+  node_MatMul_462_myl0_65                             758.8      5     2.0%
+  Top-20 ops account for 48.6% of total CUDA time
