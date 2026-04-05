@@ -130,12 +130,12 @@ are already known. No design doc. No approval gates.
 
 ```
 docs/patches/
-  open/<name>.md       ← patch described, not yet started
+  todo/<name>.md       ← patch described, not yet started
   active/<name>.md     ← being worked on (file moved)
   completed/<name>.md  ← done (file moved)
 ```
 
-A patch is a **single file** that moves between `open/`, `active/`,
+A patch is a **single file** that moves between `todo/`, `active/`,
 and `completed/` as work progresses.
 
 ### Patch file template
@@ -186,7 +186,7 @@ plan.md. A feature must have requirements.md and plan.md before it can
 be active. Move back to todo/ or add the missing document.
 
 [lint/patch-incomplete]: docs/patches/active/my_fix.md is missing
-## Fix section. Add the section or move back to open/.
+## Fix section. Add the section or move back to todo/.
 ```
 
 ---

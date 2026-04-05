@@ -13,7 +13,7 @@ docs/FEATURE_WORKFLOW.md               — how features and patches are managed
 docs/features/todo/                    — features awaiting design/plan approval
 docs/features/active/                  — features approved and in progress
 docs/features/completed/               — shipped features with summaries
-docs/patches/open/                     — open bug fixes and small changes
+docs/patches/todo/                     — open bug fixes and small changes
 docs/patches/active/                   — patches in progress
 docs/patches/completed/                — completed patches with lessons
 

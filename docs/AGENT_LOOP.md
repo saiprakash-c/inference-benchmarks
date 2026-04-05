@@ -87,7 +87,7 @@ Agent prompts live in `docs/agents/`.
 
 ### On receiving a bug fix or small change (patch)
 
-1. Create `docs/patches/open/<name>.md` — problem, root cause, proposed fix.
+1. Create `docs/patches/todo/<name>.md` — problem, root cause, proposed fix.
 2. Move to `docs/patches/active/<name>.md`, execute the fix.
 3. Open PR per benchmark loop steps 7–11.
 4. On merge, move to `docs/patches/completed/<name>.md`, fill in lessons learned.
