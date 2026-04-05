@@ -187,6 +187,8 @@ def run(config: BenchmarkConfig) -> int:
             any_failed = True
             continue
 
+        model_spec = MODEL_REGISTRY[model_key]
+
         for runtime_key in config.runtimes:
             if runtime_key not in RUNTIME_REGISTRY:
                 L.error("benchmark.error", message=f"Unknown runtime key: {runtime_key}")
