@@ -3,7 +3,7 @@ last_checked     = "2026-03-28T00:00:00Z"
 last_benchmarked = "2026-03-27T00:00:00Z"
 
 [runtimes]
-tensorrt     = "10.13.3"
+tensorrt     = "10.16.0"
 pytorch      = "2.7.0"
 executorch   = "0.5.1"
 aot_inductor = "2.7.0"   # bundled with PyTorch; version tracks pytorch
