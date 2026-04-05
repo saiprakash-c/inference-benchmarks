@@ -14,6 +14,8 @@
 
 FROM nvcr.io/nvidia/cuda:13.0.2-runtime-ubuntu24.04
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 LABEL org.opencontainers.image.source="https://github.com/saiprakash-c/inference-benchmarks"
 LABEL org.opencontainers.image.description="Inference benchmark environment: TensorRT + PyTorch + ExecuTorch on Jetson AGX Thor"
 
@@ -26,12 +28,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     ca-certificates \
     gnupg \
-    zsh \
     vim \
+    zsh \
     && rm -rf /var/lib/apt/lists/*
 
 # ── TensorRT via NVIDIA Jetson apt repo ───────────────────────────────────────
-# Adds the Jetson r38.4 package repo and installs TensorRT 10.x (CUDA 13.0).
+# Adds the Jetson r38.4 package repo and installs TensorRT 10.16.0 (CUDA 13.0).
 # hadolint ignore=DL3008
 RUN curl -fsSL https://repo.download.nvidia.com/jetson/jetson-ota-public.asc \
     | gpg --dearmor -o /usr/share/keyrings/nvidia-jetson.gpg && \
@@ -51,7 +53,6 @@ RUN curl -fsSL \
 
 # ── gh CLI ────────────────────────────────────────────────────────────────────
 ARG GH_VERSION=2.67.0
-# hadolint ignore=DL4006
 RUN curl -fsSL \
     "https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_${GH_VERSION}_linux_arm64.tar.gz" \
     | tar -xz -C /usr/local --strip-components=1 gh_${GH_VERSION}_linux_arm64/bin/gh
@@ -66,16 +67,17 @@ RUN pip3 install --no-cache-dir --break-system-packages \
 
 # ── Node.js 18 LTS + Claude Code ──────────────────────────────────────────────
 ARG NODE_VERSION=18.20.8
+ARG CLAUDE_CODE_VERSION=2.1.92
 RUN curl -fsSL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-arm64.tar.gz" \
     | tar -xz -C /usr/local --strip-components=1
-RUN npm install -g @anthropic-ai/claude-code
+RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
 
 # ── User ──────────────────────────────────────────────────────────────────────
 ARG UID=1000
 ARG USERNAME=saip
 COPY docker/saip.zshrc /tmp/saip.zshrc
 RUN userdel -r ubuntu 2>/dev/null || true && \
-    useradd -m -u ${UID} -s /bin/zsh ${USERNAME} && \
+    useradd -m -l -u ${UID} -s /bin/zsh ${USERNAME} && \
     cat /tmp/saip.zshrc >> /home/${USERNAME}/.zshrc
 
 USER ${USERNAME}

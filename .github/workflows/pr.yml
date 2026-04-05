@@ -18,6 +18,15 @@ jobs:
       - name: Build dev image
         run: docker compose -f docker/docker-compose.yml build dev
 
+  build-runtime:
+    name: Build runtime image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build runtime image
+        run: docker compose -f docker/docker-compose.yml build runtime
+
   lint:
     name: Mechanical lint (//ci:lint)
     runs-on: ubuntu-latest
@@ -61,6 +70,9 @@ jobs:
       - uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: docker/Dockerfile
+      - uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: docker/Dockerfile.dev
 
   python-lint:
     name: Python lint (ruff)
@@ -72,6 +84,7 @@ jobs:
       - name: Run ruff
         run: |
           docker compose -f docker/docker-compose.yml run --rm \
+            -e RUFF_CACHE_DIR=/tmp/ruff_cache \
             --entrypoint ruff dev check .
 
   agent-doc-review:
