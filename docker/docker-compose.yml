@@ -19,6 +19,8 @@ services:
       - ~/.ssh:/home/saip/.ssh:ro
       - ~/.claude:/home/saip/.claude
       - ~/.gitconfig:/home/saip/.gitconfig:ro
+      - ~/.config/gh:/home/saip/.config/gh:ro
+      - ~/.bash_history:/home/saip/.bash_history
     working_dir: /workspace
     hostname: inference-benchmarks-dev
     network_mode: host
@@ -34,6 +36,8 @@ services:
       - ~/.ssh:/home/saip/.ssh:ro
       - ~/.claude:/home/saip/.claude
       - ~/.gitconfig:/home/saip/.gitconfig:ro
+      - ~/.config/gh:/home/saip/.config/gh:ro
+      - ~/.bash_history:/home/saip/.bash_history
     working_dir: /workspace
     hostname: inference-benchmarks-rt
     network_mode: host

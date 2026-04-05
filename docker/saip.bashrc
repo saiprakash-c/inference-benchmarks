@@ -9,3 +9,12 @@ _BLUE=$'\033[34m'
 _YELLOW=$'\033[33m'
 
 PS1="\[${_BOLD}${_GREEN}\]\u@\h\[${_RESET}\]:\[${_BOLD}${_BLUE}\]\w\[${_RESET}\]\[${_YELLOW}\]\$(_branch_part)\[${_RESET}\]\$ "
+
+# ── persistent history ─────────────────────────────────────────────────────────
+HISTFILE=~/.bash_history
+HISTSIZE=10000
+HISTFILESIZE=20000
+HISTCONTROL=ignoredups:erasedups
+shopt -s histappend
+# flush to disk after every command so kills don't lose history
+PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }history -a"
