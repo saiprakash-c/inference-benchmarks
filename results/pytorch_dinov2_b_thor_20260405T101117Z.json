@@ -1,0 +1,20 @@
+{
+  "runtime": "pytorch",
+  "model": "dinov2_b",
+  "precision": "fp32",
+  "batch_size": 1,
+  "latency_ms": {
+    "p50": 83.34659843239933,
+    "p99": 83.52495150873438
+  },
+  "throughput": 11.998090129749913,
+  "hw_id": "thor",
+  "docker_image": "sha256:9a2c5ae934ee1a37d710abfa7f7a1b75efbd21a180abb86bb3a90b91422f4ff7",
+  "sw_versions": {
+    "pytorch": "2.11.0+cu130",
+    "cuda": "13.0",
+    "driver": "580.00"
+  },
+  "timestamp": "2026-04-05T10:11:17.446149+00:00",
+  "status": "ok"
+}
