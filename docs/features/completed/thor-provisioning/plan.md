@@ -47,28 +47,28 @@ Status: completed
 
 ```
 docker/
-  Dockerfile              ← Thor: l4t-tensorrt base, pip install .[jetson]
+  Dockerfile              ← Thor: l4t-tensorrt base, pip install .[gpu]
   Dockerfile.dev          ← Mac:  python:3.12-slim,  pip install .[dev]
   docker-compose.yml      ← unified entry point for both
 
 pyproject.toml            ← single source of truth for all deps + extras
   [project.dependencies]      core deps (always installed)
   [project.optional-dependencies]
-    dev     = CPU/Mac extras
-    jetson  = Jetson CUDA wheel index + GPU packages
+    dev = CPU/Mac extras
+    gpu = Jetson CUDA wheel index + GPU packages
 ```
 
 ```
               ┌──── pyproject.toml ────┐
               │  [dependencies]        │
               │  [extras: dev]         │
-              │  [extras: jetson]      │
+              │  [extras: gpu]         │
               └──────────┬────────────┘
                          │
           ┌──────────────┴──────────────┐
           ▼                             ▼
     Dockerfile.dev                 Dockerfile
-  pip install .[dev]           pip install .[jetson]
+  pip install .[dev]           pip install .[gpu]
   python:3.12-slim             l4t-tensorrt base
   Mac · CI · dev               Thor · GPU · prod
 ```
@@ -93,11 +93,11 @@ docker compose run runtime bazel run //benchmark:run  # Thor
 | Passwordless sudo | ✅ done |
 | SSH key auth | ✅ done |
 | Tailscale | ✅ done |
-| `JETPACK_VERSION` env var | ❌ not set |
-| GHCR login on Thor | ❌ not done |
-| `docs/THOR_SETUP.md` runbook | ❌ not written |
-| `tools/verify_thor.py` | ❌ not written |
-| `ssh_run.py` local fallback | ❌ not done |
+| `JETPACK_VERSION` env var | ✅ done (38.4.0) |
+| GHCR login on Thor | n/a — repo is public, no auth needed |
+| `docs/THOR_SETUP.md` runbook | ✅ done |
+| `tools/verify_thor.py` | ✅ done |
+| `ssh_run.py` local fallback | ✅ done |
 
 ### ssh_run.py local vs CI mode
 
