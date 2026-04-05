@@ -3,13 +3,22 @@ runtimes/torch_tensorrt/runtime.py
 
 Torch-TensorRT runtime adapter: compiles the model directly from a PyTorch
 module using torch_tensorrt.compile() (the Dynamo path) — no ONNX export
-required. The compiled module is cached to disk as a TorchScript .pt file
-and reloaded on subsequent runs.
+required. The compiled GraphModule is cached to disk as a .ep file and
+reloaded on subsequent runs.
 
 Advantages over the ONNX→TRT path:
   - No ONNX intermediate: Dynamo traces the graph natively
   - Full op coverage: anything PyTorch supports is automatically handled
   - Consistent with how torch.compile() works: same graph capture semantics
+
+Notes on torch_tensorrt 2.11 API:
+  - torch_tensorrt.compile(ir="dynamo") returns a torch.fx.GraphModule
+  - torch_tensorrt.save() serialises it to an ExportedProgram (.ep)
+  - torch_tensorrt.load() returns an ExportedProgram; .module() gives the callable
+  - use_explicit_typing defaults to True in 2.11 for dynamo IR — must set False
+    to allow enabled_precisions to drive kernel selection
+  - SDPA ops (scaled_dot_product_attention) are not TRT-convertible; pass via
+    torch_executed_ops so they run in PyTorch (hybrid graph)
 """
 
 import time
@@ -23,6 +32,13 @@ from models import loader
 from runtimes.base import PRECISION_TO_DTYPE, RuntimeBase
 
 TORCH_TRT_CACHE_DIR = Path("/tmp/torch_trt_cache")
+
+# Attention ops TRT cannot lower — run them in PyTorch (hybrid execution).
+_TORCH_EXECUTED_OPS: set[str] = {
+    "torch.ops.aten._scaled_dot_product_efficient_attention.default",
+    "torch.ops.aten._scaled_dot_product_flash_attention.default",
+    "torch.ops.aten.scaled_dot_product_attention.default",
+}
 
 
 class TorchTensorRTRuntime(RuntimeBase):
@@ -40,13 +56,14 @@ class TorchTensorRTRuntime(RuntimeBase):
         if cache_path.exists():
             L.info("torch_tensorrt.init.cache_hit", path=str(cache_path))
             import torch_tensorrt  # type: ignore[import]
+            # load() returns an ExportedProgram; .module() gives the callable GraphModule.
             ep = torch_tensorrt.load(str(cache_path))
             runner = ep.module()
         else:
             L.info("torch_tensorrt.init.cache_miss", path=str(cache_path))
             runner = _compile_and_cache(model_name, cache_path, dummy_input, dtype, device)
 
-        return {"runner": runner, "dtype": dtype, "device": device, "dummy": dummy_input}
+        return {"runner": runner, "dtype": dtype, "device": device}
 
     def run(self, handle: Any, input_tensor: Any, n_iters: int) -> list[float]:
         """Run inference n_iters times with CUDA-synchronised timing; return latencies in ms."""
@@ -103,13 +120,9 @@ def _compile_and_cache(
     raw_model = loader.load(model_name, device).to(dtype=dtype)
     model = _ForwardWrapper(raw_model)
 
-    # torch_tensorrt.compile() uses torch.export + the TRT Dynamo backend.
-    # enabled_precisions controls which TRT kernels are allowed: {torch.float32}
-    # forces all-fp32, {torch.float16} enables fp16 (TRT picks fp16 kernels).
-    # truncate_long_and_double: safe cast of any int64→int32 TRT doesn't support.
-    # use_explicit_typing=False: allow enabled_precisions to drive kernel selection.
-    # In torch_tensorrt 2.11, use_explicit_typing defaults to True for dynamo IR,
-    # which conflicts with enabled_precisions — override it here.
+    # compile() returns a torch.fx.GraphModule (NOT ExportedProgram).
+    # use_explicit_typing=False: required to use enabled_precisions in 2.11+.
+    # torch_executed_ops: SDPA variants aren't TRT-lowerable; run them in PyTorch.
     compiled = torch_tensorrt.compile(
         model,
         ir="dynamo",
@@ -117,10 +130,12 @@ def _compile_and_cache(
         enabled_precisions={dtype},
         truncate_long_and_double=True,
         use_explicit_typing=False,
+        torch_executed_ops=_TORCH_EXECUTED_OPS,
     )
+    # compiled is a GraphModule — callable directly, no .module() needed.
 
     cache_path.parent.mkdir(parents=True, exist_ok=True)
     torch_tensorrt.save(compiled, str(cache_path), inputs=[dummy_input])
     L.info("torch_tensorrt.cache.saved", path=str(cache_path))
 
-    return compiled.module()
+    return compiled
