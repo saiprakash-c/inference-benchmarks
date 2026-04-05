@@ -8,13 +8,13 @@ pytorch      = "2.7.0"
 executorch   = "0.5.1"
 aot_inductor = "2.7.0"   # bundled with PyTorch; version tracks pytorch
 cuda         = "13.0"
-jetpack      = "7.1"
+jetpack      = "38.4.0"
 
 [docker]
 image   = "ghcr.io/saiprakash-c/inference-benchmarks:latest"
 digest  = ""   # set after first `//docker:push`; empty until first image is built
 cuda    = "13.0"
-jetpack = "7.1"
+jetpack = "38.4.0"
 
 [sources]
 tensorrt     = "https://github.com/NVIDIA/TensorRT/releases"

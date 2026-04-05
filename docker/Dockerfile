@@ -2,7 +2,7 @@
 #
 # Execution environment for benchmark runs on Thor (Jetson AGX Thor).
 # Base: nvcr.io/nvidia/cuda:13.0.2-runtime-ubuntu24.04 (arm64).
-# TensorRT 10.x installed via NVIDIA Jetson apt repo (r38.4).
+# TensorRT 10.16.0 installed via NVIDIA Jetson apt repo (r38.4).
 # Python deps installed from pyproject.toml [project.optional-dependencies.gpu].
 #
 # Versions here must match versions.toml [docker] section exactly.

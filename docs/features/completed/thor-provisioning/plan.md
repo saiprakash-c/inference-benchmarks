@@ -47,7 +47,7 @@ Status: completed
 
 ```
 docker/
-  Dockerfile              ← Thor: l4t-tensorrt base, pip install .[gpu]
+  Dockerfile              ← Thor: cuda:13.0.2-runtime-ubuntu24.04 base, pip install .[gpu]
   Dockerfile.dev          ← Mac:  python:3.12-slim,  pip install .[dev]
   docker-compose.yml      ← unified entry point for both
 
@@ -69,7 +69,7 @@ pyproject.toml            ← single source of truth for all deps + extras
           ▼                             ▼
     Dockerfile.dev                 Dockerfile
   pip install .[dev]           pip install .[gpu]
-  python:3.12-slim             l4t-tensorrt base
+  python:3.12-slim             cuda:13.0.2-ubuntu24.04 base
   Mac · CI · dev               Thor · GPU · prod
 ```
 
@@ -115,11 +115,11 @@ ssh saip@thor (system config)      ssh -i $THOR_SSH_KEY <ip>
 ## Tasks
 
 - [x] Update `pyproject.toml` — add `[project.optional-dependencies]` with `dev` and `gpu` extras
-- [x] Refactor `docker/Dockerfile` — minimal: `l4t-tensorrt` base + `pip install .[gpu]`
+- [x] Refactor `docker/Dockerfile` — `cuda:13.0.2-runtime-ubuntu24.04` base + TensorRT via apt + `pip install .[gpu]`
 - [x] Write `docker/Dockerfile.dev` — minimal: `python:3.12-slim` base + `pip install .[dev]`
 - [x] Write `docker/docker-compose.yml` — `dev` and `runtime` services
 - [x] Set `JETPACK_VERSION=38.4.0` in `/etc/environment` on Thor
-- [ ] Configure GHCR login on Thor (`docker login ghcr.io` with a PAT) — manual, requires GitHub PAT
+- [x] Configure GHCR login on Thor — n/a, repo is public; no PAT needed to pull `ghcr.io` image
 - [x] Write `docs/THOR_SETUP.md` — full runbook from factory flash to benchmark-ready
 - [x] Write `tools/verify_thor.py` — check SSH, Docker+GPU, GHCR pull, env vars
 - [x] Update `tools/ssh_run.py` — fall back to `saip@thor` when `THOR_SSH_KEY` unset
