@@ -3,10 +3,10 @@ last_checked = "2026-03-28T00:00:00Z"
 last_benchmarked = "2026-04-05T08:45:46.497482+00:00"
 
 [runtimes]
-tensorrt = "10.16.0"
-pytorch = "2.7.0"
-executorch = "0.5.1"
-aot_inductor = "2.7.0"
+tensorrt = "10.16.0.72"
+pytorch = "2.11.0"
+executorch = "1.2.0"
+aot_inductor = "2.11.0"
 cuda = "13.0"
 jetpack = "38.4.0"
 
