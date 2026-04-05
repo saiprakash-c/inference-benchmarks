@@ -72,7 +72,8 @@ RUN npm install -g @anthropic-ai/claude-code
 # ── User ──────────────────────────────────────────────────────────────────────
 ARG UID=1000
 COPY docker/saip.zshrc /tmp/saip.zshrc
-RUN useradd -m -u ${UID} --non-unique -s /bin/zsh saip && \
+RUN userdel -r ubuntu 2>/dev/null || true && \
+    useradd -m -u ${UID} -s /bin/zsh saip && \
     cat /tmp/saip.zshrc >> /home/saip/.zshrc
 
 USER saip
