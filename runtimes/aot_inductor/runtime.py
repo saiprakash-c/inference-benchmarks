@@ -61,14 +61,19 @@ class AOTInductorRuntime(RuntimeBase):
 
 def _compile_and_cache(cache_path: Path, device: str) -> str:
     """Compile ResNet50 via AOT Inductor, write the .so to cache_path, return its path string."""
+    from torch.export import export as torch_export  # type: ignore[import]
+
     weights = tv_models.ResNet50_Weights.IMAGENET1K_V2
     model = tv_models.resnet50(weights=weights).eval().to(device)
     dummy_input = torch.zeros(1, 3, 224, 224, dtype=torch.float32, device=device)
 
+    # aot_compile in PyTorch 2.4+ requires an ExportedProgram, not a raw nn.Module.
+    exported_program = torch_export(model, (dummy_input,))
+
     cache_path.parent.mkdir(parents=True, exist_ok=True)
 
     so_path = torch._inductor.aot_compile(  # type: ignore[attr-defined]
-        model,
+        exported_program,
         (dummy_input,),
         options={"aot_inductor.output_path": str(cache_path)},
     )
