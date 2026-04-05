@@ -71,13 +71,16 @@ RUN pip3 install --no-cache-dir --break-system-packages \
 # 1. Triton 3.6 bundles ptxas-blackwell built against CUDA 12.8, which does not
 #    recognise sm_110a. Replace it with the CUDA 13.0 ptxas from PyTorch.
 # 2. The runtime base image has no CUDA dev headers. AOT Inductor's C++ compiler
-#    needs cuda.h; use the copy that Triton ships in its own include directory.
+#    needs cuda.h, cuda_runtime_api.h, and others. The nvidia-cuda-runtime-cuXX
+#    Python wheel (installed as a dep of torch) ships a complete include tree at
+#    dist-packages/nvidia/cu13/include — symlink it into /usr/local/cuda/include.
 # hadolint ignore=SC2046
 RUN torch_ptxas=$(find /usr/local/lib/python3* -name ptxas -path "*/torch/bin/*" 2>/dev/null | head -1) && \
     triton_blackwell=$(find /usr/local/lib/python3* -name ptxas-blackwell -path "*/triton/*" 2>/dev/null | head -1) && \
     cp "$torch_ptxas" "$triton_blackwell" && \
-    triton_cuda_h=$(find /usr/local/lib/python3* -path "*/triton/backends/nvidia/include/cuda.h" 2>/dev/null | head -1) && \
-    cp "$triton_cuda_h" /usr/local/cuda/include/cuda.h
+    cu13_include=$(find /usr/local/lib/python3* -path "*/nvidia/cu13/include" -type d 2>/dev/null | head -1) && \
+    rm -rf /usr/local/cuda/include && \
+    ln -s "$cu13_include" /usr/local/cuda/include
 
 # ── Node.js 18 LTS + Claude Code ──────────────────────────────────────────────
 ARG NODE_VERSION=18.20.8
