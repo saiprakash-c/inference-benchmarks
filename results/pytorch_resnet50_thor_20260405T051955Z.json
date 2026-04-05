@@ -1,0 +1,20 @@
+{
+  "runtime": "pytorch",
+  "model": "resnet50",
+  "precision": "fp32",
+  "batch_size": 1,
+  "latency_ms": {
+    "p50": 3.3580524614080787,
+    "p99": 3.5048207291401923
+  },
+  "throughput": 297.79165498227087,
+  "hw_id": "thor",
+  "docker_image": "sha256:f8c6eeaf853a43c9c9220c6302c6b9ecebf84235f74487157833245cdc6d1bd1",
+  "sw_versions": {
+    "pytorch": "2.11.0+cu130",
+    "cuda": "13.0",
+    "driver": "580.00"
+  },
+  "timestamp": "2026-04-05T05:19:55.086111+00:00",
+  "status": "ok"
+}
