@@ -95,7 +95,6 @@ def _compile_and_cache(
         inputs=[dummy_input],
         enabled_precisions={dtype},
         truncate_long_and_double=True,
-        device=torch.device(device),
     )
 
     cache_path.parent.mkdir(parents=True, exist_ok=True)
