@@ -1,0 +1,2888 @@
+[
+  {
+    "model": "resnet50",
+    "runtime": "pytorch",
+    "precision": "fp32",
+    "warmup_iters": 10,
+    "profile_iters": 5,
+    "total_cuda_us": 27584.77,
+    "n_ops": 30,
+    "layers": [
+      {
+        "name": "aten::cudnn_convolution",
+        "cuda_time_us": 10456.578999999972,
+        "calls": 265,
+        "pct_of_total": 37.91
+      },
+      {
+        "name": "void cudnn::engines_precompiled::nchwToNhwcKernel<float, float, float, false, true, (cudnnKernelDataType_t)2>(cudnn::engines_precompiled::nchw2nhwc_params_t<float>, float const*, float*)",
+        "cuda_time_us": 3505.543999999964,
+        "calls": 160,
+        "pct_of_total": 12.71
+      },
+      {
+        "name": "sm80_xmma_fprop_implicit_gemm_tf32f32_tf32f32_f32_nhwckrsc_nchw_tilesize64x32x64_stage5_warpsize2x2x1_g1_tensor16x8x8_alignc4_execute_kernel__5x_cudnn",
+        "cuda_time_us": 2303.7199999999903,
+        "calls": 40,
+        "pct_of_total": 8.35
+      },
+      {
+        "name": "aten::cudnn_batch_norm",
+        "cuda_time_us": 1872.0899999999651,
+        "calls": 265,
+        "pct_of_total": 6.79
+      },
+      {
+        "name": "void cudnn::bn_fw_inf_1C11_kernel_NCHW<float, float, true, 1>(float, float, cudnnTensorStruct, float const*, cudnnTensorStruct, float*, cudnnTensorStruct, float const*, float const*, float const*, float const*, float)",
+        "cuda_time_us": 1872.0899999999651,
+        "calls": 265,
+        "pct_of_total": 6.79
+      },
+      {
+        "name": "sm80_xmma_fprop_implicit_gemm_tf32f32_tf32f32_f32_nhwckrsc_nchw_tilesize64x32x64_stage5_warpsize2x2x1_g1_tensor16x8x8_t1r3s3_alignc4_execute_kernel__5x_cudnn",
+        "cuda_time_us": 1251.096999999991,
+        "calls": 40,
+        "pct_of_total": 4.54
+      },
+      {
+        "name": "cutlass3x_sm100_tensorop_s128x128x8tf32gemm_f32_f32_f32_f32_f32_128x128x32_0_nnn_align4_2sm_epi_tma_bias_f32_relu",
+        "cuda_time_us": 758.1360000000043,
+        "calls": 75,
+        "pct_of_total": 2.75
+      },
+      {
+        "name": "aten::clamp_min_",
+        "cuda_time_us": 631.7399999999693,
+        "calls": 245,
+        "pct_of_total": 2.29
+      },
+      {
+        "name": "void at::native::vectorized_elementwise_kernel<4, at::native::(anonymous namespace)::launch_clamp_scalar(at::TensorIteratorBase&, c10::Scalar, c10::Scalar, at::native::detail::ClampLimits)::{lambda()#1}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::(anonymous namespace)::launch_clamp_scalar(at::TensorIteratorBase&, c10::Scalar, c10::Scalar, at::native::detail::ClampLimits)::{lambda()#1}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>)",
+        "cuda_time_us": 631.7399999999693,
+        "calls": 245,
+        "pct_of_total": 2.29
+      },
+      {
+        "name": "void implicit_convolve_sgemm<float, float, 128, 5, 5, 3, 3, 3, 1, false, false, true>(int, int, int, float const*, int, float*, float const*, kernel_conv_params, unsigned long long, int, float, float, int, float const*, float const*, bool, bool, int, int)",
+        "cuda_time_us": 565.8569999999997,
+        "calls": 5,
+        "pct_of_total": 2.05
+      },
+      {
+        "name": "void cutlass::Kernel2<cutlass_80_tensorop_s1688gemm_64x64_32x4_nn_align1>(cutlass_80_tensorop_s1688gemm_64x64_32x4_nn_align1::Params)",
+        "cuda_time_us": 500.39300000000094,
+        "calls": 15,
+        "pct_of_total": 1.81
+      },
+      {
+        "name": "cutlass3x_sm100_tensorop_s64x64x8tf32implicit_gemm_fprop_f32_f32_f32_void_f32_f32_64x64x32_dyn_cga_ndhwc_ndhwc_ndhwc_align4_1sm_relu_valpha",
+        "cuda_time_us": 374.80000000000337,
+        "calls": 15,
+        "pct_of_total": 1.36
+      },
+      {
+        "name": "aten::add_",
+        "cuda_time_us": 369.615,
+        "calls": 80,
+        "pct_of_total": 1.34
+      },
+      {
+        "name": "void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul> >(int, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul>)",
+        "cuda_time_us": 369.615,
+        "calls": 80,
+        "pct_of_total": 1.34
+      },
+      {
+        "name": "void cutlass::Kernel2<cutlass_80_tensorop_s1688gemm_64x128_32x4_nn_align1>(cutlass_80_tensorop_s1688gemm_64x128_32x4_nn_align1::Params)",
+        "cuda_time_us": 297.3269999999957,
+        "calls": 10,
+        "pct_of_total": 1.08
+      },
+      {
+        "name": "cutlass3x_sm100_tensorop_s64x64x8tf32gemm_f32_f32_f32_f32_f32_64x64x32_0_nnn_align4_1sm_bias_f32_relu",
+        "cuda_time_us": 233.49400000001242,
+        "calls": 25,
+        "pct_of_total": 0.85
+      },
+      {
+        "name": "aten::addmm",
+        "cuda_time_us": 224.94899999999598,
+        "calls": 5,
+        "pct_of_total": 0.82
+      },
+      {
+        "name": "std::enable_if<true, void>::type internal::gemvx::kernel<int, int, float, float, float, float, true, true, true, false, 9, false, cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float> >(cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float>)",
+        "cuda_time_us": 224.94899999999598,
+        "calls": 5,
+        "pct_of_total": 0.82
+      },
+      {
+        "name": "void cutlass::Kernel2<cutlass_80_tensorop_s1688gemm_64x128_32x3_nn_align4>(cutlass_80_tensorop_s1688gemm_64x128_32x3_nn_align4::Params)",
+        "cuda_time_us": 223.57299999999532,
+        "calls": 20,
+        "pct_of_total": 0.81
+      },
+      {
+        "name": "aten::max_pool2d_with_indices",
+        "cuda_time_us": 147.57500000000073,
+        "calls": 5,
+        "pct_of_total": 0.53
+      },
+      {
+        "name": "void at::native::(anonymous namespace)::max_pool_forward_nchw<float, int>(int, float const*, long, long, long, int, int, int, int, int, int, int, int, int, int, float*, long*)",
+        "cuda_time_us": 147.57500000000073,
+        "calls": 5,
+        "pct_of_total": 0.53
+      },
+      {
+        "name": "void cutlass::Kernel2<cutlass_80_tensorop_s1688gemm_64x64_16x6_nn_align4>(cutlass_80_tensorop_s1688gemm_64x64_16x6_nn_align4::Params)",
+        "cuda_time_us": 147.29200000000037,
+        "calls": 15,
+        "pct_of_total": 0.53
+      },
+      {
+        "name": "Activity Buffer Request",
+        "cuda_time_us": 111.89799999999991,
+        "calls": 1,
+        "pct_of_total": 0.41
+      },
+      {
+        "name": "void cudnn::engines_precompiled::nchwToNhwcKernel<float, float, float, false, true, (cudnnKernelDataType_t)0>(cudnn::engines_precompiled::nchw2nhwc_params_t<float>, float const*, float*)",
+        "cuda_time_us": 104.21899999999641,
+        "calls": 15,
+        "pct_of_total": 0.38
+      },
+      {
+        "name": "void cudnn::engines_precompiled::nhwcToNchwKernel<float, float, float, true, false, (cudnnKernelDataType_t)0>(cudnn::engines_precompiled::nhwc2nchw_params_t<float>, float const*, float*)",
+        "cuda_time_us": 77.75499999999965,
+        "calls": 15,
+        "pct_of_total": 0.28
+      },
+      {
+        "name": "cutlass3x_sm100_tensorop_s128x64x8tf32gemm_f32_f32_f32_f32_f32_128x64x32_0_nnn_align4_2sm_epi_tma_bias_f32_relu",
+        "cuda_time_us": 58.654999999999745,
+        "calls": 5,
+        "pct_of_total": 0.21
+      },
+      {
+        "name": "void cublasLt::splitKreduce_kernel<32, 16, int, float, float, float, float, false, float, float, float, true, false, false, false>(cublasLt::cublasSplitKParams<float>, float const*, float const*, float*, float*, float const*, float const*, float const*, float const*, float*, void*, long, float*, int*, float*, float*, float const*, float const*, float const*, float const*, float const*)",
+        "cuda_time_us": 39.54899999999816,
+        "calls": 10,
+        "pct_of_total": 0.14
+      },
+      {
+        "name": "aten::mean",
+        "cuda_time_us": 33.88600000000133,
+        "calls": 5,
+        "pct_of_total": 0.12
+      },
+      {
+        "name": "void at::native::reduce_kernel<512, 1, at::native::ReduceOp<float, at::native::MeanOps<float, float, float, float>, unsigned int, float, 4, 4> >(at::native::ReduceOp<float, at::native::MeanOps<float, float, float, float>, unsigned int, float, 4, 4>)",
+        "cuda_time_us": 33.88600000000133,
+        "calls": 5,
+        "pct_of_total": 0.12
+      },
+      {
+        "name": "Memset (Device)",
+        "cuda_time_us": 15.168000000021493,
+        "calls": 40,
+        "pct_of_total": 0.05
+      }
+    ],
+    "timestamp": "2026-04-05T18:03:05.235251+00:00"
+  },
+  {
+    "model": "resnet50",
+    "runtime": "pytorch",
+    "precision": "fp16",
+    "warmup_iters": 10,
+    "profile_iters": 5,
+    "total_cuda_us": 36513.63,
+    "n_ops": 35,
+    "layers": [
+      {
+        "name": "aten::cudnn_convolution",
+        "cuda_time_us": 12270.510000000007,
+        "calls": 265,
+        "pct_of_total": 33.61
+      },
+      {
+        "name": "void cudnn::engines_precompiled::nchwToNhwcKernel<__half, __half, float, false, true, (cudnnKernelDataType_t)0>(cudnn::engines_precompiled::nchw2nhwc_params_t<float>, __half const*, __half*)",
+        "cuda_time_us": 5214.6430000000155,
+        "calls": 175,
+        "pct_of_total": 14.28
+      },
+      {
+        "name": "aten::native_batch_norm",
+        "cuda_time_us": 3257.8070000000407,
+        "calls": 265,
+        "pct_of_total": 8.92
+      },
+      {
+        "name": "void at::native::batch_norm_transform_input_kernel<c10::Half, c10::Half, float, true, int>(torch::headeronly::detail::GenericPackedTensorAccessor<torch::headeronly::detail::TensorAccessor<c10::ArrayRef<long>, c10::Half const, 2ul, torch::headeronly::RestrictPtrTraits, int>, at::detail::IndexBoundsCheck<3ul, int>, c10::Half const, 3ul, torch::headeronly::RestrictPtrTraits, int>, torch::headeronly::detail::GenericPackedTensorAccessor<torch::headeronly::detail::TensorAccessor<c10::ArrayRef<long>, c10::Half, 2ul, torch::headeronly::RestrictPtrTraits, int>, at::detail::IndexBoundsCheck<3ul, int>, c10::Half, 3ul, torch::headeronly::RestrictPtrTraits, int>, torch::headeronly::detail::GenericPackedTensorAccessor<torch::headeronly::detail::TensorAccessor<c10::ArrayRef<long>, std::conditional<true, float, c10::Half>::type, 0ul, torch::headeronly::RestrictPtrTraits, int>, at::detail::IndexBoundsCheck<1ul, int>, std::conditional<true, float, c10::Half>::type, 1ul, torch::headeronly::RestrictPtrTraits, int>, torch::headeronly::detail::GenericPackedTensorAccessor<torch::headeronly::detail::TensorAccessor<c10::ArrayRef<long>, std::conditional<true, float, c10::Half>::type, 0ul, torch::headeronly::RestrictPtrTraits, int>, at::detail::IndexBoundsCheck<1ul, int>, std::conditional<true, float, c10::Half>::type, 1ul, torch::headeronly::RestrictPtrTraits, int>, torch::headeronly::detail::GenericPackedTensorAccessor<torch::headeronly::detail::TensorAccessor<c10::ArrayRef<long>, c10::Half const, 0ul, torch::headeronly::RestrictPtrTraits, int>, at::detail::IndexBoundsCheck<1ul, int>, c10::Half const, 1ul, torch::headeronly::RestrictPtrTraits, int>, torch::headeronly::detail::GenericPackedTensorAccessor<torch::headeronly::detail::TensorAccessor<c10::ArrayRef<long>, c10::Half const, 0ul, torch::headeronly::RestrictPtrTraits, int>, at::detail::IndexBoundsCheck<1ul, int>, c10::Half const, 1ul, torch::headeronly::RestrictPtrTraits, int>, float)",
+        "cuda_time_us": 2572.0200000000123,
+        "calls": 265,
+        "pct_of_total": 7.04
+      },
+      {
+        "name": "cutlass3x_sm100_tensorop_s64x64x16implicit_gemm_fprop_f16_f16_f32_void_f16_f32_64x64x64_dyn_cga_ndhwc_ndhwc_ndhwc_align8_1sm_relu_valpha",
+        "cuda_time_us": 1552.8149999999882,
+        "calls": 75,
+        "pct_of_total": 4.25
+      },
+      {
+        "name": "void cutlass::Kernel2<cutlass_75_wmma_tensorop_f16_s161616gemm_f16_32x32_128x2_nn_align1>(cutlass_75_wmma_tensorop_f16_s161616gemm_f16_32x32_128x2_nn_align1::Params)",
+        "cuda_time_us": 1309.564000000004,
+        "calls": 25,
+        "pct_of_total": 3.59
+      },
+      {
+        "name": "aten::copy_",
+        "cuda_time_us": 1117.12199999999,
+        "calls": 265,
+        "pct_of_total": 3.06
+      },
+      {
+        "name": "void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>, 4, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1> >(int, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#7}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>, TrivialOffsetCalculator<1, unsigned int>, TrivialOffsetCalculator<1, unsigned int>, at::native::memory::LoadWithCast<1>, at::native::memory::StoreWithCast<1>)",
+        "cuda_time_us": 1117.12199999999,
+        "calls": 265,
+        "pct_of_total": 3.06
+      },
+      {
+        "name": "void cutlass::Kernel2<cutlass_80_tensorop_f16_s16816gemm_f16_64x64_32x6_nn_align2>(cutlass_80_tensorop_f16_s16816gemm_f16_64x64_32x6_nn_align2::Params)",
+        "cuda_time_us": 881.6869999999999,
+        "calls": 30,
+        "pct_of_total": 2.41
+      },
+      {
+        "name": "void implicit_convolve_sgemm<__half, __half, 1024, 5, 5, 3, 3, 3, 1, false, false, true>(int, int, int, __half const*, int, __half*, __half const*, kernel_conv_params, unsigned long long, int, float, float, int, __half const*, __half const*, bool, bool, int, int)",
+        "cuda_time_us": 835.4149999999988,
+        "calls": 5,
+        "pct_of_total": 2.29
+      },
+      {
+        "name": "aten::clamp_min_",
+        "cuda_time_us": 796.9370000000092,
+        "calls": 245,
+        "pct_of_total": 2.18
+      },
+      {
+        "name": "void at::native::vectorized_elementwise_kernel<4, at::native::(anonymous namespace)::launch_clamp_scalar(at::TensorIteratorBase&, c10::Scalar, c10::Scalar, at::native::detail::ClampLimits)::{lambda()#1}::operator()() const::{lambda()#8}::operator()() const::{lambda(c10::Half)#1}, std::array<char*, 2ul> >(int, at::native::(anonymous namespace)::launch_clamp_scalar(at::TensorIteratorBase&, c10::Scalar, c10::Scalar, at::native::detail::ClampLimits)::{lambda()#1}::operator()() const::{lambda()#8}::operator()() const::{lambda(c10::Half)#1}, std::array<char*, 2ul>)",
+        "cuda_time_us": 796.9370000000092,
+        "calls": 245,
+        "pct_of_total": 2.18
+      },
+      {
+        "name": "void at::native::vectorized_elementwise_kernel<4, at::native::(anonymous namespace)::batch_norm_calc_invstd(at::Tensor const&, at::Tensor const&, double)::{lambda()#1}::operator()() const::{lambda()#3}::operator()() const::{lambda(c10::Half)#1}, std::array<char*, 2ul> >(int, at::native::(anonymous namespace)::batch_norm_calc_invstd(at::Tensor const&, at::Tensor const&, double)::{lambda()#1}::operator()() const::{lambda()#3}::operator()() const::{lambda(c10::Half)#1}, std::array<char*, 2ul>)",
+        "cuda_time_us": 685.7870000000285,
+        "calls": 265,
+        "pct_of_total": 1.88
+      },
+      {
+        "name": "cutlass3x_sm100_tensorop_s128x64x16implicit_gemm_fprop_f16_f16_f32_void_f16_f32_128x64x64_dyn_cga_ndhwc_ndhwc_ndhwc_align8_2sm_relu_valpha",
+        "cuda_time_us": 655.5179999999982,
+        "calls": 15,
+        "pct_of_total": 1.8
+      },
+      {
+        "name": "void cutlass::Kernel2<cutlass_80_tensorop_f16_s16816gemm_f16_128x128_64x3_nn_align2>(cutlass_80_tensorop_f16_s16816gemm_f16_128x128_64x3_nn_align2::Params)",
+        "cuda_time_us": 417.4800000000123,
+        "calls": 25,
+        "pct_of_total": 1.14
+      },
+      {
+        "name": "void cudnn::engines_precompiled::nhwcToNchwKernel<__half, __half, float, true, false, (cudnnKernelDataType_t)0>(cudnn::engines_precompiled::nhwc2nchw_params_t<float>, __half const*, __half*)",
+        "cuda_time_us": 412.5570000000048,
+        "calls": 95,
+        "pct_of_total": 1.13
+      },
+      {
+        "name": "aten::add_",
+        "cuda_time_us": 324.4960000000076,
+        "calls": 80,
+        "pct_of_total": 0.89
+      },
+      {
+        "name": "void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctor_add<c10::Half>, std::array<char*, 3ul> >(int, at::native::CUDAFunctor_add<c10::Half>, std::array<char*, 3ul>)",
+        "cuda_time_us": 324.4960000000076,
+        "calls": 80,
+        "pct_of_total": 0.89
+      },
+      {
+        "name": "aten::max_pool2d_with_indices",
+        "cuda_time_us": 213.2059999999974,
+        "calls": 5,
+        "pct_of_total": 0.58
+      },
+      {
+        "name": "void at::native::(anonymous namespace)::max_pool_forward_nchw<c10::Half, int>(int, c10::Half const*, long, long, long, int, int, int, int, int, int, int, int, int, int, c10::Half*, long*)",
+        "cuda_time_us": 213.2059999999974,
+        "calls": 5,
+        "pct_of_total": 0.58
+      },
+      {
+        "name": "void cutlass::Kernel2<cutlass_80_tensorop_f16_s16816gemm_f16_128x64_64x4_nn_align2>(cutlass_80_tensorop_f16_s16816gemm_f16_128x64_64x4_nn_align2::Params)",
+        "cuda_time_us": 179.800000000002,
+        "calls": 5,
+        "pct_of_total": 0.49
+      },
+      {
+        "name": "void cublasLt::splitKreduce_kernel<32, 16, int, __half, __half, float, __half, false, __half, __half, __half, true, false, false, false>(cublasLt::cublasSplitKParams<float>, __half const*, __half const*, __half*, __half*, float const*, float const*, __half const*, __half const*, __half*, void*, long, float*, int*, float*, float*, float const*, float const*, float const*, float const*, float const*)",
+        "cuda_time_us": 175.38200000000688,
+        "calls": 25,
+        "pct_of_total": 0.48
+      },
+      {
+        "name": "Activity Buffer Request",
+        "cuda_time_us": 165.72000000000003,
+        "calls": 1,
+        "pct_of_total": 0.45
+      },
+      {
+        "name": "nvjet_sm110_hsh_320x128_64x4_2x1_2cta_v_bz_NNT",
+        "cuda_time_us": 159.09699999999862,
+        "calls": 20,
+        "pct_of_total": 0.44
+      },
+      {
+        "name": "aten::addmm",
+        "cuda_time_us": 145.7210000000032,
+        "calls": 5,
+        "pct_of_total": 0.4
+      },
+      {
+        "name": "nvjet_sm110_hsh_64x8_64x16_4x1_v_bz_bias_TNT",
+        "cuda_time_us": 145.7210000000032,
+        "calls": 5,
+        "pct_of_total": 0.4
+      },
+      {
+        "name": "nvjet_sm110_hsh_160x128_64x6_1x2_2cta_h_bz_NNN",
+        "cuda_time_us": 131.6099999999924,
+        "calls": 20,
+        "pct_of_total": 0.36
+      },
+      {
+        "name": "nvjet_sm110_hsh_96x64_64x13_1x2_2cta_h_bz_NNN",
+        "cuda_time_us": 99.93100000000277,
+        "calls": 15,
+        "pct_of_total": 0.27
+      },
+      {
+        "name": "nvjet_sm110_hsh_160x64_64x6_2x1_v_bz_NNN",
+        "cuda_time_us": 84.69900000000098,
+        "calls": 15,
+        "pct_of_total": 0.23
+      },
+      {
+        "name": "cutlass3x_sm100_tensorop_s128x128x16implicit_gemm_fprop_f16_f16_f32_void_f16_f32_128x128x64_dyn_cga_ndhwc_ndhwc_ndhwc_align8_2sm_relu_valpha",
+        "cuda_time_us": 66.14099999999507,
+        "calls": 5,
+        "pct_of_total": 0.18
+      },
+      {
+        "name": "nvjet_sm110_hsh_320x64_64x4_1x2_h_bz_NNT",
+        "cuda_time_us": 48.41299999999819,
+        "calls": 5,
+        "pct_of_total": 0.13
+      },
+      {
+        "name": "aten::mean",
+        "cuda_time_us": 48.15699999999924,
+        "calls": 5,
+        "pct_of_total": 0.13
+      },
+      {
+        "name": "void at::native::reduce_kernel<512, 1, at::native::ReduceOp<c10::Half, at::native::MeanOps<c10::Half, float, float, c10::Half>, unsigned int, c10::Half, 4, 8> >(at::native::ReduceOp<c10::Half, at::native::MeanOps<c10::Half, float, float, c10::Half>, unsigned int, c10::Half, 4, 8>)",
+        "cuda_time_us": 48.15699999999924,
+        "calls": 5,
+        "pct_of_total": 0.13
+      },
+      {
+        "name": "nvjet_sm110_hsh_160x64_64x9_1x2_2cta_h_bz_NNN",
+        "cuda_time_us": 37.69399999999996,
+        "calls": 5,
+        "pct_of_total": 0.1
+      },
+      {
+        "name": "Memset (Device)",
+        "cuda_time_us": 8.063999999989392,
+        "calls": 10,
+        "pct_of_total": 0.02
+      }
+    ],
+    "timestamp": "2026-04-05T18:03:06.409462+00:00"
+  },
+  {
+    "model": "resnet50",
+    "runtime": "aot_inductor",
+    "precision": "fp32",
+    "warmup_iters": 10,
+    "profile_iters": 5,
+    "total_cuda_us": 13198.2,
+    "n_ops": 33,
+    "layers": [
+      {
+        "name": "aten::cudnn_convolution",
+        "cuda_time_us": 4897.72099999999,
+        "calls": 265,
+        "pct_of_total": 37.11
+      },
+      {
+        "name": "cutlass3x_sm100_tensorop_s64x64x8tf32implicit_gemm_fprop_f32_f32_f32_void_f32_f32_64x64x32_dyn_cga_ndhwc_ndhwc_ndhwc_align4_1sm_relu_valpha",
+        "cuda_time_us": 1396.1599999999967,
+        "calls": 85,
+        "pct_of_total": 10.58
+      },
+      {
+        "name": "cutlass3x_sm100_tensorop_s128x64x8tf32gemm_f32_f32_f32_f32_f32_128x64x32_0_tnn_align4_2sm_epi_tma_bias_f32_relu",
+        "cuda_time_us": 1061.6129999999926,
+        "calls": 50,
+        "pct_of_total": 8.04
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_convolution_relu_19",
+        "cuda_time_us": 1008.7210000000005,
+        "calls": 15,
+        "pct_of_total": 7.64
+      },
+      {
+        "name": "cutlass3x_sm100_tensorop_s128x128x8tf32gemm_f32_f32_f32_f32_f32_128x128x32_0_tnn_align4_2sm_epi_tma_bias_f32_relu",
+        "cuda_time_us": 757.4370000000017,
+        "calls": 65,
+        "pct_of_total": 5.74
+      },
+      {
+        "name": "cutlass3x_sm100_tensorop_s64x64x8tf32implicit_gemm_fprop_f32_f32_f32_void_f32_f32_64x64x32_dyn_cga_ndhwc_ndhwc_ndhwc_align4_1sm_relu_valpha_stream_k",
+        "cuda_time_us": 574.5649999999996,
+        "calls": 15,
+        "pct_of_total": 4.35
+      },
+      {
+        "name": "void convolve_common_engine_float_NHWC<float, float, 128, 5, 5, 3, 3, 3, true, false, false, false, false>(int, int, int, float const*, float const*, int, float*, conv_kernel_common_params, unsigned long long, unsigned long, float, float, bool, float const*, float const*, bool, bool)",
+        "cuda_time_us": 568.130999999999,
+        "calls": 5,
+        "pct_of_total": 4.3
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_convolution_relu_14",
+        "cuda_time_us": 544.1020000000003,
+        "calls": 30,
+        "pct_of_total": 4.12
+      },
+      {
+        "name": "cutlass3x_sm100_tensorop_s128x256x8tf32gemm_f32_f32_f32_f32_f32_128x256x32_0_tnn_align4_2sm_epi_tma_bias_f32_relu",
+        "cuda_time_us": 330.0660000000016,
+        "calls": 30,
+        "pct_of_total": 2.5
+      },
+      {
+        "name": "std::enable_if<true, void>::type internal::gemvx::kernel<int, int, float, float, float, float, true, true, true, false, 9, false, cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float> >(cublasGemvParamsEx<int, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float const>, cublasGemvTensorStridedBatched<float>, float>)",
+        "cuda_time_us": 287.02800000000207,
+        "calls": 5,
+        "pct_of_total": 2.17
+      },
+      {
+        "name": "cutlass3x_sm100_tensorop_s128x128x8tf32implicit_gemm_fprop_f32_f32_f32_void_f32_f32_128x128x32_dyn_cga_ndhwc_ndhwc_ndhwc_align4_2sm_relu_valpha",
+        "cuda_time_us": 209.74899999999934,
+        "calls": 15,
+        "pct_of_total": 1.59
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_add_relu_7",
+        "cuda_time_us": 187.60699999999997,
+        "calls": 10,
+        "pct_of_total": 1.42
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_add_relu_17",
+        "cuda_time_us": 146.64700000000312,
+        "calls": 25,
+        "pct_of_total": 1.11
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_relu_4",
+        "cuda_time_us": 141.43399999999747,
+        "calls": 30,
+        "pct_of_total": 1.07
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_relu_15",
+        "cuda_time_us": 132.03100000000404,
+        "calls": 55,
+        "pct_of_total": 1.0
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_add_relu_6",
+        "cuda_time_us": 127.6739999999977,
+        "calls": 5,
+        "pct_of_total": 0.97
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_convolution_relu_9",
+        "cuda_time_us": 118.55699999999706,
+        "calls": 20,
+        "pct_of_total": 0.9
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_add_relu_12",
+        "cuda_time_us": 111.51299999999537,
+        "calls": 15,
+        "pct_of_total": 0.84
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_relu_10",
+        "cuda_time_us": 104.5089999999991,
+        "calls": 35,
+        "pct_of_total": 0.79
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_add_relu_11",
+        "cuda_time_us": 65.56599999999935,
+        "calls": 5,
+        "pct_of_total": 0.5
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_relu_2",
+        "cuda_time_us": 55.99899999999752,
+        "calls": 5,
+        "pct_of_total": 0.42
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_relu_20",
+        "cuda_time_us": 48.76600000000417,
+        "calls": 25,
+        "pct_of_total": 0.37
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_relu_8",
+        "cuda_time_us": 43.58199999999897,
+        "calls": 5,
+        "pct_of_total": 0.33
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_convolution_relu_5",
+        "cuda_time_us": 41.72499999999991,
+        "calls": 15,
+        "pct_of_total": 0.32
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_add_relu_16",
+        "cuda_time_us": 40.189000000001215,
+        "calls": 5,
+        "pct_of_total": 0.3
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_add_relu_21",
+        "cuda_time_us": 33.88499999999931,
+        "calls": 5,
+        "pct_of_total": 0.26
+      },
+      {
+        "name": "triton_per_fused__native_batch_norm_legit_no_training_add_mean_relu_23",
+        "cuda_time_us": 31.29500000000189,
+        "calls": 5,
+        "pct_of_total": 0.24
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_max_pool2d_with_indices_relu_3",
+        "cuda_time_us": 30.36599999999862,
+        "calls": 5,
+        "pct_of_total": 0.23
+      },
+      {
+        "name": "triton_poi_fused_convolution_0",
+        "cuda_time_us": 27.77599999999825,
+        "calls": 5,
+        "pct_of_total": 0.21
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_add_relu_22",
+        "cuda_time_us": 25.948999999999614,
+        "calls": 5,
+        "pct_of_total": 0.2
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_relu_18",
+        "cuda_time_us": 18.175999999999476,
+        "calls": 5,
+        "pct_of_total": 0.14
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_relu_13",
+        "cuda_time_us": 17.630999999999858,
+        "calls": 5,
+        "pct_of_total": 0.13
+      },
+      {
+        "name": "triton_poi_fused_convolution_1",
+        "cuda_time_us": 12.031000000001995,
+        "calls": 5,
+        "pct_of_total": 0.09
+      }
+    ],
+    "timestamp": "2026-04-05T18:03:51.810275+00:00"
+  },
+  {
+    "model": "resnet50",
+    "runtime": "aot_inductor",
+    "precision": "fp16",
+    "warmup_iters": 10,
+    "profile_iters": 5,
+    "total_cuda_us": 7600.39,
+    "n_ops": 40,
+    "layers": [
+      {
+        "name": "aten::cudnn_convolution",
+        "cuda_time_us": 2619.1939999999977,
+        "calls": 265,
+        "pct_of_total": 34.46
+      },
+      {
+        "name": "cutlass3x_sm100_tensorop_s64x64x16implicit_gemm_fprop_f16_f16_f32_void_f16_f32_64x64x64_dyn_cga_ndhwc_ndhwc_ndhwc_align8_1sm_relu_valpha",
+        "cuda_time_us": 785.9719999999966,
+        "calls": 55,
+        "pct_of_total": 10.34
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_convolution_relu_19",
+        "cuda_time_us": 553.6370000000024,
+        "calls": 15,
+        "pct_of_total": 7.28
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_convolution_relu_14",
+        "cuda_time_us": 309.4570000000026,
+        "calls": 30,
+        "pct_of_total": 4.07
+      },
+      {
+        "name": "cutlass3x_sm100_tensorop_s128x64x16implicit_gemm_fprop_f16_f16_f32_void_f16_f32_128x64x64_dyn_cga_ndhwc_ndhwc_ndhwc_align8_2sm_relu_valpha",
+        "cuda_time_us": 272.08700000000454,
+        "calls": 30,
+        "pct_of_total": 3.58
+      },
+      {
+        "name": "sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16_f16f32_f32_nhwckrsc_nhwc_tilesize128x32x16_stage1_warpsize4x1x1_g1_tensor16x8x16_aligna2_alignc8_execute_kernel__5x_cudnn",
+        "cuda_time_us": 255.25100000000043,
+        "calls": 5,
+        "pct_of_total": 3.36
+      },
+      {
+        "name": "nvjet_sm110_hsh_112x64_64x9_2x1_v_bz_TNN",
+        "cuda_time_us": 223.76300000000128,
+        "calls": 15,
+        "pct_of_total": 2.94
+      },
+      {
+        "name": "nvjet_sm110_hsh_256x40_64x5_2x1_v_bz_TNT",
+        "cuda_time_us": 205.6239999999948,
+        "calls": 30,
+        "pct_of_total": 2.71
+      },
+      {
+        "name": "nvjet_sm110_hsh_128x160_64x8_2x1_2cta_v_bz_TNT",
+        "cuda_time_us": 201.40099999999916,
+        "calls": 40,
+        "pct_of_total": 2.65
+      },
+      {
+        "name": "nvjet_sm110_hsh_64x40_64x16_2x1_v_bz_TNT",
+        "cuda_time_us": 162.7070000000017,
+        "calls": 25,
+        "pct_of_total": 2.14
+      },
+      {
+        "name": "nvjet_sm110_hsh_64x32_64x16_2x2_2cta_h_bz_TNT",
+        "cuda_time_us": 150.5850000000005,
+        "calls": 10,
+        "pct_of_total": 1.98
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_relu_4",
+        "cuda_time_us": 148.72899999999458,
+        "calls": 30,
+        "pct_of_total": 1.96
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_add_relu_12",
+        "cuda_time_us": 144.63399999999774,
+        "calls": 15,
+        "pct_of_total": 1.9
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_add_relu_17",
+        "cuda_time_us": 143.03300000000309,
+        "calls": 25,
+        "pct_of_total": 1.88
+      },
+      {
+        "name": "nvjet_sm110_hsh_64x8_64x16_4x1_v_bz_bias_TNT",
+        "cuda_time_us": 124.28300000000081,
+        "calls": 5,
+        "pct_of_total": 1.64
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_relu_15",
+        "cuda_time_us": 118.07100000000173,
+        "calls": 55,
+        "pct_of_total": 1.55
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_relu_10",
+        "cuda_time_us": 113.05399999999872,
+        "calls": 35,
+        "pct_of_total": 1.49
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_add_relu_7",
+        "cuda_time_us": 110.26599999999871,
+        "calls": 10,
+        "pct_of_total": 1.45
+      },
+      {
+        "name": "cutlass3x_sm100_tensorop_s128x128x16implicit_gemm_fprop_f16_f16_f32_void_f16_f32_128x128x64_dyn_cga_ndhwc_ndhwc_ndhwc_align8_2sm_relu_valpha",
+        "cuda_time_us": 107.83499999999822,
+        "calls": 10,
+        "pct_of_total": 1.42
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_add_relu_6",
+        "cuda_time_us": 103.51600000000099,
+        "calls": 5,
+        "pct_of_total": 1.36
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_convolution_relu_9",
+        "cuda_time_us": 79.64400000000342,
+        "calls": 20,
+        "pct_of_total": 1.05
+      },
+      {
+        "name": "nvjet_sm110_hsh_128x40_64x10_2x1_v_bz_TNT",
+        "cuda_time_us": 76.92500000000064,
+        "calls": 5,
+        "pct_of_total": 1.01
+      },
+      {
+        "name": "nvjet_sm110_hsh_64x80_64x16_2x1_2cta_v_bz_TNT",
+        "cuda_time_us": 62.458000000000084,
+        "calls": 15,
+        "pct_of_total": 0.82
+      },
+      {
+        "name": "nvjet_sm110_hsh_64x160_64x7_1x2_h_bz_TNT",
+        "cuda_time_us": 61.08699999999976,
+        "calls": 15,
+        "pct_of_total": 0.8
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_add_relu_11",
+        "cuda_time_us": 55.934000000001106,
+        "calls": 5,
+        "pct_of_total": 0.74
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_relu_20",
+        "cuda_time_us": 52.253000000001066,
+        "calls": 25,
+        "pct_of_total": 0.69
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_relu_2",
+        "cuda_time_us": 48.41499999999951,
+        "calls": 5,
+        "pct_of_total": 0.64
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_add_relu_16",
+        "cuda_time_us": 31.326999999997952,
+        "calls": 5,
+        "pct_of_total": 0.41
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_convolution_relu_5",
+        "cuda_time_us": 31.072000000001026,
+        "calls": 15,
+        "pct_of_total": 0.41
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_relu_8",
+        "cuda_time_us": 30.238000000001193,
+        "calls": 5,
+        "pct_of_total": 0.4
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_max_pool2d_with_indices_relu_3",
+        "cuda_time_us": 29.309999999999036,
+        "calls": 5,
+        "pct_of_total": 0.39
+      },
+      {
+        "name": "nvjet_sm110_hsh_128x160_64x5_1x2_h_bz_TNT",
+        "cuda_time_us": 27.06999999999971,
+        "calls": 5,
+        "pct_of_total": 0.36
+      },
+      {
+        "name": "nvjet_sm110_hsh_128x80_64x8_1x2_h_bz_TNT",
+        "cuda_time_us": 26.429000000000087,
+        "calls": 5,
+        "pct_of_total": 0.35
+      },
+      {
+        "name": "triton_poi_fused_convolution_0",
+        "cuda_time_us": 26.368000000001757,
+        "calls": 5,
+        "pct_of_total": 0.35
+      },
+      {
+        "name": "triton_per_fused__native_batch_norm_legit_no_training_add_mean_relu_23",
+        "cuda_time_us": 24.54300000000012,
+        "calls": 5,
+        "pct_of_total": 0.32
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_add_relu_21",
+        "cuda_time_us": 24.286000000002332,
+        "calls": 5,
+        "pct_of_total": 0.32
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_relu_13",
+        "cuda_time_us": 19.10199999999986,
+        "calls": 5,
+        "pct_of_total": 0.25
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_add_relu_22",
+        "cuda_time_us": 16.7349999999974,
+        "calls": 5,
+        "pct_of_total": 0.22
+      },
+      {
+        "name": "triton_poi_fused__native_batch_norm_legit_no_training_relu_18",
+        "cuda_time_us": 14.334999999997763,
+        "calls": 5,
+        "pct_of_total": 0.19
+      },
+      {
+        "name": "triton_poi_fused_convolution_1",
+        "cuda_time_us": 9.757000000001199,
+        "calls": 5,
+        "pct_of_total": 0.13
+      }
+    ],
+    "timestamp": "2026-04-05T18:04:28.160984+00:00"
+  },
+  {
+    "model": "resnet50",
+    "runtime": "tensorrt",
+    "precision": "fp32",
+    "warmup_iters": 10,
+    "profile_iters": 5,
+    "total_cuda_us": 2178.5,
+    "n_ops": 59,
+    "layers": [
+      {
+        "name": "node_Conv_855_myl0_54",
+        "cuda_time_us": 98.32960069179535,
+        "calls": 5,
+        "pct_of_total": 4.51
+      },
+      {
+        "name": "node_Conv_849_myl0_51",
+        "cuda_time_us": 96.58240079879761,
+        "calls": 5,
+        "pct_of_total": 4.43
+      },
+      {
+        "name": "node_Conv_841_myl0_47",
+        "cuda_time_us": 91.526398062706,
+        "calls": 5,
+        "pct_of_total": 4.2
+      },
+      {
+        "name": "node_Conv_845_myl0_49",
+        "cuda_time_us": 81.79199993610382,
+        "calls": 5,
+        "pct_of_total": 3.75
+      },
+      {
+        "name": "node_linear_myl0_57",
+        "cuda_time_us": 76.85759961605072,
+        "calls": 5,
+        "pct_of_total": 3.53
+      },
+      {
+        "name": "node_Conv_753_myl0_2",
+        "cuda_time_us": 69.72800120711327,
+        "calls": 5,
+        "pct_of_total": 3.2
+      },
+      {
+        "name": "node_Conv_765_myl0_9",
+        "cuda_time_us": 48.403200507164,
+        "calls": 5,
+        "pct_of_total": 2.22
+      },
+      {
+        "name": "node_Conv_857_myl0_55",
+        "cuda_time_us": 47.865599393844604,
+        "calls": 5,
+        "pct_of_total": 2.2
+      },
+      {
+        "name": "node_Conv_757_myl0_5",
+        "cuda_time_us": 47.78880029916763,
+        "calls": 5,
+        "pct_of_total": 2.19
+      },
+      {
+        "name": "node_Conv_843_myl0_48",
+        "cuda_time_us": 47.43039980530739,
+        "calls": 5,
+        "pct_of_total": 2.18
+      },
+      {
+        "name": "node_Conv_771_myl0_12",
+        "cuda_time_us": 47.18720018863678,
+        "calls": 5,
+        "pct_of_total": 2.17
+      },
+      {
+        "name": "node_Conv_851_myl0_52",
+        "cuda_time_us": 46.80960103869438,
+        "calls": 5,
+        "pct_of_total": 2.15
+      },
+      {
+        "name": "node_Conv_801_myl0_27",
+        "cuda_time_us": 46.380800008773804,
+        "calls": 5,
+        "pct_of_total": 2.13
+      },
+      {
+        "name": "node_Conv_847_myl0_50",
+        "cuda_time_us": 46.19520083069801,
+        "calls": 5,
+        "pct_of_total": 2.12
+      },
+      {
+        "name": "node_Conv_853_myl0_53",
+        "cuda_time_us": 45.740799233317375,
+        "calls": 5,
+        "pct_of_total": 2.1
+      },
+      {
+        "name": "node_Conv_781_myl0_17",
+        "cuda_time_us": 44.198399037122726,
+        "calls": 5,
+        "pct_of_total": 2.03
+      },
+      {
+        "name": "node_Conv_775_myl0_14",
+        "cuda_time_us": 40.53119979798794,
+        "calls": 5,
+        "pct_of_total": 1.86
+      },
+      {
+        "name": "node_Conv_761_myl0_7",
+        "cuda_time_us": 37.17759996652603,
+        "calls": 5,
+        "pct_of_total": 1.71
+      },
+      {
+        "name": "node_Conv_767_myl0_10",
+        "cuda_time_us": 36.73599995672703,
+        "calls": 5,
+        "pct_of_total": 1.69
+      },
+      {
+        "name": "node_Conv_829_myl0_41",
+        "cuda_time_us": 36.33280023932457,
+        "calls": 5,
+        "pct_of_total": 1.67
+      },
+      {
+        "name": "node_Conv_773_myl0_13",
+        "cuda_time_us": 35.948799923062325,
+        "calls": 5,
+        "pct_of_total": 1.65
+      },
+      {
+        "name": "node_Conv_823_myl0_38",
+        "cuda_time_us": 35.76960004866123,
+        "calls": 5,
+        "pct_of_total": 1.64
+      },
+      {
+        "name": "node_Conv_839_myl0_46",
+        "cuda_time_us": 35.712000355124474,
+        "calls": 5,
+        "pct_of_total": 1.64
+      },
+      {
+        "name": "node_Conv_825_myl0_39",
+        "cuda_time_us": 35.206400230526924,
+        "calls": 5,
+        "pct_of_total": 1.62
+      },
+      {
+        "name": "node_Conv_835_myl0_44",
+        "cuda_time_us": 34.97599996626377,
+        "calls": 5,
+        "pct_of_total": 1.61
+      },
+      {
+        "name": "node_Conv_803_myl0_28",
+        "cuda_time_us": 34.00319963693619,
+        "calls": 5,
+        "pct_of_total": 1.56
+      },
+      {
+        "name": "node_Conv_811_myl0_32",
+        "cuda_time_us": 33.504000306129456,
+        "calls": 5,
+        "pct_of_total": 1.54
+      },
+      {
+        "name": "node_Conv_817_myl0_35",
+        "cuda_time_us": 32.895999774336815,
+        "calls": 5,
+        "pct_of_total": 1.51
+      },
+      {
+        "name": "node_Conv_777_myl0_15",
+        "cuda_time_us": 31.046399101614952,
+        "calls": 5,
+        "pct_of_total": 1.43
+      },
+      {
+        "name": "node_Conv_759_myl0_6",
+        "cuda_time_us": 30.886399745941162,
+        "calls": 5,
+        "pct_of_total": 1.42
+      },
+      {
+        "name": "node_Conv_807_myl0_30",
+        "cuda_time_us": 30.68159967660904,
+        "calls": 5,
+        "pct_of_total": 1.41
+      },
+      {
+        "name": "node_Conv_837_myl0_45",
+        "cuda_time_us": 29.708800092339516,
+        "calls": 5,
+        "pct_of_total": 1.36
+      },
+      {
+        "name": "node_Conv_769_myl0_11",
+        "cuda_time_us": 29.446399584412575,
+        "calls": 5,
+        "pct_of_total": 1.35
+      },
+      {
+        "name": "node_Conv_831_myl0_42",
+        "cuda_time_us": 29.363199323415756,
+        "calls": 5,
+        "pct_of_total": 1.35
+      },
+      {
+        "name": "node_Conv_763_myl0_8",
+        "cuda_time_us": 29.280000180006027,
+        "calls": 5,
+        "pct_of_total": 1.34
+      },
+      {
+        "name": "node_Conv_819_myl0_36",
+        "cuda_time_us": 29.267200082540512,
+        "calls": 5,
+        "pct_of_total": 1.34
+      },
+      {
+        "name": "node_Conv_783_myl0_18",
+        "cuda_time_us": 28.652800247073174,
+        "calls": 5,
+        "pct_of_total": 1.32
+      },
+      {
+        "name": "node_Conv_813_myl0_33",
+        "cuda_time_us": 28.255999460816383,
+        "calls": 5,
+        "pct_of_total": 1.3
+      },
+      {
+        "name": "node_Conv_805_myl0_29",
+        "cuda_time_us": 28.13439965248108,
+        "calls": 5,
+        "pct_of_total": 1.29
+      },
+      {
+        "name": "node_Conv_785_myl0_19",
+        "cuda_time_us": 27.801599726080894,
+        "calls": 5,
+        "pct_of_total": 1.28
+      },
+      {
+        "name": "node_Conv_827_myl0_40",
+        "cuda_time_us": 27.744000777602196,
+        "calls": 5,
+        "pct_of_total": 1.27
+      },
+      {
+        "name": "node_Conv_779_myl0_16",
+        "cuda_time_us": 27.74400021880865,
+        "calls": 5,
+        "pct_of_total": 1.27
+      },
+      {
+        "name": "node_Conv_787_myl0_20",
+        "cuda_time_us": 26.976000145077705,
+        "calls": 5,
+        "pct_of_total": 1.24
+      },
+      {
+        "name": "node_Conv_797_myl0_25",
+        "cuda_time_us": 26.585600152611732,
+        "calls": 5,
+        "pct_of_total": 1.22
+      },
+      {
+        "name": "node_Conv_793_myl0_23",
+        "cuda_time_us": 26.419199630618095,
+        "calls": 5,
+        "pct_of_total": 1.21
+      },
+      {
+        "name": "node_Conv_799_myl0_26",
+        "cuda_time_us": 26.374400034546852,
+        "calls": 5,
+        "pct_of_total": 1.21
+      },
+      {
+        "name": "node_Conv_833_myl0_43",
+        "cuda_time_us": 26.336000487208366,
+        "calls": 5,
+        "pct_of_total": 1.21
+      },
+      {
+        "name": "node_Conv_809_myl0_31",
+        "cuda_time_us": 26.335999742150307,
+        "calls": 5,
+        "pct_of_total": 1.21
+      },
+      {
+        "name": "node_Conv_815_myl0_34",
+        "cuda_time_us": 26.207999885082245,
+        "calls": 5,
+        "pct_of_total": 1.2
+      },
+      {
+        "name": "node_Conv_821_myl0_37",
+        "cuda_time_us": 26.003199443221092,
+        "calls": 5,
+        "pct_of_total": 1.19
+      },
+      {
+        "name": "node_Conv_791_myl0_22",
+        "cuda_time_us": 25.84960013628006,
+        "calls": 5,
+        "pct_of_total": 1.19
+      },
+      {
+        "name": "node_Conv_795_myl0_24",
+        "cuda_time_us": 24.774400144815445,
+        "calls": 5,
+        "pct_of_total": 1.14
+      },
+      {
+        "name": "node_Conv_789_myl0_21",
+        "cuda_time_us": 23.03360030055046,
+        "calls": 5,
+        "pct_of_total": 1.06
+      },
+      {
+        "name": "node_max_pool2d_myl0_3",
+        "cuda_time_us": 22.259200364351273,
+        "calls": 5,
+        "pct_of_total": 1.02
+      },
+      {
+        "name": "node_Conv_755_myl0_4",
+        "cuda_time_us": 18.444799818098545,
+        "calls": 5,
+        "pct_of_total": 0.85
+      },
+      {
+        "name": "__myl_MoveConc_myl0_1",
+        "cuda_time_us": 16.832000017166138,
+        "calls": 5,
+        "pct_of_total": 0.77
+      },
+      {
+        "name": "node_mean_myl0_56",
+        "cuda_time_us": 10.963200218975544,
+        "calls": 5,
+        "pct_of_total": 0.5
+      },
+      {
+        "name": "__mye3997_myl0_0",
+        "cuda_time_us": 3.603200102224946,
+        "calls": 5,
+        "pct_of_total": 0.17
+      },
+      {
+        "name": "__mye3999_myl0_58",
+        "cuda_time_us": 1.875200029462576,
+        "calls": 5,
+        "pct_of_total": 0.09
+      }
+    ],
+    "timestamp": "2026-04-05T18:04:51.488013+00:00"
+  },
+  {
+    "model": "resnet50",
+    "runtime": "tensorrt",
+    "precision": "fp16",
+    "warmup_iters": 10,
+    "profile_iters": 5,
+    "total_cuda_us": 2621.01,
+    "n_ops": 60,
+    "layers": [
+      {
+        "name": "node_Conv_753_myl0_2",
+        "cuda_time_us": 121.98399752378464,
+        "calls": 5,
+        "pct_of_total": 4.65
+      },
+      {
+        "name": "node_Conv_855_myl0_54",
+        "cuda_time_us": 85.76639890670776,
+        "calls": 5,
+        "pct_of_total": 3.27
+      },
+      {
+        "name": "node_Conv_841_myl0_47",
+        "cuda_time_us": 85.47199964523315,
+        "calls": 5,
+        "pct_of_total": 3.26
+      },
+      {
+        "name": "node_Conv_849_myl0_51",
+        "cuda_time_us": 85.35680174827576,
+        "calls": 5,
+        "pct_of_total": 3.26
+      },
+      {
+        "name": "node_Conv_845_myl0_49",
+        "cuda_time_us": 80.55039942264557,
+        "calls": 5,
+        "pct_of_total": 3.07
+      },
+      {
+        "name": "node_linear_myl0_57",
+        "cuda_time_us": 71.7952013015747,
+        "calls": 5,
+        "pct_of_total": 2.74
+      },
+      {
+        "name": "node_Conv_781_myl0_17",
+        "cuda_time_us": 59.776000678539276,
+        "calls": 5,
+        "pct_of_total": 2.28
+      },
+      {
+        "name": "node_Conv_807_myl0_30",
+        "cuda_time_us": 56.01920038461685,
+        "calls": 5,
+        "pct_of_total": 2.14
+      },
+      {
+        "name": "node_Conv_761_myl0_7",
+        "cuda_time_us": 53.094399720430374,
+        "calls": 5,
+        "pct_of_total": 2.03
+      },
+      {
+        "name": "__myl_Corr_myl0_52",
+        "cuda_time_us": 51.3215996325016,
+        "calls": 5,
+        "pct_of_total": 1.96
+      },
+      {
+        "name": "node_Conv_773_myl0_13",
+        "cuda_time_us": 50.76480060815811,
+        "calls": 5,
+        "pct_of_total": 1.94
+      },
+      {
+        "name": "node_Conv_767_myl0_10",
+        "cuda_time_us": 50.61760023236275,
+        "calls": 5,
+        "pct_of_total": 1.93
+      },
+      {
+        "name": "__myl_Corr_myl0_48",
+        "cuda_time_us": 50.40000006556511,
+        "calls": 5,
+        "pct_of_total": 1.92
+      },
+      {
+        "name": "__myl_Corr_myl0_55",
+        "cuda_time_us": 50.13760030269623,
+        "calls": 5,
+        "pct_of_total": 1.91
+      },
+      {
+        "name": "__myl_Corr_myl0_50",
+        "cuda_time_us": 48.8319993019104,
+        "calls": 5,
+        "pct_of_total": 1.86
+      },
+      {
+        "name": "__myl_Corr_myl0_53",
+        "cuda_time_us": 47.673600912094116,
+        "calls": 5,
+        "pct_of_total": 1.82
+      },
+      {
+        "name": "node_Conv_803_myl0_28",
+        "cuda_time_us": 47.360000014305115,
+        "calls": 5,
+        "pct_of_total": 1.81
+      },
+      {
+        "name": "node_Conv_811_myl0_32",
+        "cuda_time_us": 46.58560007810593,
+        "calls": 5,
+        "pct_of_total": 1.78
+      },
+      {
+        "name": "node_Conv_817_myl0_35",
+        "cuda_time_us": 45.766399800777435,
+        "calls": 5,
+        "pct_of_total": 1.75
+      },
+      {
+        "name": "node_max_pool2d_myl0_3",
+        "cuda_time_us": 45.75359970331192,
+        "calls": 5,
+        "pct_of_total": 1.75
+      },
+      {
+        "name": "node_Conv_829_myl0_41",
+        "cuda_time_us": 45.72159945964813,
+        "calls": 5,
+        "pct_of_total": 1.74
+      },
+      {
+        "name": "node_Conv_835_myl0_44",
+        "cuda_time_us": 45.606400072574615,
+        "calls": 5,
+        "pct_of_total": 1.74
+      },
+      {
+        "name": "__myl_Corr_myl0_23",
+        "cuda_time_us": 45.05599960684776,
+        "calls": 5,
+        "pct_of_total": 1.72
+      },
+      {
+        "name": "node_Conv_823_myl0_38",
+        "cuda_time_us": 44.90879997611046,
+        "calls": 5,
+        "pct_of_total": 1.71
+      },
+      {
+        "name": "__myl_Corr_myl0_20",
+        "cuda_time_us": 44.17920038104057,
+        "calls": 5,
+        "pct_of_total": 1.69
+      },
+      {
+        "name": "__myl_Corr_myl0_5",
+        "cuda_time_us": 43.852800130844116,
+        "calls": 5,
+        "pct_of_total": 1.67
+      },
+      {
+        "name": "__myl_Corr_myl0_26",
+        "cuda_time_us": 43.60320046544075,
+        "calls": 5,
+        "pct_of_total": 1.66
+      },
+      {
+        "name": "__myl_Corr_myl0_6",
+        "cuda_time_us": 42.38079935312271,
+        "calls": 5,
+        "pct_of_total": 1.62
+      },
+      {
+        "name": "__myl_Corr_myl0_14",
+        "cuda_time_us": 42.291199415922165,
+        "calls": 5,
+        "pct_of_total": 1.61
+      },
+      {
+        "name": "__myl_Corr_myl0_15",
+        "cuda_time_us": 39.45599943399429,
+        "calls": 5,
+        "pct_of_total": 1.51
+      },
+      {
+        "name": "__myl_Corr_myl0_16",
+        "cuda_time_us": 39.03359994292259,
+        "calls": 5,
+        "pct_of_total": 1.49
+      },
+      {
+        "name": "__myl_Corr_myl0_46",
+        "cuda_time_us": 38.944000005722046,
+        "calls": 5,
+        "pct_of_total": 1.49
+      },
+      {
+        "name": "__myl_Corr_myl0_9",
+        "cuda_time_us": 38.27839940786362,
+        "calls": 5,
+        "pct_of_total": 1.46
+      },
+      {
+        "name": "__myl_Corr_myl0_12",
+        "cuda_time_us": 38.252799957990646,
+        "calls": 5,
+        "pct_of_total": 1.46
+      },
+      {
+        "name": "__myl_Corr_myl0_33",
+        "cuda_time_us": 37.92639970779419,
+        "calls": 5,
+        "pct_of_total": 1.45
+      },
+      {
+        "name": "__myl_Corr_myl0_25",
+        "cuda_time_us": 37.830399721860886,
+        "calls": 5,
+        "pct_of_total": 1.44
+      },
+      {
+        "name": "__myl_Corr_myl0_45",
+        "cuda_time_us": 37.702400237321854,
+        "calls": 5,
+        "pct_of_total": 1.44
+      },
+      {
+        "name": "__myl_Corr_myl0_42",
+        "cuda_time_us": 37.49120011925697,
+        "calls": 5,
+        "pct_of_total": 1.43
+      },
+      {
+        "name": "__myl_Corr_myl0_36",
+        "cuda_time_us": 37.36319988965988,
+        "calls": 5,
+        "pct_of_total": 1.43
+      },
+      {
+        "name": "__myl_Corr_myl0_39",
+        "cuda_time_us": 37.10079938173294,
+        "calls": 5,
+        "pct_of_total": 1.42
+      },
+      {
+        "name": "__myl_Corr_myl0_27",
+        "cuda_time_us": 36.800000071525574,
+        "calls": 5,
+        "pct_of_total": 1.4
+      },
+      {
+        "name": "__myl_Corr_myl0_22",
+        "cuda_time_us": 35.974401235580444,
+        "calls": 5,
+        "pct_of_total": 1.37
+      },
+      {
+        "name": "__myl_Corr_myl0_19",
+        "cuda_time_us": 35.96159964799881,
+        "calls": 5,
+        "pct_of_total": 1.37
+      },
+      {
+        "name": "__myl_Corr_myl0_8",
+        "cuda_time_us": 34.31039974093437,
+        "calls": 5,
+        "pct_of_total": 1.31
+      },
+      {
+        "name": "__myl_Corr_myl0_29",
+        "cuda_time_us": 34.02879983186722,
+        "calls": 5,
+        "pct_of_total": 1.3
+      },
+      {
+        "name": "__myl_Corr_myl0_18",
+        "cuda_time_us": 33.983999490737915,
+        "calls": 5,
+        "pct_of_total": 1.3
+      },
+      {
+        "name": "__myl_Corr_myl0_11",
+        "cuda_time_us": 33.93919989466667,
+        "calls": 5,
+        "pct_of_total": 1.29
+      },
+      {
+        "name": "__myl_Corr_myl0_31",
+        "cuda_time_us": 33.44639986753464,
+        "calls": 5,
+        "pct_of_total": 1.28
+      },
+      {
+        "name": "__myl_Corr_myl0_21",
+        "cuda_time_us": 32.287999987602234,
+        "calls": 5,
+        "pct_of_total": 1.23
+      },
+      {
+        "name": "__myl_Corr_myl0_43",
+        "cuda_time_us": 32.21119977533817,
+        "calls": 5,
+        "pct_of_total": 1.23
+      },
+      {
+        "name": "__myl_Corr_myl0_24",
+        "cuda_time_us": 31.270399689674377,
+        "calls": 5,
+        "pct_of_total": 1.19
+      },
+      {
+        "name": "__myl_Corr_myl0_34",
+        "cuda_time_us": 31.20639994740486,
+        "calls": 5,
+        "pct_of_total": 1.19
+      },
+      {
+        "name": "__myl_Corr_myl0_37",
+        "cuda_time_us": 31.116800382733345,
+        "calls": 5,
+        "pct_of_total": 1.19
+      },
+      {
+        "name": "__myl_Corr_myl0_40",
+        "cuda_time_us": 30.899200215935707,
+        "calls": 5,
+        "pct_of_total": 1.18
+      },
+      {
+        "name": "node_Conv_755_myl0_4",
+        "cuda_time_us": 29.35040034353733,
+        "calls": 5,
+        "pct_of_total": 1.12
+      },
+      {
+        "name": "__myl_CastConc_myl0_1",
+        "cuda_time_us": 28.723200038075447,
+        "calls": 5,
+        "pct_of_total": 1.1
+      },
+      {
+        "name": "node_mean_myl0_56",
+        "cuda_time_us": 24.236799776554108,
+        "calls": 5,
+        "pct_of_total": 0.92
+      },
+      {
+        "name": "__myl_Cast_myl0_58",
+        "cuda_time_us": 12.927999906241894,
+        "calls": 5,
+        "pct_of_total": 0.49
+      },
+      {
+        "name": "__mye7535_myl0_0",
+        "cuda_time_us": 3.3408000133931637,
+        "calls": 5,
+        "pct_of_total": 0.13
+      },
+      {
+        "name": "__mye7537_myl0_59",
+        "cuda_time_us": 2.9888000804930925,
+        "calls": 5,
+        "pct_of_total": 0.11
+      }
+    ],
+    "timestamp": "2026-04-05T18:06:39.516041+00:00"
+  },
+  {
+    "model": "dinov2_b",
+    "runtime": "pytorch",
+    "precision": "fp32",
+    "warmup_iters": 10,
+    "profile_iters": 5,
+    "total_cuda_us": 823837.34,
+    "n_ops": 23,
+    "layers": [
+      {
+        "name": "aten::addmm",
+        "cuda_time_us": 317070.23400000035,
+        "calls": 240,
+        "pct_of_total": 38.49
+      },
+      {
+        "name": "void cutlass::Kernel2<cutlass_80_simt_sgemm_256x128_8x4_tn_align1>(cutlass_80_simt_sgemm_256x128_8x4_tn_align1::Params)",
+        "cuda_time_us": 236801.02800000017,
+        "calls": 180,
+        "pct_of_total": 28.74
+      },
+      {
+        "name": "void magma_sgemmEx_kernel<float, float, float, true, false, 6, 4, 6, 3, 4>(int, int, int, BatchedTensor, int, BatchedTensor, int, BatchedTensor, int, BatchedTensor, int, int, int, float const*, float const*, float, float, int, cublasLtEpilogue_t, int, void const*, long)",
+        "cuda_time_us": 80153.37300000021,
+        "calls": 60,
+        "pct_of_total": 9.73
+      },
+      {
+        "name": "aten::_efficient_attention_forward",
+        "cuda_time_us": 73970.51499999982,
+        "calls": 60,
+        "pct_of_total": 8.98
+      },
+      {
+        "name": "fmha_cutlassF_f32_aligned_64x64_rf_sm80(PyTorchMemEffAttention::AttentionKernel<float, cutlass::arch::Sm80, true, 64, 64, 64, true, true>::Params)",
+        "cuda_time_us": 73970.51499999982,
+        "calls": 60,
+        "pct_of_total": 8.98
+      },
+      {
+        "name": "aten::gelu",
+        "cuda_time_us": 6192.585999999918,
+        "calls": 60,
+        "pct_of_total": 0.75
+      },
+      {
+        "name": "void at::native::vectorized_elementwise_kernel<4, at::native::GeluCUDAKernelImpl(at::TensorIteratorBase&, at::native::GeluType)::{lambda()#2}::operator()() const::{lambda()#2}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul> >(int, at::native::GeluCUDAKernelImpl(at::TensorIteratorBase&, at::native::GeluType)::{lambda()#2}::operator()() const::{lambda()#2}::operator()() const::{lambda(float)#1}, std::array<char*, 2ul>)",
+        "cuda_time_us": 6192.585999999918,
+        "calls": 60,
+        "pct_of_total": 0.75
+      },
+      {
+        "name": "aten::native_layer_norm",
+        "cuda_time_us": 4633.791000000032,
+        "calls": 125,
+        "pct_of_total": 0.56
+      },
+      {
+        "name": "void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<float, float, false>(int, float, float const*, float const*, float const*, float*, float*, float*)",
+        "cuda_time_us": 4633.791000000032,
+        "calls": 125,
+        "pct_of_total": 0.56
+      },
+      {
+        "name": "aten::add",
+        "cuda_time_us": 4082.888999999598,
+        "calls": 125,
+        "pct_of_total": 0.5
+      },
+      {
+        "name": "void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul> >(int, at::native::CUDAFunctor_add<float>, std::array<char*, 3ul>)",
+        "cuda_time_us": 4082.888999999598,
+        "calls": 125,
+        "pct_of_total": 0.5
+      },
+      {
+        "name": "aten::mul",
+        "cuda_time_us": 2880.490000000146,
+        "calls": 120,
+        "pct_of_total": 0.35
+      },
+      {
+        "name": "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<float, float, float, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+        "cuda_time_us": 2880.490000000146,
+        "calls": 120,
+        "pct_of_total": 0.35
+      },
+      {
+        "name": "aten::cudnn_convolution",
+        "cuda_time_us": 2371.107000000039,
+        "calls": 5,
+        "pct_of_total": 0.29
+      },
+      {
+        "name": "sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_tf32f32_tf32f32_f32_nhwckrsc_nhwc_tilesize128x32x16_stage1_warpsize4x1x1_g1_tensor16x8x8_aligna4_alignc8_execute_kernel__5x_cudnn",
+        "cuda_time_us": 1226.607000000054,
+        "calls": 5,
+        "pct_of_total": 0.15
+      },
+      {
+        "name": "void cudnn::engines_precompiled::nchwToNhwcKernel<float, float, float, false, true, (cudnnKernelDataType_t)2>(cudnn::engines_precompiled::nchw2nhwc_params_t<float>, float const*, float*)",
+        "cuda_time_us": 1023.0639999999973,
+        "calls": 10,
+        "pct_of_total": 0.12
+      },
+      {
+        "name": "Activity Buffer Request",
+        "cuda_time_us": 463.34299999999985,
+        "calls": 1,
+        "pct_of_total": 0.06
+      },
+      {
+        "name": "aten::cat",
+        "cuda_time_us": 355.8569999999513,
+        "calls": 5,
+        "pct_of_total": 0.04
+      },
+      {
+        "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 3, 64, 64>(at::native::(anonymous namespace)::OpaqueType<4u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 64, 64>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+        "cuda_time_us": 355.8569999999513,
+        "calls": 5,
+        "pct_of_total": 0.04
+      },
+      {
+        "name": "aten::add_",
+        "cuda_time_us": 129.53100000005497,
+        "calls": 5,
+        "pct_of_total": 0.02
+      },
+      {
+        "name": "void at::native::elementwise_kernel<128, 2, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<float> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<float> const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<float> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<float> const&)::{lambda(int)#1})",
+        "cuda_time_us": 129.53100000005497,
+        "calls": 5,
+        "pct_of_total": 0.02
+      },
+      {
+        "name": "void cudnn::engines_precompiled::nhwcToNchwKernel<float, float, float, true, false, (cudnnKernelDataType_t)0>(cudnn::engines_precompiled::nhwc2nchw_params_t<float>, float const*, float*)",
+        "cuda_time_us": 121.43599999998764,
+        "calls": 5,
+        "pct_of_total": 0.01
+      },
+      {
+        "name": "Memset (Device)",
+        "cuda_time_us": 115.83299999996416,
+        "calls": 120,
+        "pct_of_total": 0.01
+      }
+    ],
+    "timestamp": "2026-04-05T18:07:02.155766+00:00"
+  },
+  {
+    "model": "dinov2_b",
+    "runtime": "pytorch",
+    "precision": "fp16",
+    "warmup_iters": 10,
+    "profile_iters": 5,
+    "total_cuda_us": 73792.77,
+    "n_ops": 23,
+    "layers": [
+      {
+        "name": "aten::addmm",
+        "cuda_time_us": 12168.645999999973,
+        "calls": 240,
+        "pct_of_total": 16.49
+      },
+      {
+        "name": "aten::_flash_attention_forward",
+        "cuda_time_us": 10739.899000000007,
+        "calls": 60,
+        "pct_of_total": 14.55
+      },
+      {
+        "name": "void pytorch_flash::flash_fwd_kernel<Flash_fwd_kernel_traits<64, 128, 128, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 128, 128, 4, cutlass::half_t> >, false, false, false, false, false, true, false, false>(pytorch_flash::Flash_fwd_params)",
+        "cuda_time_us": 10739.899000000007,
+        "calls": 60,
+        "pct_of_total": 14.55
+      },
+      {
+        "name": "nvjet_sm110_hsh_176x128_64x5_2x1_v_bz_bias_TNN",
+        "cuda_time_us": 4450.390999999989,
+        "calls": 60,
+        "pct_of_total": 6.03
+      },
+      {
+        "name": "aten::native_layer_norm",
+        "cuda_time_us": 4191.960000000011,
+        "calls": 125,
+        "pct_of_total": 5.68
+      },
+      {
+        "name": "void at::native::(anonymous namespace)::vectorized_layer_norm_kernel<c10::Half, float, false>(int, float, c10::Half const*, c10::Half const*, c10::Half const*, float*, float*, c10::Half*)",
+        "cuda_time_us": 4191.960000000011,
+        "calls": 125,
+        "pct_of_total": 5.68
+      },
+      {
+        "name": "nvjet_sm110_hsh_192x288_64x5_2x1_2cta_v_bz_bias_TNT",
+        "cuda_time_us": 4044.222999999987,
+        "calls": 120,
+        "pct_of_total": 5.48
+      },
+      {
+        "name": "nvjet_sm110_hsh_256x128_64x4_1x1_h_bz_bias_TNT",
+        "cuda_time_us": 3674.0319999999965,
+        "calls": 60,
+        "pct_of_total": 4.98
+      },
+      {
+        "name": "aten::gelu",
+        "cuda_time_us": 2987.8239999999914,
+        "calls": 60,
+        "pct_of_total": 4.05
+      },
+      {
+        "name": "void at::native::vectorized_elementwise_kernel<4, at::native::GeluCUDAKernelImpl(at::TensorIteratorBase&, at::native::GeluType)::{lambda()#2}::operator()() const::{lambda()#3}::operator()() const::{lambda(c10::Half)#1}, std::array<char*, 2ul> >(int, at::native::GeluCUDAKernelImpl(at::TensorIteratorBase&, at::native::GeluType)::{lambda()#2}::operator()() const::{lambda()#3}::operator()() const::{lambda(c10::Half)#1}, std::array<char*, 2ul>)",
+        "cuda_time_us": 2987.8239999999914,
+        "calls": 60,
+        "pct_of_total": 4.05
+      },
+      {
+        "name": "aten::mul",
+        "cuda_time_us": 2741.457000000012,
+        "calls": 120,
+        "pct_of_total": 3.72
+      },
+      {
+        "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::Half, c10::Half, c10::Half, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<c10::Half, c10::Half, c10::Half, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::BinaryFunctor<c10::Half, c10::Half, c10::Half, at::native::binary_internal::MulFunctor<float> > >(at::TensorIteratorBase&, at::native::BinaryFunctor<c10::Half, c10::Half, c10::Half, at::native::binary_internal::MulFunctor<float> > const&)::{lambda(int)#1})",
+        "cuda_time_us": 2741.457000000012,
+        "calls": 120,
+        "pct_of_total": 3.72
+      },
+      {
+        "name": "aten::cudnn_convolution",
+        "cuda_time_us": 2441.8540000000044,
+        "calls": 5,
+        "pct_of_total": 3.31
+      },
+      {
+        "name": "sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16_f16f32_f32_nhwckrsc_nhwc_tilesize128x32x16_stage1_warpsize4x1x1_g1_tensor16x8x16_aligna2_alignc8_execute_kernel__5x_cudnn",
+        "cuda_time_us": 1360.1070000000018,
+        "calls": 5,
+        "pct_of_total": 1.84
+      },
+      {
+        "name": "void cudnn::engines_precompiled::nchwToNhwcKernel<__half, __half, float, false, true, (cudnnKernelDataType_t)0>(cudnn::engines_precompiled::nchw2nhwc_params_t<float>, __half const*, __half*)",
+        "cuda_time_us": 1014.8070000000021,
+        "calls": 10,
+        "pct_of_total": 1.38
+      },
+      {
+        "name": "aten::add",
+        "cuda_time_us": 949.1759999999902,
+        "calls": 125,
+        "pct_of_total": 1.29
+      },
+      {
+        "name": "void at::native::vectorized_elementwise_kernel<4, at::native::CUDAFunctor_add<c10::Half>, std::array<char*, 3ul> >(int, at::native::CUDAFunctor_add<c10::Half>, std::array<char*, 3ul>)",
+        "cuda_time_us": 949.1759999999902,
+        "calls": 125,
+        "pct_of_total": 1.29
+      },
+      {
+        "name": "Activity Buffer Request",
+        "cuda_time_us": 474.25300000000016,
+        "calls": 1,
+        "pct_of_total": 0.64
+      },
+      {
+        "name": "aten::cat",
+        "cuda_time_us": 326.80200000000036,
+        "calls": 5,
+        "pct_of_total": 0.44
+      },
+      {
+        "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 3, 64, 64>(at::native::(anonymous namespace)::OpaqueType<2u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<2u>, unsigned int, 64, 64>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+        "cuda_time_us": 326.80200000000036,
+        "calls": 5,
+        "pct_of_total": 0.44
+      },
+      {
+        "name": "aten::add_",
+        "cuda_time_us": 111.64300000000048,
+        "calls": 5,
+        "pct_of_total": 0.15
+      },
+      {
+        "name": "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<c10::Half> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<c10::Half> const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::CUDAFunctor_add<c10::Half> >(at::TensorIteratorBase&, at::native::CUDAFunctor_add<c10::Half> const&)::{lambda(int)#1})",
+        "cuda_time_us": 111.64300000000048,
+        "calls": 5,
+        "pct_of_total": 0.15
+      },
+      {
+        "name": "void cudnn::engines_precompiled::nhwcToNchwKernel<__half, __half, float, true, false, (cudnnKernelDataType_t)0>(cudnn::engines_precompiled::nhwc2nchw_params_t<float>, __half const*, __half*)",
+        "cuda_time_us": 66.94000000000051,
+        "calls": 5,
+        "pct_of_total": 0.09
+      }
+    ],
+    "timestamp": "2026-04-05T18:07:04.382404+00:00"
+  },
+  {
+    "model": "dinov2_b",
+    "runtime": "aot_inductor",
+    "precision": "fp32",
+    "warmup_iters": 10,
+    "profile_iters": 5,
+    "total_cuda_us": 477815.76,
+    "n_ops": 15,
+    "layers": [
+      {
+        "name": "void cutlass::Kernel2<cutlass_80_simt_sgemm_256x128_8x4_tn_align1>(cutlass_80_simt_sgemm_256x128_8x4_tn_align1::Params)",
+        "cuda_time_us": 234273.5329999998,
+        "calls": 180,
+        "pct_of_total": 49.03
+      },
+      {
+        "name": "void magma_sgemmEx_kernel<float, float, float, true, false, 6, 4, 6, 3, 4>(int, int, int, BatchedTensor, int, BatchedTensor, int, BatchedTensor, int, BatchedTensor, int, int, int, float const*, float const*, float, float, int, cublasLtEpilogue_t, int, void const*, long)",
+        "cuda_time_us": 80135.052,
+        "calls": 60,
+        "pct_of_total": 16.77
+      },
+      {
+        "name": "aten::_efficient_attention_forward",
+        "cuda_time_us": 73963.8070000003,
+        "calls": 60,
+        "pct_of_total": 15.48
+      },
+      {
+        "name": "fmha_cutlassF_f32_aligned_64x64_rf_sm80(PyTorchMemEffAttention::AttentionKernel<float, cutlass::arch::Sm80, true, 64, 64, 64, true, true>::Params)",
+        "cuda_time_us": 73963.8070000003,
+        "calls": 60,
+        "pct_of_total": 15.48
+      },
+      {
+        "name": "triton_per_fused_add_addmm_mul_native_layer_norm_view_4",
+        "cuda_time_us": 3975.078999999898,
+        "calls": 55,
+        "pct_of_total": 0.83
+      },
+      {
+        "name": "triton_poi_fused_addmm_gelu_view_2",
+        "cuda_time_us": 3927.6300000000547,
+        "calls": 60,
+        "pct_of_total": 0.82
+      },
+      {
+        "name": "aten::cudnn_convolution",
+        "cuda_time_us": 2351.7810000000263,
+        "calls": 5,
+        "pct_of_total": 0.49
+      },
+      {
+        "name": "triton_per_fused_add_addmm_mul_native_layer_norm_view_3",
+        "cuda_time_us": 1986.5129999999208,
+        "calls": 55,
+        "pct_of_total": 0.42
+      },
+      {
+        "name": "sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_tf32f32_tf32f32_f32_nhwckrsc_nhwc_tilesize128x32x16_stage1_warpsize4x1x1_g1_tensor16x8x8_aligna4_alignc8_execute_kernel__5x_cudnn",
+        "cuda_time_us": 1227.632000000001,
+        "calls": 5,
+        "pct_of_total": 0.26
+      },
+      {
+        "name": "void cudnn::engines_precompiled::nchwToNhwcKernel<float, float, float, false, true, (cudnnKernelDataType_t)2>(cudnn::engines_precompiled::nchw2nhwc_params_t<float>, float const*, float*)",
+        "cuda_time_us": 1025.0490000000093,
+        "calls": 10,
+        "pct_of_total": 0.21
+      },
+      {
+        "name": "triton_red_fused_add_addmm_cat_convolution_expand_mul_native_layer_norm_transpose_view_1",
+        "cuda_time_us": 340.371999999943,
+        "calls": 5,
+        "pct_of_total": 0.07
+      },
+      {
+        "name": "triton_red_fused_add_cat_convolution_expand_native_layer_norm_transpose_view_0",
+        "cuda_time_us": 235.06199999996534,
+        "calls": 5,
+        "pct_of_total": 0.05
+      },
+      {
+        "name": "triton_per_fused_add_addmm_mul_native_layer_norm_view_5",
+        "cuda_time_us": 180.88899999998102,
+        "calls": 5,
+        "pct_of_total": 0.04
+      },
+      {
+        "name": "Memset (Device)",
+        "cuda_time_us": 130.45800000022155,
+        "calls": 120,
+        "pct_of_total": 0.03
+      },
+      {
+        "name": "void cudnn::engines_precompiled::nhwcToNchwKernel<float, float, float, true, false, (cudnnKernelDataType_t)0>(cudnn::engines_precompiled::nhwc2nchw_params_t<float>, float const*, float*)",
+        "cuda_time_us": 99.10000000001628,
+        "calls": 5,
+        "pct_of_total": 0.02
+      }
+    ],
+    "timestamp": "2026-04-05T18:07:21.701459+00:00"
+  },
+  {
+    "model": "dinov2_b",
+    "runtime": "aot_inductor",
+    "precision": "fp16",
+    "warmup_iters": 10,
+    "profile_iters": 5,
+    "total_cuda_us": 43235.71,
+    "n_ops": 15,
+    "layers": [
+      {
+        "name": "aten::_flash_attention_forward",
+        "cuda_time_us": 10727.177000000012,
+        "calls": 60,
+        "pct_of_total": 24.81
+      },
+      {
+        "name": "void pytorch_flash::flash_fwd_kernel<Flash_fwd_kernel_traits<64, 128, 128, 4, false, false, cutlass::half_t, Flash_kernel_traits<64, 128, 128, 4, cutlass::half_t> >, false, false, false, false, false, true, false, false>(pytorch_flash::Flash_fwd_params)",
+        "cuda_time_us": 10727.177000000012,
+        "calls": 60,
+        "pct_of_total": 24.81
+      },
+      {
+        "name": "nvjet_sm110_hsh_176x128_64x5_2x1_v_bz_bias_TNN",
+        "cuda_time_us": 5002.214999999997,
+        "calls": 60,
+        "pct_of_total": 11.57
+      },
+      {
+        "name": "nvjet_sm110_hsh_256x128_64x4_1x1_h_bz_bias_TNT",
+        "cuda_time_us": 3590.837999999988,
+        "calls": 60,
+        "pct_of_total": 8.31
+      },
+      {
+        "name": "nvjet_sm110_hsh_192x288_64x5_2x1_2cta_v_bz_bias_TNT",
+        "cuda_time_us": 3451.721000000001,
+        "calls": 120,
+        "pct_of_total": 7.98
+      },
+      {
+        "name": "triton_poi_fused_gelu_view_2",
+        "cuda_time_us": 2824.1449999999973,
+        "calls": 60,
+        "pct_of_total": 6.53
+      },
+      {
+        "name": "aten::cudnn_convolution",
+        "cuda_time_us": 2423.684999999994,
+        "calls": 5,
+        "pct_of_total": 5.61
+      },
+      {
+        "name": "sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16_f16f32_f32_nhwckrsc_nhwc_tilesize128x32x16_stage1_warpsize4x1x1_g1_tensor16x8x16_aligna2_alignc8_execute_kernel__5x_cudnn",
+        "cuda_time_us": 1350.829,
+        "calls": 5,
+        "pct_of_total": 3.12
+      },
+      {
+        "name": "void cudnn::engines_precompiled::nchwToNhwcKernel<__half, __half, float, false, true, (cudnnKernelDataType_t)0>(cudnn::engines_precompiled::nchw2nhwc_params_t<float>, __half const*, __half*)",
+        "cuda_time_us": 1006.3629999999957,
+        "calls": 10,
+        "pct_of_total": 2.33
+      },
+      {
+        "name": "triton_per_fused_add_mul_native_layer_norm_view_4",
+        "cuda_time_us": 822.7500000000091,
+        "calls": 55,
+        "pct_of_total": 1.9
+      },
+      {
+        "name": "triton_per_fused_add_mul_native_layer_norm_view_3",
+        "cuda_time_us": 703.4269999999933,
+        "calls": 55,
+        "pct_of_total": 1.63
+      },
+      {
+        "name": "triton_red_fused_add_cat_convolution_expand_mul_native_layer_norm_transpose_view_1",
+        "cuda_time_us": 232.72599999999875,
+        "calls": 5,
+        "pct_of_total": 0.54
+      },
+      {
+        "name": "triton_red_fused_add_cat_convolution_expand_native_layer_norm_transpose_view_0",
+        "cuda_time_us": 218.23200000000088,
+        "calls": 5,
+        "pct_of_total": 0.5
+      },
+      {
+        "name": "triton_per_fused_add_mul_native_layer_norm_view_5",
+        "cuda_time_us": 87.93200000000434,
+        "calls": 5,
+        "pct_of_total": 0.2
+      },
+      {
+        "name": "void cudnn::engines_precompiled::nhwcToNchwKernel<__half, __half, float, true, false, (cudnnKernelDataType_t)0>(cudnn::engines_precompiled::nhwc2nchw_params_t<float>, __half const*, __half*)",
+        "cuda_time_us": 66.49299999999835,
+        "calls": 5,
+        "pct_of_total": 0.15
+      }
+    ],
+    "timestamp": "2026-04-05T18:07:35.942647+00:00"
+  },
+  {
+    "model": "dinov2_b",
+    "runtime": "tensorrt",
+    "precision": "fp32",
+    "warmup_iters": 10,
+    "profile_iters": 5,
+    "total_cuda_us": 38512.48,
+    "n_ops": 126,
+    "layers": [
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_106",
+        "cuda_time_us": 1073.6127853393555,
+        "calls": 5,
+        "pct_of_total": 2.79
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_86",
+        "cuda_time_us": 1061.734414100647,
+        "calls": 5,
+        "pct_of_total": 2.76
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_76",
+        "cuda_time_us": 1057.1263790130615,
+        "calls": 5,
+        "pct_of_total": 2.74
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_46",
+        "cuda_time_us": 1054.9375772476196,
+        "calls": 5,
+        "pct_of_total": 2.74
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_16",
+        "cuda_time_us": 1053.4847974777222,
+        "calls": 5,
+        "pct_of_total": 2.74
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_26",
+        "cuda_time_us": 1042.3935890197754,
+        "calls": 5,
+        "pct_of_total": 2.71
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_36",
+        "cuda_time_us": 1033.785605430603,
+        "calls": 5,
+        "pct_of_total": 2.68
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_66",
+        "cuda_time_us": 1032.0064067840576,
+        "calls": 5,
+        "pct_of_total": 2.68
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_96",
+        "cuda_time_us": 1028.5631895065308,
+        "calls": 5,
+        "pct_of_total": 2.67
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_6",
+        "cuda_time_us": 1025.0495910644531,
+        "calls": 5,
+        "pct_of_total": 2.66
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_56",
+        "cuda_time_us": 1023.6991882324218,
+        "calls": 5,
+        "pct_of_total": 2.66
+      },
+      {
+        "name": "__myl_MaxrSubExpSumDivMul_myl0_116",
+        "cuda_time_us": 1023.1104135513305,
+        "calls": 5,
+        "pct_of_total": 2.66
+      },
+      {
+        "name": "node_MatMul_194_myl0_25",
+        "cuda_time_us": 807.6352000236511,
+        "calls": 5,
+        "pct_of_total": 2.1
+      },
+      {
+        "name": "node_MatMul_596_myl0_85",
+        "cuda_time_us": 788.1087899208069,
+        "calls": 5,
+        "pct_of_total": 2.05
+      },
+      {
+        "name": "node_MatMul_663_myl0_95",
+        "cuda_time_us": 779.7183871269226,
+        "calls": 5,
+        "pct_of_total": 2.02
+      },
+      {
+        "name": "node_MatMul_328_myl0_45",
+        "cuda_time_us": 776.6272068023682,
+        "calls": 5,
+        "pct_of_total": 2.02
+      },
+      {
+        "name": "node_MatMul_730_myl0_105",
+        "cuda_time_us": 762.8159999847412,
+        "calls": 5,
+        "pct_of_total": 1.98
+      },
+      {
+        "name": "node_MatMul_127_myl0_15",
+        "cuda_time_us": 761.7791891098022,
+        "calls": 5,
+        "pct_of_total": 1.98
+      },
+      {
+        "name": "node_MatMul_797_myl0_115",
+        "cuda_time_us": 761.2672090530396,
+        "calls": 5,
+        "pct_of_total": 1.98
+      },
+      {
+        "name": "node_MatMul_462_myl0_65",
+        "cuda_time_us": 758.841598033905,
+        "calls": 5,
+        "pct_of_total": 1.97
+      },
+      {
+        "name": "node_MatMul_529_myl0_75",
+        "cuda_time_us": 758.0479979515076,
+        "calls": 5,
+        "pct_of_total": 1.97
+      },
+      {
+        "name": "node_MatMul_60_myl0_5",
+        "cuda_time_us": 756.2367916107178,
+        "calls": 5,
+        "pct_of_total": 1.96
+      },
+      {
+        "name": "node_MatMul_261_myl0_35",
+        "cuda_time_us": 753.5423994064331,
+        "calls": 5,
+        "pct_of_total": 1.96
+      },
+      {
+        "name": "node_MatMul_395_myl0_55",
+        "cuda_time_us": 751.2192130088806,
+        "calls": 5,
+        "pct_of_total": 1.95
+      },
+      {
+        "name": "node_scaled_dot_product_attention_6_myl0_67",
+        "cuda_time_us": 661.683201789856,
+        "calls": 5,
+        "pct_of_total": 1.72
+      },
+      {
+        "name": "node_scaled_dot_product_attention_1_myl0_17",
+        "cuda_time_us": 655.9551954269409,
+        "calls": 5,
+        "pct_of_total": 1.7
+      },
+      {
+        "name": "node_scaled_dot_product_attention_8_myl0_87",
+        "cuda_time_us": 648.9344000816345,
+        "calls": 5,
+        "pct_of_total": 1.68
+      },
+      {
+        "name": "node_scaled_dot_product_attention_10_myl0_107",
+        "cuda_time_us": 647.8143930435181,
+        "calls": 5,
+        "pct_of_total": 1.68
+      },
+      {
+        "name": "node_scaled_dot_product_attention_3_myl0_37",
+        "cuda_time_us": 645.9263920783997,
+        "calls": 5,
+        "pct_of_total": 1.68
+      },
+      {
+        "name": "node_scaled_dot_product_attention_7_myl0_77",
+        "cuda_time_us": 645.747184753418,
+        "calls": 5,
+        "pct_of_total": 1.68
+      },
+      {
+        "name": "node_scaled_dot_product_attention_4_myl0_47",
+        "cuda_time_us": 643.9807891845703,
+        "calls": 5,
+        "pct_of_total": 1.67
+      },
+      {
+        "name": "node_scaled_dot_product_attention_9_myl0_97",
+        "cuda_time_us": 641.100811958313,
+        "calls": 5,
+        "pct_of_total": 1.66
+      },
+      {
+        "name": "node_scaled_dot_product_attention_2_myl0_27",
+        "cuda_time_us": 638.6111855506897,
+        "calls": 5,
+        "pct_of_total": 1.66
+      },
+      {
+        "name": "node_scaled_dot_product_attention_11_myl0_117",
+        "cuda_time_us": 634.2208027839661,
+        "calls": 5,
+        "pct_of_total": 1.65
+      },
+      {
+        "name": "node_scaled_dot_product_attention_5_myl0_57",
+        "cuda_time_us": 632.0704102516174,
+        "calls": 5,
+        "pct_of_total": 1.64
+      },
+      {
+        "name": "node_scaled_dot_product_attention_myl0_7",
+        "cuda_time_us": 626.5215992927551,
+        "calls": 5,
+        "pct_of_total": 1.63
+      },
+      {
+        "name": "node_conv2d_myl0_2",
+        "cuda_time_us": 197.89440035820007,
+        "calls": 5,
+        "pct_of_total": 0.51
+      },
+      {
+        "name": "node_MatMul_204_myl0_30",
+        "cuda_time_us": 194.88640129566193,
+        "calls": 5,
+        "pct_of_total": 0.51
+      },
+      {
+        "name": "node_MatMul_740_myl0_110",
+        "cuda_time_us": 185.5935961008072,
+        "calls": 5,
+        "pct_of_total": 0.48
+      },
+      {
+        "name": "node_MatMul_405_myl0_60",
+        "cuda_time_us": 185.11359989643097,
+        "calls": 5,
+        "pct_of_total": 0.48
+      },
+      {
+        "name": "node_MatMul_338_myl0_50",
+        "cuda_time_us": 183.46239924430847,
+        "calls": 5,
+        "pct_of_total": 0.48
+      },
+      {
+        "name": "node_MatMul_137_myl0_20",
+        "cuda_time_us": 182.2464019060135,
+        "calls": 5,
+        "pct_of_total": 0.47
+      },
+      {
+        "name": "node_MatMul_472_myl0_70",
+        "cuda_time_us": 179.05279994010925,
+        "calls": 5,
+        "pct_of_total": 0.46
+      },
+      {
+        "name": "node_MatMul_539_myl0_80",
+        "cuda_time_us": 178.99520099163055,
+        "calls": 5,
+        "pct_of_total": 0.46
+      },
+      {
+        "name": "node_MatMul_673_myl0_100",
+        "cuda_time_us": 177.68319845199585,
+        "calls": 5,
+        "pct_of_total": 0.46
+      },
+      {
+        "name": "node_MatMul_271_myl0_40",
+        "cuda_time_us": 176.0640025138855,
+        "calls": 5,
+        "pct_of_total": 0.46
+      },
+      {
+        "name": "node_MatMul_807_myl0_120",
+        "cuda_time_us": 175.04000067710876,
+        "calls": 5,
+        "pct_of_total": 0.45
+      },
+      {
+        "name": "node_MatMul_606_myl0_90",
+        "cuda_time_us": 174.91840422153473,
+        "calls": 5,
+        "pct_of_total": 0.45
+      },
+      {
+        "name": "node_MatMul_70_myl0_10",
+        "cuda_time_us": 172.33920097351074,
+        "calls": 5,
+        "pct_of_total": 0.45
+      },
+      {
+        "name": "__mye118327+__mye118315+__mye118303_myl0_44",
+        "cuda_time_us": 142.26560294628143,
+        "calls": 5,
+        "pct_of_total": 0.37
+      },
+      {
+        "name": "__mye117951+__mye117939+__mye117927_myl0_4",
+        "cuda_time_us": 141.08799993991852,
+        "calls": 5,
+        "pct_of_total": 0.37
+      },
+      {
+        "name": "__mye118891+__mye118879+__mye118867_myl0_104",
+        "cuda_time_us": 140.99199771881104,
+        "calls": 5,
+        "pct_of_total": 0.37
+      },
+      {
+        "name": "__mye118985+__mye118973+__mye118961_myl0_114",
+        "cuda_time_us": 140.85120260715485,
+        "calls": 5,
+        "pct_of_total": 0.37
+      },
+      {
+        "name": "__mye118703+__mye118691+__mye118679_myl0_84",
+        "cuda_time_us": 140.81279635429382,
+        "calls": 5,
+        "pct_of_total": 0.37
+      },
+      {
+        "name": "__mye118233+__mye118221+__mye118209_myl0_34",
+        "cuda_time_us": 140.6271994113922,
+        "calls": 5,
+        "pct_of_total": 0.37
+      },
+      {
+        "name": "__mye118797+__mye118785+__mye118773_myl0_94",
+        "cuda_time_us": 140.15999734401703,
+        "calls": 5,
+        "pct_of_total": 0.36
+      },
+      {
+        "name": "__mye118609+__mye118597+__mye118585_myl0_74",
+        "cuda_time_us": 139.15520012378693,
+        "calls": 5,
+        "pct_of_total": 0.36
+      },
+      {
+        "name": "__mye118139+__mye118127+__mye118115_myl0_24",
+        "cuda_time_us": 138.63039910793304,
+        "calls": 5,
+        "pct_of_total": 0.36
+      },
+      {
+        "name": "__mye118045+__mye118033+__mye118021_myl0_14",
+        "cuda_time_us": 138.2463961839676,
+        "calls": 5,
+        "pct_of_total": 0.36
+      },
+      {
+        "name": "__mye118515+__mye118503+__mye118491_myl0_64",
+        "cuda_time_us": 137.2927963733673,
+        "calls": 5,
+        "pct_of_total": 0.36
+      },
+      {
+        "name": "__mye118421+__mye118409+__mye118397_myl0_54",
+        "cuda_time_us": 136.7615967988968,
+        "calls": 5,
+        "pct_of_total": 0.36
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_61",
+        "cuda_time_us": 132.0576012134552,
+        "calls": 5,
+        "pct_of_total": 0.34
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_51",
+        "cuda_time_us": 131.39840066432953,
+        "calls": 5,
+        "pct_of_total": 0.34
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_31",
+        "cuda_time_us": 130.9119999408722,
+        "calls": 5,
+        "pct_of_total": 0.34
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_111",
+        "cuda_time_us": 130.5344045162201,
+        "calls": 5,
+        "pct_of_total": 0.34
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_101",
+        "cuda_time_us": 129.87520396709442,
+        "calls": 5,
+        "pct_of_total": 0.34
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_21",
+        "cuda_time_us": 128.60160171985626,
+        "calls": 5,
+        "pct_of_total": 0.33
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_11",
+        "cuda_time_us": 128.32000255584717,
+        "calls": 5,
+        "pct_of_total": 0.33
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_91",
+        "cuda_time_us": 128.1024008989334,
+        "calls": 5,
+        "pct_of_total": 0.33
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_81",
+        "cuda_time_us": 128.08319926261902,
+        "calls": 5,
+        "pct_of_total": 0.33
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_121",
+        "cuda_time_us": 127.87200212478639,
+        "calls": 5,
+        "pct_of_total": 0.33
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_41",
+        "cuda_time_us": 127.80800163745882,
+        "calls": 5,
+        "pct_of_total": 0.33
+      },
+      {
+        "name": "__myl_MulErfAddMulMul_myl0_71",
+        "cuda_time_us": 126.06079876422882,
+        "calls": 5,
+        "pct_of_total": 0.33
+      },
+      {
+        "name": "node_MatMul_414_myl0_62",
+        "cuda_time_us": 116.80000126361847,
+        "calls": 5,
+        "pct_of_total": 0.3
+      },
+      {
+        "name": "node_MatMul_213_myl0_32",
+        "cuda_time_us": 113.99039924144745,
+        "calls": 5,
+        "pct_of_total": 0.3
+      },
+      {
+        "name": "node_MatMul_548_myl0_82",
+        "cuda_time_us": 112.14720010757446,
+        "calls": 5,
+        "pct_of_total": 0.29
+      },
+      {
+        "name": "node_MatMul_146_myl0_22",
+        "cuda_time_us": 110.41919887065887,
+        "calls": 5,
+        "pct_of_total": 0.29
+      },
+      {
+        "name": "node_MatMul_481_myl0_72",
+        "cuda_time_us": 108.25599879026413,
+        "calls": 5,
+        "pct_of_total": 0.28
+      },
+      {
+        "name": "node_MatMul_682_myl0_102",
+        "cuda_time_us": 108.19199830293655,
+        "calls": 5,
+        "pct_of_total": 0.28
+      },
+      {
+        "name": "node_MatMul_615_myl0_92",
+        "cuda_time_us": 107.89119750261307,
+        "calls": 5,
+        "pct_of_total": 0.28
+      },
+      {
+        "name": "node_MatMul_280_myl0_42",
+        "cuda_time_us": 107.78879821300507,
+        "calls": 5,
+        "pct_of_total": 0.28
+      },
+      {
+        "name": "node_MatMul_79_myl0_12",
+        "cuda_time_us": 107.60959833860397,
+        "calls": 5,
+        "pct_of_total": 0.28
+      },
+      {
+        "name": "node_MatMul_749_myl0_112",
+        "cuda_time_us": 107.2639986872673,
+        "calls": 5,
+        "pct_of_total": 0.28
+      },
+      {
+        "name": "node_MatMul_816_myl0_122",
+        "cuda_time_us": 106.00959807634354,
+        "calls": 5,
+        "pct_of_total": 0.28
+      },
+      {
+        "name": "node_MatMul_347_myl0_52",
+        "cuda_time_us": 103.29599976539612,
+        "calls": 5,
+        "pct_of_total": 0.27
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_93",
+        "cuda_time_us": 77.99040228128433,
+        "calls": 5,
+        "pct_of_total": 0.2
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_23",
+        "cuda_time_us": 77.7408018708229,
+        "calls": 5,
+        "pct_of_total": 0.2
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_33",
+        "cuda_time_us": 77.7408018708229,
+        "calls": 5,
+        "pct_of_total": 0.2
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_103",
+        "cuda_time_us": 76.65920108556747,
+        "calls": 5,
+        "pct_of_total": 0.2
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_63",
+        "cuda_time_us": 75.88480114936829,
+        "calls": 5,
+        "pct_of_total": 0.2
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_43",
+        "cuda_time_us": 74.77760165929794,
+        "calls": 5,
+        "pct_of_total": 0.19
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_83",
+        "cuda_time_us": 74.71360117197037,
+        "calls": 5,
+        "pct_of_total": 0.19
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_53",
+        "cuda_time_us": 74.62400197982788,
+        "calls": 5,
+        "pct_of_total": 0.19
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_73",
+        "cuda_time_us": 74.62400197982788,
+        "calls": 5,
+        "pct_of_total": 0.19
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_113",
+        "cuda_time_us": 74.31680113077164,
+        "calls": 5,
+        "pct_of_total": 0.19
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_13",
+        "cuda_time_us": 74.29760247468948,
+        "calls": 5,
+        "pct_of_total": 0.19
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_29",
+        "cuda_time_us": 56.172799319028854,
+        "calls": 5,
+        "pct_of_total": 0.15
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMean_myl0_123",
+        "cuda_time_us": 55.103999376297,
+        "calls": 5,
+        "pct_of_total": 0.14
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_79",
+        "cuda_time_us": 54.80960085988045,
+        "calls": 5,
+        "pct_of_total": 0.14
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_99",
+        "cuda_time_us": 53.913600742816925,
+        "calls": 5,
+        "pct_of_total": 0.14
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_19",
+        "cuda_time_us": 53.84319871664047,
+        "calls": 5,
+        "pct_of_total": 0.14
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_59",
+        "cuda_time_us": 53.811199963092804,
+        "calls": 5,
+        "pct_of_total": 0.14
+      },
+      {
+        "name": "__myl_MoveConc_myl0_1",
+        "cuda_time_us": 52.799999713897705,
+        "calls": 5,
+        "pct_of_total": 0.14
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_89",
+        "cuda_time_us": 52.17280015349388,
+        "calls": 5,
+        "pct_of_total": 0.14
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_39",
+        "cuda_time_us": 52.09599956870079,
+        "calls": 5,
+        "pct_of_total": 0.14
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_69",
+        "cuda_time_us": 51.955198496580124,
+        "calls": 5,
+        "pct_of_total": 0.13
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_109",
+        "cuda_time_us": 51.74399986863136,
+        "calls": 5,
+        "pct_of_total": 0.13
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_119",
+        "cuda_time_us": 51.712000370025635,
+        "calls": 5,
+        "pct_of_total": 0.13
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_49",
+        "cuda_time_us": 51.30239948630333,
+        "calls": 5,
+        "pct_of_total": 0.13
+      },
+      {
+        "name": "__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_9",
+        "cuda_time_us": 49.27360042929649,
+        "calls": 5,
+        "pct_of_total": 0.13
+      },
+      {
+        "name": "__myl_TranConcAddMeanSubMulMeanAddSqrtDivMulMulAdd_myl0_3",
+        "cuda_time_us": 48.04480001330376,
+        "calls": 5,
+        "pct_of_total": 0.12
+      },
+      {
+        "name": "node_MatMul_671_myl0_98",
+        "cuda_time_us": 46.55999913811684,
+        "calls": 5,
+        "pct_of_total": 0.12
+      },
+      {
+        "name": "node_MatMul_269_myl0_38",
+        "cuda_time_us": 45.5999992787838,
+        "calls": 5,
+        "pct_of_total": 0.12
+      },
+      {
+        "name": "node_MatMul_537_myl0_78",
+        "cuda_time_us": 43.513599783182144,
+        "calls": 5,
+        "pct_of_total": 0.11
+      },
+      {
+        "name": "node_MatMul_336_myl0_48",
+        "cuda_time_us": 43.50719898939133,
+        "calls": 5,
+        "pct_of_total": 0.11
+      },
+      {
+        "name": "node_MatMul_738_myl0_108",
+        "cuda_time_us": 43.50719898939133,
+        "calls": 5,
+        "pct_of_total": 0.11
+      },
+      {
+        "name": "node_MatMul_403_myl0_58",
+        "cuda_time_us": 43.35999935865402,
+        "calls": 5,
+        "pct_of_total": 0.11
+      },
+      {
+        "name": "node_MatMul_135_myl0_18",
+        "cuda_time_us": 43.244800716638565,
+        "calls": 5,
+        "pct_of_total": 0.11
+      },
+      {
+        "name": "node_MatMul_805_myl0_118",
+        "cuda_time_us": 43.110399693250656,
+        "calls": 5,
+        "pct_of_total": 0.11
+      },
+      {
+        "name": "node_MatMul_470_myl0_68",
+        "cuda_time_us": 43.09120029211044,
+        "calls": 5,
+        "pct_of_total": 0.11
+      },
+      {
+        "name": "node_MatMul_604_myl0_88",
+        "cuda_time_us": 42.95039921998978,
+        "calls": 5,
+        "pct_of_total": 0.11
+      },
+      {
+        "name": "node_MatMul_202_myl0_28",
+        "cuda_time_us": 42.25919991731644,
+        "calls": 5,
+        "pct_of_total": 0.11
+      },
+      {
+        "name": "node_MatMul_68_myl0_8",
+        "cuda_time_us": 41.38239920139313,
+        "calls": 5,
+        "pct_of_total": 0.11
+      },
+      {
+        "name": "__mye123206_myl0_0",
+        "cuda_time_us": 14.079999830573797,
+        "calls": 5,
+        "pct_of_total": 0.04
+      },
+      {
+        "name": "__myl_AddSqrtDivMulMulAddSlic_myl0_124",
+        "cuda_time_us": 5.708799976855516,
+        "calls": 5,
+        "pct_of_total": 0.01
+      },
+      {
+        "name": "__mye123208_myl0_125",
+        "cuda_time_us": 1.1072000255808234,
+        "calls": 5,
+        "pct_of_total": 0.0
+      }
+    ],
+    "timestamp": "2026-04-05T18:07:55.468324+00:00"
+  }
+]
