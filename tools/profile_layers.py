@@ -46,19 +46,23 @@ TOP_N         = 20
 OUTPUT_DIR    = Path(__file__).parent.parent / "results" / "profiles"
 
 COMBOS: list[tuple[str, str, str]] = [
-    ("resnet50",  "pytorch",      "fp32"),
-    ("resnet50",  "pytorch",      "fp16"),
-    ("resnet50",  "aot_inductor", "fp32"),
-    ("resnet50",  "aot_inductor", "fp16"),
-    ("resnet50",  "tensorrt",     "fp32"),
-    ("resnet50",  "tensorrt",     "fp16"),
-    ("dinov2_b",  "pytorch",      "fp32"),
-    ("dinov2_b",  "pytorch",      "fp16"),
-    ("dinov2_b",  "aot_inductor", "fp32"),
-    ("dinov2_b",  "aot_inductor", "fp16"),
-    ("dinov2_b",  "tensorrt",     "fp32"),
+    ("resnet50",  "pytorch",         "fp32"),
+    ("resnet50",  "pytorch",         "fp16"),
+    ("resnet50",  "aot_inductor",    "fp32"),
+    ("resnet50",  "aot_inductor",    "fp16"),
+    ("resnet50",  "tensorrt",        "fp32"),
+    ("resnet50",  "tensorrt",        "fp16"),
+    ("resnet50",  "torch_tensorrt",  "fp32"),
+    ("resnet50",  "torch_tensorrt",  "fp16"),
+    ("dinov2_b",  "pytorch",         "fp32"),
+    ("dinov2_b",  "pytorch",         "fp16"),
+    ("dinov2_b",  "aot_inductor",    "fp32"),
+    ("dinov2_b",  "aot_inductor",    "fp16"),
+    ("dinov2_b",  "tensorrt",        "fp32"),
     # dinov2_b / tensorrt / fp16 skipped: TRT IProfiler triggers illegal memory
     # access on Blackwell (sm_110a) with fp16 engines — known TRT 10.x bug.
+    ("dinov2_b",  "torch_tensorrt",  "fp32"),
+    ("dinov2_b",  "torch_tensorrt",  "fp16"),
 ]
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
@@ -206,6 +210,31 @@ class AOTInductorProfilerAdapter:
         return _parse_torch_key_averages(prof.key_averages())
 
 
+class TorchTensorRTProfilerAdapter:
+    """Profiles Torch-TensorRT compiled runner using torch.profiler (same handle shape as AOT)."""
+
+    def profile(self, handle: Any, input_tensor: Any, n_iters: int) -> list[dict]:
+        device_tensor = input_tensor.to(
+            device=handle["device"],
+            dtype=handle["dtype"],
+        )
+        runner = handle["runner"]
+
+        with torch.profiler.profile(
+            activities=[
+                torch.profiler.ProfilerActivity.CPU,
+                torch.profiler.ProfilerActivity.CUDA,
+            ],
+            record_shapes=False,
+            with_stack=False,
+            profile_memory=False,
+        ) as prof:
+            for _ in range(n_iters):
+                runner(device_tensor)
+
+        return _parse_torch_key_averages(prof.key_averages())
+
+
 class TensorRTProfilerAdapter:
     """Profiles TensorRT engine using trt.IProfiler callbacks (TRT >= 10.x)."""
 
@@ -253,6 +282,8 @@ def _get_adapter(runtime_key: str) -> Any:
         return AOTInductorProfilerAdapter()
     if runtime_key == "tensorrt":
         return TensorRTProfilerAdapter()
+    if runtime_key == "torch_tensorrt":
+        return TorchTensorRTProfilerAdapter()
     raise ValueError(f"No profiler adapter for runtime: {runtime_key!r}")
 
 

@@ -14,6 +14,7 @@ from runtimes.aot_inductor.runtime import AOTInductorRuntime
 from runtimes.executorch.runtime import ExecuTorchRuntime
 from runtimes.pytorch.runtime import PyTorchRuntime
 from runtimes.tensorrt.runtime import TensorRTRuntime
+from runtimes.torch_tensorrt.runtime import TorchTensorRTRuntime
 
 MODEL_REGISTRY: dict = {
     "resnet50":  resnet50_spec,
@@ -21,10 +22,11 @@ MODEL_REGISTRY: dict = {
 }
 
 RUNTIME_REGISTRY: dict = {
-    "pytorch":      PyTorchRuntime,
-    "tensorrt":     TensorRTRuntime,
-    "executorch":   ExecuTorchRuntime,
-    "aot_inductor": AOTInductorRuntime,
+    "pytorch":         PyTorchRuntime,
+    "tensorrt":        TensorRTRuntime,
+    "torch_tensorrt":  TorchTensorRTRuntime,
+    "executorch":      ExecuTorchRuntime,
+    "aot_inductor":    AOTInductorRuntime,
 }
 
 INPUT_REGISTRY: dict = {
