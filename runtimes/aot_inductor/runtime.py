@@ -73,15 +73,10 @@ def _compile_and_cache(cache_path: Path, device: str) -> str:
 
     cache_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # cpp_wrapper=True avoids Triton autotuning (ptxas not needed); generates C++ kernels instead.
     so_path = torch._inductor.aot_compile(  # type: ignore[attr-defined]
         graph_module,
         (dummy_input,),
-        options={
-            "aot_inductor.output_path": str(cache_path),
-            "cpp_wrapper": True,
-            "max_autotune": False,
-        },
+        options={"aot_inductor.output_path": str(cache_path)},
     )
     L.info("aot_inductor.cache.saved", path=so_path)
     return so_path

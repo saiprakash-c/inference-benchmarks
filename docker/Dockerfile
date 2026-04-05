@@ -67,6 +67,15 @@ RUN pip3 install --no-cache-dir --break-system-packages \
     --extra-index-url https://pypi.jetson-ai-lab.io/jp7/cu130 \
     "/workspace[gpu]"
 
+# ── Triton ptxas fix for Jetson AGX Thor (sm_110a) ────────────────────────────
+# Triton 3.6 bundles ptxas-blackwell built against CUDA 12.8, which does not
+# recognise sm_110a (Blackwell variant on Thor). Replace it with the CUDA 13.0
+# ptxas bundled with PyTorch, which supports sm_110a.
+# hadolint ignore=SC2046
+RUN torch_ptxas=$(find /usr/local/lib/python3* -name ptxas -path "*/torch/bin/*" 2>/dev/null | head -1) && \
+    triton_blackwell=$(find /usr/local/lib/python3* -name ptxas-blackwell -path "*/triton/*" 2>/dev/null | head -1) && \
+    cp "$torch_ptxas" "$triton_blackwell"
+
 # ── Node.js 18 LTS + Claude Code ──────────────────────────────────────────────
 ARG NODE_VERSION=18.20.8
 ARG CLAUDE_CODE_VERSION=2.1.92
