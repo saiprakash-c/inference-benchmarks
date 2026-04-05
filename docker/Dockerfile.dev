@@ -16,6 +16,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zsh \
     && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update && apt-get install -y --no-install-recommends --no-upgrade \
+    openssh-client \
+    && rm -rf /var/lib/apt/lists/*
+
 # ── Node.js 18 LTS (official binary) ─────────────────────────────────────────
 ARG NODE_VERSION=18.20.8
 ARG TARGETARCH
