@@ -55,11 +55,12 @@ RUN pip install --no-cache-dir "/workspace[dev]"
 
 # ── User ──────────────────────────────────────────────────────────────────────
 ARG UID=501
+ARG USERNAME=saip
 COPY docker/saip.zshrc /tmp/saip.zshrc
-RUN useradd -m -u ${UID} -s /bin/zsh saip && \
-    cat /tmp/saip.zshrc >> /home/saip/.zshrc
+RUN useradd -m -u ${UID} -s /bin/zsh ${USERNAME} && \
+    cat /tmp/saip.zshrc >> /home/${USERNAME}/.zshrc
 
-USER saip
+USER ${USERNAME}
 
 # ── Workspace ─────────────────────────────────────────────────────────────────
 WORKDIR /workspace
