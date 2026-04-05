@@ -147,11 +147,18 @@ def main(argv: list[str]) -> int:
     if not _verify_digest(host, key, expected_digest):
         return 2
 
+    # Discover the repo path on Thor (could be ~/inference-benchmarks or /workspace).
+    repo_path_result = subprocess.run(
+        ["ssh", f"saip@{host}", "realpath ~/inference-benchmarks 2>/dev/null || echo /workspace"],
+        capture_output=True, text=True, timeout=15,
+    )
+    repo_path = repo_path_result.stdout.strip() or "/workspace"
+
     # Run the Bazel target inside the container on Thor
     bazel_cmd = " ".join(["bazel", "run", target] + extra_args)
     docker_cmd = (
         f"docker run --rm --gpus all "
-        f"--volume /workspace:/workspace "
+        f"--volume {repo_path}:/workspace "
         f"'{IMAGE_NAME}@{expected_digest}' "
         f"{bazel_cmd}"
     )
