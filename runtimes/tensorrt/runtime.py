@@ -2,16 +2,15 @@
 runtimes/tensorrt/runtime.py
 
 TensorRT runtime adapter: exports ResNet50 to ONNX, builds a TRT engine,
-caches the compiled engine to disk, and runs timed inference via CUDA buffers.
+caches the compiled engine to disk, and runs timed inference using PyTorch
+CUDA tensors for memory management (no pycuda dependency).
 """
 
 import io
-import os
 import time
 from pathlib import Path
 from typing import Any
 
-import numpy as np  # type: ignore[import]
 import tensorrt as trt  # type: ignore[import]
 import torch  # type: ignore[import]
 import torchvision.models as tv_models  # type: ignore[import]
@@ -30,8 +29,8 @@ class TensorRTRuntime(RuntimeBase):
 
     def init(self, model_path: str, precision: str, device: str) -> Any:
         """
-        Build or load a cached TRT engine for model_path at the given precision.
-        Returns a tuple (context, input_binding, output_binding) ready for execute_v2.
+        Build or load a cached TRT engine and allocate GPU input/output tensors.
+        Returns a handle dict with context and pinned torch CUDA buffers.
         """
         model_name = Path(model_path).stem if model_path else "resnet50"
         engine_cache_path = TRT_CACHE_DIR / f"{model_name}_{precision}.engine"
@@ -41,77 +40,60 @@ class TensorRTRuntime(RuntimeBase):
             engine = _load_engine_from_cache(engine_cache_path)
         else:
             L.info("tensorrt.init.cache_miss", engine_path=str(engine_cache_path))
-            onnx_bytes = _export_resnet50_to_onnx(precision)
-            engine = _build_engine_from_onnx(onnx_bytes, precision)
+            onnx_bytes = _export_resnet50_to_onnx()
+            engine = _build_engine_from_onnx(onnx_bytes)
             _save_engine_to_cache(engine, engine_cache_path)
 
         context = engine.create_execution_context()
 
-        # Allocate pinned host buffers and CUDA device buffers for input and output.
-        input_shape = (1, 3, 224, 224)
-        output_shape = (1, 1000)
-
-        input_host_buffer = np.zeros(input_shape, dtype=np.float32)
-        output_host_buffer = np.zeros(output_shape, dtype=np.float32)
-
-        import pycuda.driver as cuda  # type: ignore[import]
-        import pycuda.autoinit  # type: ignore[import]  # noqa: F401
-
-        input_device_buffer = cuda.mem_alloc(input_host_buffer.nbytes)
-        output_device_buffer = cuda.mem_alloc(output_host_buffer.nbytes)
+        # Allocate GPU buffers as contiguous float32 torch tensors.
+        input_gpu_buffer = torch.zeros(1, 3, 224, 224, dtype=torch.float32, device="cuda").contiguous()
+        output_gpu_buffer = torch.zeros(1, 1000, dtype=torch.float32, device="cuda").contiguous()
 
         return {
             "context": context,
             "engine": engine,
-            "input_host": input_host_buffer,
-            "output_host": output_host_buffer,
-            "input_device": input_device_buffer,
-            "output_device": output_device_buffer,
+            "input_gpu": input_gpu_buffer,
+            "output_gpu": output_gpu_buffer,
         }
 
     def run(self, handle: Any, input_tensor: Any, n_iters: int) -> list[float]:
-        """
-        Copy input to GPU buffer, execute the TRT engine n_iters times, return latencies in ms.
-        """
-        import pycuda.driver as cuda  # type: ignore[import]
-
+        """Copy input to GPU buffer, execute TRT n_iters times, return latencies in ms."""
         context: Any = handle["context"]
-        input_host: np.ndarray = handle["input_host"]
-        output_host: np.ndarray = handle["output_host"]
-        input_device: Any = handle["input_device"]
-        output_device: Any = handle["output_device"]
+        input_gpu_buffer: torch.Tensor = handle["input_gpu"]
+        output_gpu_buffer: torch.Tensor = handle["output_gpu"]
 
-        # Convert tensor to numpy and copy into pinned host buffer.
-        numpy_input = input_tensor.numpy() if not input_tensor.is_cuda else input_tensor.cpu().numpy()
-        np.copyto(input_host, numpy_input)
+        # Copy input into the pre-allocated GPU buffer.
+        gpu_input = input_tensor.to("cuda") if not input_tensor.is_cuda else input_tensor
+        input_gpu_buffer.copy_(gpu_input)
 
-        bindings = [int(input_device), int(output_device)]
+        bindings = [input_gpu_buffer.data_ptr(), output_gpu_buffer.data_ptr()]
         latencies: list[float] = []
 
         for _ in range(n_iters):
-            cuda.memcpy_htod(input_device, input_host)
+            torch.cuda.synchronize()
             start_time = time.perf_counter()
             context.execute_v2(bindings=bindings)
-            cuda.Context.synchronize()
+            torch.cuda.synchronize()
             end_time = time.perf_counter()
-            cuda.memcpy_dtoh(output_host, output_device)
             latencies.append((end_time - start_time) * 1000.0)
 
         return latencies
 
     def teardown(self, handle: Any) -> None:
-        """Free CUDA device buffers and delete the TRT context and engine."""
-        handle["input_device"].free()
-        handle["output_device"].free()
+        """Delete the TRT context, engine, and GPU buffers."""
         del handle["context"]
         del handle["engine"]
+        del handle["input_gpu"]
+        del handle["output_gpu"]
+        torch.cuda.empty_cache()
 
     def version(self) -> str:
         """Return the installed TensorRT version string."""
         return trt.__version__
 
 
-def _export_resnet50_to_onnx(precision: str) -> bytes:
+def _export_resnet50_to_onnx() -> bytes:
     """Export a torchvision ResNet50 model to ONNX bytes in memory."""
     weights = tv_models.ResNet50_Weights.IMAGENET1K_V2
     model = tv_models.resnet50(weights=weights)
@@ -124,7 +106,7 @@ def _export_resnet50_to_onnx(precision: str) -> bytes:
         model,
         dummy_input,
         onnx_buffer,
-        opset_version=17,
+        opset_version=18,
         input_names=["input"],
         output_names=["output"],
         dynamic_axes=None,
@@ -132,7 +114,7 @@ def _export_resnet50_to_onnx(precision: str) -> bytes:
     return onnx_buffer.getvalue()
 
 
-def _build_engine_from_onnx(onnx_bytes: bytes, precision: str) -> Any:
+def _build_engine_from_onnx(onnx_bytes: bytes) -> Any:
     """Parse ONNX bytes and build a TensorRT ICudaEngine."""
     builder = trt.Builder(_TRT_LOGGER)
     network_flags = 1 << int(trt.NetworkDefinitionCreationFlag.EXPLICIT_BATCH)
