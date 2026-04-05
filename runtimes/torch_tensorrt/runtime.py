@@ -73,6 +73,23 @@ class TorchTensorRTRuntime(RuntimeBase):
         return torch_tensorrt.__version__
 
 
+class _ForwardWrapper(torch.nn.Module):
+    """
+    Wraps a model in a clean forward(self, x) → Tensor signature.
+
+    Required for models like DINOv2-B whose ViT forward uses *args — torch_tensorrt's
+    dynamic_shapes inference mismatches tuple vs dict when it sees *args. A wrapper
+    with an explicit positional parameter eliminates the mismatch.
+    """
+
+    def __init__(self, model: torch.nn.Module) -> None:
+        super().__init__()
+        self.model = model
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.model(x)
+
+
 def _compile_and_cache(
     model_name: str,
     cache_path: Path,
@@ -83,7 +100,8 @@ def _compile_and_cache(
     """Compile model via Torch-TensorRT Dynamo backend, save ExportedProgram, return runner."""
     import torch_tensorrt  # type: ignore[import]
 
-    model = loader.load(model_name, device).to(dtype=dtype)
+    raw_model = loader.load(model_name, device).to(dtype=dtype)
+    model = _ForwardWrapper(raw_model)
 
     # torch_tensorrt.compile() uses torch.export + the TRT Dynamo backend.
     # enabled_precisions controls which TRT kernels are allowed: {torch.float32}
