@@ -32,7 +32,7 @@ class PyTorchRuntime(RuntimeBase):
         param = next(handle.parameters())
         device_tensor = input_tensor.to(device=param.device, dtype=param.dtype)
         latencies: list[float] = []
-        with torch.no_grad():
+        with torch.inference_mode():
             for _ in range(n_iters):
                 torch.cuda.synchronize()
                 start_time = time.perf_counter()
