@@ -18,6 +18,7 @@ dev = [
 # Runtime container (Thor/GPU only) — Dockerfile adds Jetson wheel index
 gpu = [
     "torch>=2.7.0",
+    "torchvision>=0.20.0",
     "executorch>=0.5.1",
 ]
 
