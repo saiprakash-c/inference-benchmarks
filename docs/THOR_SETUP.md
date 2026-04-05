@@ -10,7 +10,7 @@ Current Thor: `100.117.216.89` (Tailscale), hostname `thor`, user `saip`.
 | Item | Value |
 |---|---|
 | Device | NVIDIA Jetson AGX Thor |
-| L4T | R38.4.0 |
+| JetPack | 7.1 (L4T R38.4.0) |
 | CUDA | 13.0 |
 | Driver | 580.00 |
 | Disk | 937 GB NVMe |
@@ -89,6 +89,13 @@ json.dump({
 "
 sudo systemctl restart docker
 
+# Install Docker Compose v2 plugin (not included in Ubuntu 24.04 apt)
+DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+mkdir -p $DOCKER_CONFIG/cli-plugins
+curl -SL https://github.com/docker/compose/releases/download/v2.35.0/docker-compose-linux-aarch64 \
+    -o $DOCKER_CONFIG/cli-plugins/docker-compose
+chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
+
 # Set JETPACK_VERSION env var (used by //versions:check)
 echo 'JETPACK_VERSION=38.4.0' | sudo tee -a /etc/environment
 ```
@@ -97,12 +104,36 @@ Log out and back in (or `newgrp docker`) for group change to take effect.
 
 Verify GPU works in Docker:
 ```bash
-docker run --rm --gpus all ubuntu:22.04 nvidia-smi
+docker run --rm --runtime nvidia ubuntu:22.04 nvidia-smi
 ```
 
 ---
 
-## Stage 5 — Verify
+## Stage 5 — Clone repo and build containers
+
+```bash
+# Clone the repo
+git clone https://github.com/saiprakash-c/inference-benchmarks.git ~/inference-benchmarks
+
+# Pre-create files that docker-compose bind-mounts (Docker creates a dir if missing)
+touch ~/.zsh_history ~/.claude.json
+mkdir -p ~/.claude ~/.config/gh
+
+# Build the runtime image (~5 min first time)
+docker build \
+    --build-arg USERNAME=$(whoami) \
+    --build-arg UID=$(id -u) \
+    -f ~/inference-benchmarks/docker/Dockerfile \
+    -t ghcr.io/saiprakash-c/inference-benchmarks:latest \
+    ~/inference-benchmarks
+
+# Launch the runtime container
+~/inference-benchmarks/bin/docker_rt
+```
+
+---
+
+## Stage 6 — Verify
 
 Run the verification script from your Mac:
 
@@ -116,6 +147,6 @@ All checks must pass before running benchmarks.
 
 ## Re-provisioning a new Thor
 
-Repeat Stages 1–5 in order. Stage 3 onwards can be done entirely over SSH
+Repeat Stages 1–6 in order. Stage 3 onwards can be done entirely over SSH
 once Tailscale is up. The only stage requiring physical access is Stage 1–2
 (initial boot + Tailscale auth in browser).
