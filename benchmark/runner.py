@@ -28,10 +28,9 @@ RESULTS_DIR = Path(__file__).parent.parent / "results"
 
 @dataclass
 class BenchmarkConfig:
-    """Specifies which models, runtimes, inputs, and hardware targets to run."""
+    """Specifies which models, runtimes, and hardware targets to run."""
     models: list[str]
     runtimes: list[str]
-    inputs: list[str]
     hardware: list[str]
 
 
@@ -194,7 +193,7 @@ def run(config: BenchmarkConfig) -> int:
                 any_failed = True
                 continue
 
-            input_key = config.inputs[0]
+            input_key = model_spec.INPUT_KEY
             if input_key not in INPUT_REGISTRY:
                 L.error("benchmark.error", message=f"Unknown input key: {input_key}")
                 any_failed = True
@@ -218,7 +217,6 @@ def main() -> int:
     default_config = BenchmarkConfig(
         models=list(MODEL_REGISTRY.keys()),
         runtimes=list(RUNTIME_REGISTRY.keys()),
-        inputs=list(INPUT_REGISTRY.keys()),
         hardware=["thor"],
     )
     return run(default_config)

@@ -5,11 +5,13 @@ py_library(
     srcs = ["registry.py"],
     deps = [
         "//models/resnet50:resnet50",
+        "//models/dinov2_b:dinov2_b",
         "//runtimes/pytorch:pytorch",
         "//runtimes/tensorrt:tensorrt",
         "//runtimes/executorch:executorch",
         "//runtimes/aot_inductor:aot_inductor",
         "//inputs:imagenet",
+        "//inputs:dinov2",
     ],
     visibility = ["//visibility:public"],
 )
