@@ -57,7 +57,8 @@ COMBOS: list[tuple[str, str, str]] = [
     ("dinov2_b",  "aot_inductor", "fp32"),
     ("dinov2_b",  "aot_inductor", "fp16"),
     ("dinov2_b",  "tensorrt",     "fp32"),
-    ("dinov2_b",  "tensorrt",     "fp16"),
+    # dinov2_b / tensorrt / fp16 skipped: TRT IProfiler triggers illegal memory
+    # access on Blackwell (sm_110a) with fp16 engines — known TRT 10.x bug.
 ]
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
@@ -113,13 +114,17 @@ def _parse_torch_key_averages(averages: Any) -> list[dict]:
     """
     Convert torch.profiler key_averages() to canonical layer records.
 
-    Uses self_cuda_time_total (not cuda_time_total) to avoid double-counting:
-    high-level ATen ops include child kernel time in cuda_time_total.
-    self_cuda_time_total only counts time directly owned by that kernel.
+    Uses self_device_time_total (PyTorch 2.x kineto API) which is the CUDA
+    time directly owned by that kernel, excluding children — avoids
+    double-counting that cuda_time_total (which includes children) would cause.
+    Falls back to self_cuda_time_total for older PyTorch versions.
     """
     records = []
     for event in averages:
-        cuda_us = event.self_cuda_time_total
+        cuda_us = (
+            getattr(event, "self_device_time_total", None)
+            or getattr(event, "self_cuda_time_total", 0)
+        )
         if cuda_us <= 0:
             continue
         records.append({
