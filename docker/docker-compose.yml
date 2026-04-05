@@ -33,6 +33,9 @@ services:
       - GIT_CONFIG_VALUE_0=/usr/local/bin/gh auth git-credential
 
   runtime:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
     image: ghcr.io/saiprakash-c/inference-benchmarks:latest
     runtime: nvidia
     volumes:
