@@ -78,9 +78,9 @@ RUN pip3 install --no-cache-dir --break-system-packages \
 RUN torch_ptxas=$(find /usr/local/lib/python3* -name ptxas -path "*/torch/bin/*" 2>/dev/null | head -1) && \
     triton_blackwell=$(find /usr/local/lib/python3* -name ptxas-blackwell -path "*/triton/*" 2>/dev/null | head -1) && \
     cp "$torch_ptxas" "$triton_blackwell" && \
-    cu13_include=$(find /usr/local/lib/python3* -path "*/nvidia/cu13/include" -type d 2>/dev/null | head -1) && \
+    triton_include=$(find /usr/local/lib/python3* -path "*/triton/backends/nvidia/include" -type d 2>/dev/null | head -1) && \
     rm -rf /usr/local/cuda/include && \
-    ln -s "$cu13_include" /usr/local/cuda/include
+    ln -s "$triton_include" /usr/local/cuda/include
 
 # ── Node.js 18 LTS + Claude Code ──────────────────────────────────────────────
 ARG NODE_VERSION=18.20.8
