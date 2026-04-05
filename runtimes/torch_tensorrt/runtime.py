@@ -89,12 +89,16 @@ def _compile_and_cache(
     # enabled_precisions controls which TRT kernels are allowed: {torch.float32}
     # forces all-fp32, {torch.float16} enables fp16 (TRT picks fp16 kernels).
     # truncate_long_and_double: safe cast of any int64→int32 TRT doesn't support.
+    # use_explicit_typing=False: allow enabled_precisions to drive kernel selection.
+    # In torch_tensorrt 2.11, use_explicit_typing defaults to True for dynamo IR,
+    # which conflicts with enabled_precisions — override it here.
     compiled = torch_tensorrt.compile(
         model,
         ir="dynamo",
         inputs=[dummy_input],
         enabled_precisions={dtype},
         truncate_long_and_double=True,
+        use_explicit_typing=False,
     )
 
     cache_path.parent.mkdir(parents=True, exist_ok=True)
