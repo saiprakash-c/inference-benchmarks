@@ -67,14 +67,17 @@ RUN pip3 install --no-cache-dir --break-system-packages \
     --extra-index-url https://pypi.jetson-ai-lab.io/jp7/cu130 \
     "/workspace[gpu]"
 
-# ── Triton ptxas fix for Jetson AGX Thor (sm_110a) ────────────────────────────
-# Triton 3.6 bundles ptxas-blackwell built against CUDA 12.8, which does not
-# recognise sm_110a (Blackwell variant on Thor). Replace it with the CUDA 13.0
-# ptxas bundled with PyTorch, which supports sm_110a.
+# ── AOT Inductor / Triton fixes for Jetson AGX Thor (sm_110a) ─────────────────
+# 1. Triton 3.6 bundles ptxas-blackwell built against CUDA 12.8, which does not
+#    recognise sm_110a. Replace it with the CUDA 13.0 ptxas from PyTorch.
+# 2. The runtime base image has no CUDA dev headers. AOT Inductor's C++ compiler
+#    needs cuda.h; use the copy that Triton ships in its own include directory.
 # hadolint ignore=SC2046
 RUN torch_ptxas=$(find /usr/local/lib/python3* -name ptxas -path "*/torch/bin/*" 2>/dev/null | head -1) && \
     triton_blackwell=$(find /usr/local/lib/python3* -name ptxas-blackwell -path "*/triton/*" 2>/dev/null | head -1) && \
-    cp "$torch_ptxas" "$triton_blackwell"
+    cp "$torch_ptxas" "$triton_blackwell" && \
+    triton_cuda_h=$(find /usr/local/lib/python3* -path "*/triton/backends/nvidia/include/cuda.h" 2>/dev/null | head -1) && \
+    cp "$triton_cuda_h" /usr/local/cuda/include/cuda.h
 
 # ── Node.js 18 LTS + Claude Code ──────────────────────────────────────────────
 ARG NODE_VERSION=18.20.8
