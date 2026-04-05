@@ -1,3 +1,5 @@
+name: inference-benchmarks
+
 # inference-benchmarks compose services
 #
 # dev     — CPU-only, for Mac/CI development (runs anywhere)
@@ -14,18 +16,28 @@ services:
       dockerfile: docker/Dockerfile.dev
     volumes:
       - ..:/workspace
+      - ~/.ssh:/home/saip/.ssh:ro
+      - ~/.claude:/home/saip/.claude
+      - ~/.gitconfig:/home/saip/.gitconfig:ro
     working_dir: /workspace
+    hostname: inference-benchmarks-dev
     network_mode: host
     environment:
       - TERM=xterm-256color
+      - ANTHROPIC_API_KEY
 
   runtime:
     image: ghcr.io/saiprakash-c/inference-benchmarks:latest
     runtime: nvidia
     volumes:
       - ..:/workspace
+      - ~/.ssh:/home/saip/.ssh:ro
+      - ~/.claude:/home/saip/.claude
+      - ~/.gitconfig:/home/saip/.gitconfig:ro
     working_dir: /workspace
+    hostname: inference-benchmarks-rt
     network_mode: host
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+      - TERM=xterm-256color

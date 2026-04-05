@@ -50,6 +50,20 @@ RUN pip3 install --no-cache-dir \
     --extra-index-url https://pypi.jetson-ai-lab.io/jp7/cu130 \
     "/workspace[gpu]"
 
+# ── Node.js 18 LTS + Claude Code ──────────────────────────────────────────────
+ARG NODE_VERSION=18.20.8
+RUN curl -fsSL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-arm64.tar.gz" \
+    | tar -xz -C /usr/local --strip-components=1
+RUN npm install -g @anthropic-ai/claude-code
+
+# ── User ──────────────────────────────────────────────────────────────────────
+ARG UID=1000
+COPY docker/saip.bashrc /tmp/saip.bashrc
+RUN useradd -m -u ${UID} -s /bin/bash saip && \
+    cat /tmp/saip.bashrc >> /home/saip/.bashrc
+
+USER saip
+
 # ── Workspace ─────────────────────────────────────────────────────────────────
 WORKDIR /workspace
 
