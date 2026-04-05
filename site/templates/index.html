@@ -7,7 +7,10 @@
   <style>
     body { font-family: system-ui, sans-serif; max-width: 960px; margin: 2rem auto; padding: 0 1rem; color: #111; }
     h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
-    .meta { color: #666; font-size: 0.85rem; margin-bottom: 2rem; }
+    .meta { color: #666; font-size: 0.85rem; margin-bottom: 2.5rem; }
+    .section { margin-bottom: 2.5rem; }
+    .section-title { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.1rem; }
+    .section-subtitle { font-size: 0.85rem; color: #666; margin-bottom: 0.75rem; }
     table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
     th { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid #ddd; background: #f9f9f9; cursor: pointer; user-select: none; }
     th:hover { background: #eee; }
@@ -20,51 +23,56 @@
     .th-arrow::after { content: " ↕"; opacity: 0.4; }
     .th-asc::after  { content: " ↑"; opacity: 1; }
     .th-desc::after { content: " ↓"; opacity: 1; }
+    .tag { display: inline-block; font-size: 0.75rem; font-weight: 600; padding: 0.1rem 0.45rem; border-radius: 4px; vertical-align: middle; }
+    .tag-fp32 { background: #dbeafe; color: #1d4ed8; }
+    .tag-fp16 { background: #dcfce7; color: #15803d; }
   </style>
 </head>
 <body>
   <h1>Inference Runtime Benchmarks</h1>
-  <p class="meta">
-    Hardware: Thor &nbsp;|&nbsp; Precision: FP32 &nbsp;|&nbsp; Updated: {{ generated_at }}
-  </p>
+  <p class="meta">Hardware: Jetson AGX Thor &nbsp;|&nbsp; Updated: {{ generated_at }}</p>
 
-  {% if rows %}
-  <table id="results">
-    <thead>
-      <tr>
-        <th class="th-arrow" data-col="0">Runtime</th>
-        <th class="th-arrow" data-col="1">Model</th>
-        <th class="th-arrow" data-col="2">Batch</th>
-        <th class="th-arrow" data-col="3">p50 (ms)</th>
-        <th class="th-arrow" data-col="4">p99 (ms)</th>
-        <th class="th-arrow" data-col="5">Throughput (inf/s)</th>
-        <th class="th-arrow" data-col="6">Status</th>
-        <th>Timestamp</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for r in rows %}
-      <tr>
-        <td>{{ r.runtime }}</td>
-        <td>{{ r.model }}</td>
-        <td>{{ r.batch_size }}</td>
-        <td>{{ "%.2f"|format(r.latency_ms.p50) }}</td>
-        <td>{{ "%.2f"|format(r.latency_ms.p99) }}</td>
-        <td>{{ "%.1f"|format(r.throughput) }}</td>
-        <td class="status-{{ r.status }}">{{ r.status }}</td>
-        <td>{{ r.timestamp[:19].replace("T", " ") }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  {% if sections %}
+    {% for (model, precision), rows in sections.items() %}
+    <div class="section">
+      <div class="section-title">
+        {{ model }}
+        <span class="tag tag-{{ precision }}">{{ precision.upper() }}</span>
+      </div>
+      <div class="section-subtitle">Precision: {{ precision.upper() }} &nbsp;|&nbsp; Batch size: 1 &nbsp;|&nbsp; Latest run per runtime</div>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th class="th-arrow" data-col="0">Runtime</th>
+            <th class="th-arrow" data-col="1">p50 (ms)</th>
+            <th class="th-arrow" data-col="2">p99 (ms)</th>
+            <th class="th-arrow" data-col="3">Throughput (inf/s)</th>
+            <th class="th-arrow" data-col="4">Status</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in rows %}
+          <tr>
+            <td>{{ r.runtime }}</td>
+            <td>{{ "%.2f"|format(r.latency_ms.p50) }}</td>
+            <td>{{ "%.2f"|format(r.latency_ms.p99) }}</td>
+            <td>{{ "%.1f"|format(r.throughput) }}</td>
+            <td class="status-{{ r.status }}">{{ r.status }}</td>
+            <td>{{ r.timestamp[:19].replace("T", " ") }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endfor %}
   {% else %}
   <p class="empty">No benchmark results yet.</p>
   {% endif %}
 
   <script>
-    // Lightweight client-side sort
-    const table = document.getElementById("results");
-    if (table) {
+    // Lightweight client-side sort per table
+    document.querySelectorAll(".results-table").forEach(table => {
       let sortCol = -1, sortAsc = true;
       table.querySelectorAll("th[data-col]").forEach(th => {
         th.addEventListener("click", () => {
@@ -87,7 +95,7 @@
           rows.forEach(r => tbody.appendChild(r));
         });
       });
-    }
+    });
   </script>
 </body>
 </html>
