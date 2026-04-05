@@ -49,6 +49,7 @@ TIER2_MAP = {
     ".github/workflows/": ["docs/CI.md"],
     "ci/":                ["docs/CI.md"],
     "site/":              ["docs/WEBSITE.md"],
+    "docker/":            ["docs/DOCKER.md"],
     "docs/":              [],  # the doc is already in the diff itself
 }
 
