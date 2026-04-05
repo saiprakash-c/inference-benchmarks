@@ -18,6 +18,7 @@ INPUT_SHAPE = (1, 3, 224, 224)
 
 ACTIVE_PRECISION = "fp32"
 INPUT_KEY = "imagenet"
+EXCLUDED_RUNTIMES: frozenset[str] = frozenset()
 
 # torchvision weights identifier
 TORCHVISION_WEIGHTS = "ResNet50_Weights.IMAGENET1K_V2"
