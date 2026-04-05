@@ -12,7 +12,7 @@ jetpack      = "38.4.0"
 
 [docker]
 image   = "ghcr.io/saiprakash-c/inference-benchmarks:latest"
-digest  = ""   # set after first `//docker:push`; empty until first image is built
+digest  = "sha256:cf1b1495ae9a4c1a9b2e03b6d88b08a3de5824c6d4b0994cc89a1491c5d8859e"
 cuda    = "13.0"
 jetpack = "38.4.0"
 
