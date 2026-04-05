@@ -9,7 +9,7 @@ Two images, one `pyproject.toml`, one entry point per environment.
 | Goal | How it's achieved |
 |---|---|
 | **Reproducible benchmarks** | All GPU workloads run inside a pinned container; host GPU driver is the only variable |
-| **Works on Mac and Thor** | Two separate images share `pyproject.toml`; no multi-stage hacks or platform conditionals in Python deps |
+| **Works on Mac, CI, and Thor** | Two separate images share `pyproject.toml`; no multi-stage hacks or platform conditionals in Python deps — `dev` runs anywhere x86/arm64 CPU, `runtime` runs on Thor with the nvidia runtime |
 | **No root files on the host** | Container user matches host `$UID`/`$USER` — files written inside `/workspace` are owned by you on the host |
 | **Persistent identity** | `~/.claude`, `~/.config/gh`, `~/.zsh_history` are bind-mounted — sessions, auth, and history survive container restarts |
 | **One command to enter** | `bin/docker_dev` / `bin/docker_rt` handle pre-flight, build, and launch |
@@ -38,7 +38,7 @@ Two images, one `pyproject.toml`, one entry point per environment.
           │ + Node + Claude    │   │ + TensorRT 10.16   │
           │                    │   │ + Bazel + gh CLI   │
           │ CPU only           │   │ + Node + Claude    │
-          │ Mac · CI · dev     │   │                    │
+          │ Mac · CI · dev     │   │ Thor only · GPU    │
           └────────┬───────────┘   │ GPU (nvidia rt)    │
                    │               │ Thor only          │
                    │               └────────┬───────────┘
@@ -184,5 +184,5 @@ Only the `runtime` image is published to GHCR and digest-pinned.
 | `docker/docker-compose.yml` | Unified entry point for both |
 | `docker/saip.zshrc` | zsh prompt + history config, appended to `~/.zshrc` in both images |
 | `bin/docker_rt` | Enter runtime container on Thor |
-| `bin/docker_dev` | Enter dev container on Mac/CI |
+| `bin/docker_dev` | Enter dev container on Mac/CI/any CPU host |
 | `versions.toml [docker]` | Pinned digest + CUDA/JetPack versions |
