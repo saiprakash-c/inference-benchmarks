@@ -24,6 +24,8 @@ LABEL org.opencontainers.image.description="Inference benchmark environment: Ten
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-pip \
     python3-dev \
+    gcc \
+    g++ \
     curl \
     git \
     ca-certificates \
