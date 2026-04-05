@@ -22,6 +22,7 @@ INPUT_SHAPE = (1, 3, 518, 518)
 
 ACTIVE_PRECISION = "fp32"
 INPUT_KEY = "dinov2"
+EXCLUDED_RUNTIMES: frozenset[str] = frozenset({"executorch"})
 
 # Benchmark protocol
 WARMUP_ITERS  = 10

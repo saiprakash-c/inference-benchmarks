@@ -190,6 +190,10 @@ def run(config: BenchmarkConfig) -> int:
         model_spec = MODEL_REGISTRY[model_key]
 
         for runtime_key in config.runtimes:
+            if runtime_key in model_spec.EXCLUDED_RUNTIMES:
+                L.info("benchmark.skip", model=model_key, runtime=runtime_key, reason="excluded by model spec")
+                continue
+
             if runtime_key not in RUNTIME_REGISTRY:
                 L.error("benchmark.error", message=f"Unknown runtime key: {runtime_key}")
                 any_failed = True
