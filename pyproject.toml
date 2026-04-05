@@ -2,6 +2,24 @@
 name = "inference-benchmarks"
 version = "0.1.0"
 requires-python = ">=3.11"
+dependencies = [
+    "anthropic>=0.40.0",
+    "jsonschema>=4.0.0",
+    "jinja2>=3.0.0",
+    "tomli-w>=1.0.0",
+]
+
+[project.optional-dependencies]
+# CPU/Mac dev — standard PyPI wheels
+dev = [
+    "torch>=2.7.0",
+    "executorch>=0.5.1",
+]
+# Jetson/GPU — same packages; Dockerfile adds --extra-index-url for Jetson wheels
+gpu = [
+    "torch>=2.7.0",
+    "executorch>=0.5.1",
+]
 
 [tool.ruff]
 line-length = 100

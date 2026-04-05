@@ -1,27 +1,16 @@
-# inference-benchmarks runtime image
+# inference-benchmarks dev image
 #
-# Execution environment for benchmark runs on Thor (Jetson AGX Thor).
-# Base: l4t-tensorrt (TensorRT + CUDA pre-installed for Jetson).
-# Python deps installed from pyproject.toml [project.optional-dependencies.gpu].
+# Lightweight development environment for Mac and CI.
+# No GPU required — PyTorch runs on CPU.
+# Use for: linting, doc review, harness development, result processing.
 #
-# Versions here must match versions.toml [docker] section exactly.
-# See docs/VERSIONING.md for rebuild trigger rules.
-#
-# Build:  bazel run //docker:build
-# Push:   bazel run //docker:push
-# After push: update [docker].digest in versions.toml with the new digest.
+# Run:  docker compose run dev <command>
 
-# hadolint ignore=DL3006
-FROM nvcr.io/nvidia/l4t-tensorrt:r10.9.0-runtime
-
-LABEL org.opencontainers.image.source="https://github.com/saiprakash-c/inference-benchmarks"
-LABEL org.opencontainers.image.description="Inference benchmark environment: TensorRT + PyTorch + ExecuTorch on Jetson AGX Thor"
+FROM python:3.12-slim
 
 # ── System dependencies ────────────────────────────────────────────────────────
 # hadolint ignore=DL3008
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3-pip \
-    python3-dev \
     curl \
     git \
     ca-certificates \
@@ -42,13 +31,9 @@ RUN curl -fsSL \
     | tar -xz -C /usr/local --strip-components=1 gh_${GH_VERSION}_linux_arm64/bin/gh
 
 # ── Python deps from pyproject.toml ───────────────────────────────────────────
-# Jetson wheels come from pypi.jetson-ai-lab.io; PyPI is the fallback.
-# TensorRT Python bindings are pre-installed via the l4t-tensorrt base image.
 COPY pyproject.toml /workspace/pyproject.toml
 # hadolint ignore=DL3013
-RUN pip3 install --no-cache-dir \
-    --extra-index-url https://pypi.jetson-ai-lab.io/jp7/cu130 \
-    "/workspace[gpu]"
+RUN pip install --no-cache-dir "/workspace[dev]"
 
 # ── Workspace ─────────────────────────────────────────────────────────────────
 WORKDIR /workspace

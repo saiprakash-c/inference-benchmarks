@@ -90,14 +90,18 @@ def _discover_thor() -> str:
 # ── Digest verification ────────────────────────────────────────────────────────
 
 
-def _verify_digest(host: str, key: str, expected_digest: str) -> bool:
+def _verify_digest(host: str, key: str | None, expected_digest: str) -> bool:
     """Confirm the image on Thor matches versions.toml [docker].digest."""
     check_cmd = (
         f"docker image inspect --format='{{{{index .RepoDigests 0}}}}' "
         f"'{IMAGE_NAME}' 2>/dev/null || true"
     )
+    if key:
+        ssh_args = ["ssh", "-i", key, "-o", "StrictHostKeyChecking=no", host, check_cmd]
+    else:
+        ssh_args = ["ssh", f"saip@{host}", check_cmd]
     result = subprocess.run(
-        ["ssh", "-i", key, "-o", "StrictHostKeyChecking=no", host, check_cmd],
+        ssh_args,
         capture_output=True, text=True, timeout=30,
     )
     observed = result.stdout.strip().strip("'")
@@ -127,9 +131,6 @@ def main(argv: list[str]) -> int:
     extra_args = argv[2:]
 
     key = os.environ.get("THOR_SSH_KEY")
-    if not key:
-        L.error("ssh_run.error", reason="THOR_SSH_KEY env var not set (path to SSH private key)")
-        return 2
 
     with open(VERSIONS_FILE, "rb") as f:
         versions = tomllib.load(f)
@@ -140,7 +141,8 @@ def main(argv: list[str]) -> int:
         return 2
 
     host = _discover_thor()
-    L.info("ssh_run.start", target=target, host=host, digest=expected_digest)
+    L.info("ssh_run.start", target=target, host=host, digest=expected_digest,
+           mode="key" if key else "system-ssh")
 
     if not _verify_digest(host, key, expected_digest):
         return 2
@@ -153,7 +155,11 @@ def main(argv: list[str]) -> int:
         f"'{IMAGE_NAME}@{expected_digest}' "
         f"{bazel_cmd}"
     )
-    ssh_cmd = ["ssh", "-i", key, "-o", "StrictHostKeyChecking=no", host, docker_cmd]
+    # CI: use explicit key. Local dev: fall back to system SSH config (saip@thor).
+    if key:
+        ssh_cmd = ["ssh", "-i", key, "-o", "StrictHostKeyChecking=no", host, docker_cmd]
+    else:
+        ssh_cmd = ["ssh", f"saip@{host}", docker_cmd]
 
     L.info("ssh_run.exec", host=host, target=target)
     result = subprocess.run(ssh_cmd)
