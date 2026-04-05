@@ -26,12 +26,16 @@ class AOTInductorRuntime(RuntimeBase):
         model_name = Path(model_path).stem if model_path else "resnet50"
         cache_path = AOT_CACHE_DIR / f"{model_name}_{precision}_{device}.so"
 
+        from benchmark.registry import MODEL_REGISTRY  # late import to avoid circular deps
+        model_spec = MODEL_REGISTRY[model_name]
+        compile_options = getattr(model_spec, "AOT_COMPILE_OPTIONS", {})
+
         if cache_path.exists():
             L.info("aot_inductor.init.cache_hit", so_path=str(cache_path))
             so_path = str(cache_path)
         else:
             L.info("aot_inductor.init.cache_miss", so_path=str(cache_path))
-            so_path = _compile_and_cache(model_name, cache_path, device, precision)
+            so_path = _compile_and_cache(model_name, cache_path, device, precision, compile_options)
 
         runner = torch._export.aot_load(so_path, device)  # type: ignore[attr-defined]
         return {"runner": runner, "dtype": PRECISION_TO_DTYPE[precision], "device": device}
@@ -60,7 +64,7 @@ class AOTInductorRuntime(RuntimeBase):
         return torch.__version__
 
 
-def _compile_and_cache(model_name: str, cache_path: Path, device: str, precision: str) -> str:
+def _compile_and_cache(model_name: str, cache_path: Path, device: str, precision: str, compile_options: dict) -> str:
     """Compile model via AOT Inductor, write the .so to cache_path, return its path string."""
     from torch.export import export as torch_export  # type: ignore[import]
 
@@ -83,12 +87,7 @@ def _compile_and_cache(model_name: str, cache_path: Path, device: str, precision
     so_path = torch._inductor.aot_compile(  # type: ignore[attr-defined]
         graph_module,
         (dummy_input,),
-        options={
-            "aot_inductor.output_path":    str(cache_path),
-            "freezing":                    True,
-            "layout_optimization":         True,
-            "coordinate_descent_tuning":   True,
-        },
+        options={"aot_inductor.output_path": str(cache_path), **compile_options},
     )
     L.info("aot_inductor.cache.saved", path=so_path)
     return so_path
