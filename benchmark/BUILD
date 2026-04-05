@@ -1,3 +1,5 @@
+load("@pip//:requirements.bzl", "requirement")
+
 py_library(
     name = "registry",
     srcs = ["registry.py"],
@@ -24,6 +26,7 @@ py_binary(
         "//runtimes/tensorrt:tensorrt",
         "//runtimes/executorch:executorch",
         "//runtimes/aot_inductor:aot_inductor",
+        requirement("tomli-w"),
     ],
     visibility = ["//visibility:public"],
 )
