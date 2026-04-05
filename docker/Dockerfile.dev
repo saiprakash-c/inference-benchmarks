@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     ca-certificates \
     git \
+    zsh \
     && rm -rf /var/lib/apt/lists/*
 
 # ── Node.js 18 LTS (official binary) ─────────────────────────────────────────
@@ -50,9 +51,9 @@ RUN pip install --no-cache-dir "/workspace[dev]"
 
 # ── User ──────────────────────────────────────────────────────────────────────
 ARG UID=501
-COPY docker/saip.bashrc /tmp/saip.bashrc
-RUN useradd -m -u ${UID} -s /bin/bash saip && \
-    cat /tmp/saip.bashrc >> /home/saip/.bashrc
+COPY docker/saip.zshrc /tmp/saip.zshrc
+RUN useradd -m -u ${UID} -s /bin/zsh saip && \
+    cat /tmp/saip.zshrc >> /home/saip/.zshrc
 
 USER saip
 

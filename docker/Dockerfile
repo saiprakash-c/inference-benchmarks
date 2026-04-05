@@ -25,6 +25,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     git \
     ca-certificates \
+    zsh \
     && rm -rf /var/lib/apt/lists/*
 
 # ── Bazel ─────────────────────────────────────────────────────────────────────
@@ -58,9 +59,9 @@ RUN npm install -g @anthropic-ai/claude-code
 
 # ── User ──────────────────────────────────────────────────────────────────────
 ARG UID=1000
-COPY docker/saip.bashrc /tmp/saip.bashrc
-RUN useradd -m -u ${UID} -s /bin/bash saip && \
-    cat /tmp/saip.bashrc >> /home/saip/.bashrc
+COPY docker/saip.zshrc /tmp/saip.zshrc
+RUN useradd -m -u ${UID} -s /bin/zsh saip && \
+    cat /tmp/saip.zshrc >> /home/saip/.zshrc
 
 USER saip
 
