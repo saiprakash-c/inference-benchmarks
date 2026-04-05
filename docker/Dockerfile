@@ -27,6 +27,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     gnupg \
     zsh \
+    vim \
     && rm -rf /var/lib/apt/lists/*
 
 # ── TensorRT via NVIDIA Jetson apt repo ───────────────────────────────────────

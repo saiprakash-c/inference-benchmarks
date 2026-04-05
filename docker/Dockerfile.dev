@@ -18,6 +18,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN apt-get update && apt-get install -y --no-install-recommends --no-upgrade \
     openssh-client \
+    vim \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y --no-install-recommends --no-upgrade \
+    openssh-client \
     && rm -rf /var/lib/apt/lists/*
 
 # ── Node.js 18 LTS (official binary) ─────────────────────────────────────────
