@@ -15,7 +15,7 @@ import torch  # type: ignore[import]
 
 from lib import log as L
 from models import loader
-from runtimes.base import RuntimeBase
+from runtimes.base import PRECISION_TO_DTYPE, RuntimeBase
 
 TRT_CACHE_DIR = Path("/tmp/trt_cache")
 
@@ -42,7 +42,7 @@ class TensorRTRuntime(RuntimeBase):
 
         context = engine.create_execution_context()
 
-        dtype = torch.float16 if precision == "fp16" else torch.float32
+        dtype = PRECISION_TO_DTYPE[precision]
         in_shape = loader.input_shape(model_name)
         out_shape = loader.output_shape(model_name)
         input_gpu_buffer = torch.zeros(*in_shape, dtype=dtype, device="cuda").contiguous()
@@ -123,7 +123,7 @@ def _build_engine_from_onnx(onnx_bytes: bytes, precision: str) -> Any:
 
     build_config = builder.create_builder_config()
     build_config.set_memory_pool_limit(trt.MemoryPoolType.WORKSPACE, 1 << 30)  # 1 GiB
-    if precision == "fp16":
+    if PRECISION_TO_DTYPE[precision] == torch.float16:
         build_config.set_flag(trt.BuilderFlag.FP16)
 
     serialized_engine = builder.build_serialized_network(network, build_config)
