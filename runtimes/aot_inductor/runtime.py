@@ -76,10 +76,7 @@ def _compile_and_cache(model_name: str, cache_path: Path, device: str) -> str:
     so_path = torch._inductor.aot_compile(  # type: ignore[attr-defined]
         graph_module,
         (dummy_input,),
-        options={
-            "aot_inductor.output_path": str(cache_path),
-            "max_autotune": True,
-        },
+        options={"aot_inductor.output_path": str(cache_path)},
     )
     L.info("aot_inductor.cache.saved", path=so_path)
     return so_path
