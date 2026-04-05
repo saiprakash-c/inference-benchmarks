@@ -69,16 +69,26 @@ def _compile_and_cache(model_name: str, cache_path: Path, device: str, precision
     in_shape = loader.input_shape(model_name)
     dummy_input = torch.zeros(*in_shape, dtype=dtype, device=device)
 
-    # aot_compile requires a GraphModule; export first then extract .module().
-    exported_program = torch_export(model, (dummy_input,))
-    graph_module = exported_program.module()
+    # Export and compile under inference_mode: disables version tracking so the
+    # compiler can eliminate gradient bookkeeping ops from the graph entirely.
+    # freezing:                  fold BN params into preceding Conv weights (removes BN kernels)
+    # layout_optimization:       keep conv tensors in NHWC throughout, eliminating layout copies
+    # coordinate_descent_tuning: lightweight Triton tile search (avoids full max_autotune overhead)
+    with torch.inference_mode():
+        exported_program = torch_export(model, (dummy_input,))
+        graph_module = exported_program.module()
 
     cache_path.parent.mkdir(parents=True, exist_ok=True)
 
     so_path = torch._inductor.aot_compile(  # type: ignore[attr-defined]
         graph_module,
         (dummy_input,),
-        options={"aot_inductor.output_path": str(cache_path)},
+        options={
+            "aot_inductor.output_path":    str(cache_path),
+            "freezing":                    True,
+            "layout_optimization":         True,
+            "coordinate_descent_tuning":   True,
+        },
     )
     L.info("aot_inductor.cache.saved", path=so_path)
     return so_path

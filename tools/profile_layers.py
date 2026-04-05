@@ -165,7 +165,7 @@ class PyTorchProfilerAdapter:
         param = next(handle.parameters())
         device_tensor = input_tensor.to(device=param.device, dtype=param.dtype)
 
-        with torch.no_grad():
+        with torch.inference_mode():
             with torch.profiler.profile(
                 activities=[
                     torch.profiler.ProfilerActivity.CPU,
