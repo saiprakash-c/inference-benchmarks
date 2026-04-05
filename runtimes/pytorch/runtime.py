@@ -1,15 +1,18 @@
 """
 runtimes/pytorch/runtime.py
 
-PyTorch eager-mode runtime adapter for ResNet50 inference benchmarking.
+PyTorch eager-mode runtime adapter. Loads the requested model via
+models.loader and runs timed CUDA inference.
 """
 
 import time
+from pathlib import Path
 from typing import Any
 
 import torch  # type: ignore[import]
-import torchvision.models as tv_models  # type: ignore[import]
 
+from lib import log as L
+from models import loader
 from runtimes.base import RuntimeBase
 
 
@@ -17,12 +20,10 @@ class PyTorchRuntime(RuntimeBase):
     """Runs inference using PyTorch eager mode with CUDA synchronisation timing."""
 
     def init(self, model_path: str, precision: str, device: str) -> Any:
-        """Load ResNet50 with IMAGENET1K_V2 weights, set eval mode, move to device."""
-        weights = tv_models.ResNet50_Weights.IMAGENET1K_V2
-        model = tv_models.resnet50(weights=weights)
-        model.eval()
-        model.to(device)
-        return model
+        """Load the model, set eval mode, move to device."""
+        model_name = Path(model_path).stem if model_path else "resnet50"
+        L.info("pytorch.init", model=model_name, device=device)
+        return loader.load(model_name, device)
 
     def run(self, handle: Any, input_tensor: Any, n_iters: int) -> list[float]:
         """Run inference n_iters times with CUDA-synchronised timing; return latencies in ms."""

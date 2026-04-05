@@ -1,7 +1,7 @@
 """
 runtimes/aot_inductor/runtime.py
 
-AOT Inductor runtime adapter: compiles ResNet50 to a .so shared library,
+AOT Inductor runtime adapter: compiles the model to a .so shared library,
 caches it to disk, loads via torch._export.aot_load, and runs timed inference.
 """
 
@@ -10,19 +10,19 @@ from pathlib import Path
 from typing import Any
 
 import torch  # type: ignore[import]
-import torchvision.models as tv_models  # type: ignore[import]
 
 from lib import log as L
+from models import loader
 from runtimes.base import RuntimeBase
 
 AOT_CACHE_DIR = Path("/tmp/aot_cache")
 
 
 class AOTInductorRuntime(RuntimeBase):
-    """Compiles ResNet50 via AOT Inductor (.so cached to disk) and runs timed CUDA inference."""
+    """Compiles a model via AOT Inductor (.so cached to disk) and runs timed CUDA inference."""
 
     def init(self, model_path: str, precision: str, device: str) -> Any:
-        """Compile ResNet50 to a .so via AOT Inductor (cached), load and return callable runner."""
+        """Compile model to a .so via AOT Inductor (cached), load and return callable runner."""
         model_name = Path(model_path).stem if model_path else "resnet50"
         cache_path = AOT_CACHE_DIR / f"{model_name}_{precision}_{device}.so"
 
@@ -31,7 +31,7 @@ class AOTInductorRuntime(RuntimeBase):
             so_path = str(cache_path)
         else:
             L.info("aot_inductor.init.cache_miss", so_path=str(cache_path))
-            so_path = _compile_and_cache(cache_path, device)
+            so_path = _compile_and_cache(model_name, cache_path, device)
 
         runner = torch._export.aot_load(so_path, device)  # type: ignore[attr-defined]
         return runner
@@ -59,13 +59,13 @@ class AOTInductorRuntime(RuntimeBase):
         return torch.__version__
 
 
-def _compile_and_cache(cache_path: Path, device: str) -> str:
-    """Compile ResNet50 via AOT Inductor, write the .so to cache_path, return its path string."""
+def _compile_and_cache(model_name: str, cache_path: Path, device: str) -> str:
+    """Compile model via AOT Inductor, write the .so to cache_path, return its path string."""
     from torch.export import export as torch_export  # type: ignore[import]
 
-    weights = tv_models.ResNet50_Weights.IMAGENET1K_V2
-    model = tv_models.resnet50(weights=weights).eval().to(device)
-    dummy_input = torch.zeros(1, 3, 224, 224, dtype=torch.float32, device=device)
+    model = loader.load(model_name, device)
+    in_shape = loader.input_shape(model_name)
+    dummy_input = torch.zeros(*in_shape, dtype=torch.float32, device=device)
 
     # aot_compile requires a GraphModule; export first then extract .module().
     exported_program = torch_export(model, (dummy_input,))
