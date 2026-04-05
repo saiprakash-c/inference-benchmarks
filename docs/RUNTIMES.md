@@ -38,7 +38,7 @@ as stubs — they are fetched lazily at runtime and may be refreshed by re-runni
 
 | Name | Target | docs_url | Status |
 |---|---|---|---|
-| pytorch | `//runtimes/pytorch/` | https://pytorch.org/docs/stable/ | planned |
-| tensorrt | `//runtimes/tensorrt/` | https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/ | planned |
+| pytorch | `//runtimes/pytorch/` | https://pytorch.org/docs/stable/ | active |
+| tensorrt | `//runtimes/tensorrt/` | https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/ | active |
 | executorch | `//runtimes/executorch/` | https://pytorch.org/executorch/stable/ | planned |
 | aot_inductor | `//runtimes/aot_inductor/` | https://docs.pytorch.org/docs/stable/user_guide/torch_compiler/torch.compiler_aot_inductor.html | planned |
