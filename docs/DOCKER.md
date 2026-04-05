@@ -55,6 +55,13 @@ incompatible binaries — there is no shared stage. Keeping two thin
 Dockerfiles that both point at `pyproject.toml` is simpler and more
 explicit than a multi-stage file with platform conditionals.
 
+**Why pip install in Docker instead of letting Bazel manage deps?**
+TensorRT Python bindings are installed via `apt`, not pip — Bazel can't
+own them. The Jetson custom wheel index also complicates `rules_python`'s
+`pip_parse`. Pre-installing in Docker is the right tradeoff here: the
+image is rebuilt infrequently, and the complexity of hermetic per-target
+dep isolation isn't worth it for a benchmarking project.
+
 ---
 
 ## Runtime image base
