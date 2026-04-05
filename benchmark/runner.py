@@ -83,18 +83,18 @@ def _check_runtime_version(runtime_key: str, runtime_version: str, versions: dic
 def _run_single_benchmark(
     model_key: str,
     runtime_key: str,
+    precision: str,
     input_key: str,
     versions: dict,
 ) -> dict:
     """
-    Run warmup and measurement iterations for one (model, runtime) pair.
+    Run warmup and measurement iterations for one (model, runtime, precision) triple.
     Returns a result dict matching the OBSERVABILITY.md schema.
     """
     model_spec = MODEL_REGISTRY[model_key]
     RuntimeClass = RUNTIME_REGISTRY[runtime_key]
     input_module = INPUT_REGISTRY[input_key]
 
-    precision = model_spec.ACTIVE_PRECISION
     model_path = str(model_spec.sample_image_path().parent / model_spec.NAME)
 
     L.info(
@@ -165,8 +165,9 @@ def _write_result_json(result: dict, runtime_key: str, model_key: str) -> Path:
     """Write one result dict to a timestamped JSON file under results/."""
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     hardware_identifier = result["hw_id"]
+    precision = result["precision"]
     timestamp_compact = _utcnow_compact()
-    filename = f"{runtime_key}_{model_key}_{hardware_identifier}_{timestamp_compact}.json"
+    filename = f"{runtime_key}_{model_key}_{precision}_{hardware_identifier}_{timestamp_compact}.json"
     output_path = RESULTS_DIR / filename
     output_path.write_text(json.dumps(result, indent=2))
     L.info("benchmark.write", path=str(output_path))
@@ -188,29 +189,34 @@ def run(config: BenchmarkConfig) -> int:
             continue
 
         model_spec = MODEL_REGISTRY[model_key]
+        input_key = model_spec.INPUT_KEY
+        if input_key not in INPUT_REGISTRY:
+            L.error("benchmark.error", message=f"Unknown input key: {input_key}")
+            any_failed = True
+            continue
 
-        for runtime_key in config.runtimes:
-            if runtime_key in model_spec.EXCLUDED_RUNTIMES:
-                L.info("benchmark.skip", model=model_key, runtime=runtime_key, reason="excluded by model spec")
-                continue
+        for precision in model_spec.SUPPORTED_PRECISIONS:
+            for runtime_key in config.runtimes:
+                if runtime_key in model_spec.EXCLUDED_RUNTIMES:
+                    L.info("benchmark.skip", model=model_key, runtime=runtime_key, precision=precision, reason="excluded by model spec")
+                    continue
 
-            if runtime_key not in RUNTIME_REGISTRY:
-                L.error("benchmark.error", message=f"Unknown runtime key: {runtime_key}")
-                any_failed = True
-                continue
+                if runtime_key not in RUNTIME_REGISTRY:
+                    L.error("benchmark.error", message=f"Unknown runtime key: {runtime_key}")
+                    any_failed = True
+                    continue
 
-            input_key = model_spec.INPUT_KEY
-            if input_key not in INPUT_REGISTRY:
-                L.error("benchmark.error", message=f"Unknown input key: {input_key}")
-                any_failed = True
-                continue
+                RuntimeClass = RUNTIME_REGISTRY[runtime_key]
+                if precision not in RuntimeClass.SUPPORTED_PRECISIONS:
+                    L.info("benchmark.skip", model=model_key, runtime=runtime_key, precision=precision, reason="precision not supported by runtime")
+                    continue
 
-            try:
-                result = _run_single_benchmark(model_key, runtime_key, input_key, versions)
-                _write_result_json(result, runtime_key, model_key)
-            except Exception as exc:  # noqa: BLE001
-                L.error("benchmark.failed", model=model_key, runtime=runtime_key, error=str(exc))
-                any_failed = True
+                try:
+                    result = _run_single_benchmark(model_key, runtime_key, precision, input_key, versions)
+                    _write_result_json(result, runtime_key, model_key)
+                except Exception as exc:  # noqa: BLE001
+                    L.error("benchmark.failed", model=model_key, runtime=runtime_key, precision=precision, error=str(exc))
+                    any_failed = True
 
     completion_timestamp = _utcnow_iso8601()
     _update_versions_toml_last_benchmarked(completion_timestamp)

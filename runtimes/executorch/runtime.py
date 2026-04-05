@@ -24,6 +24,8 @@ ET_CACHE_DIR = Path("/tmp/et_cache")
 class ExecuTorchRuntime(RuntimeBase):
     """Exports the model with the XNNPACK delegate (CPU) and runs timed inference."""
 
+    SUPPORTED_PRECISIONS: frozenset[str] = frozenset({"fp32"})
+
     def init(self, model_path: str, precision: str, device: str) -> Any:
         """Export to a .pte file via XNNPACK (cached), load and return executor."""
         model_name = Path(model_path).stem if model_path else "resnet50"
