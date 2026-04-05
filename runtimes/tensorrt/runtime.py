@@ -37,10 +37,10 @@ class TensorRTRuntime(RuntimeBase):
         engine_cache_path = TRT_CACHE_DIR / f"{model_name}_{precision}.engine"
 
         if engine_cache_path.exists():
-            L.info("tensorrt.init", event="cache_hit", engine_path=str(engine_cache_path))
+            L.info("tensorrt.init.cache_hit", engine_path=str(engine_cache_path))
             engine = _load_engine_from_cache(engine_cache_path)
         else:
-            L.info("tensorrt.init", event="cache_miss", engine_path=str(engine_cache_path))
+            L.info("tensorrt.init.cache_miss", engine_path=str(engine_cache_path))
             onnx_bytes = _export_resnet50_to_onnx(precision)
             engine = _build_engine_from_onnx(onnx_bytes, precision)
             _save_engine_to_cache(engine, engine_cache_path)
@@ -163,7 +163,7 @@ def _save_engine_to_cache(engine: Any, cache_path: Path) -> None:
     cache_path.parent.mkdir(parents=True, exist_ok=True)
     serialized = engine.serialize()
     cache_path.write_bytes(serialized)
-    L.info("tensorrt.cache", event="engine_saved", path=str(cache_path))
+    L.info("tensorrt.cache.saved", path=str(cache_path))
 
 
 def _load_engine_from_cache(cache_path: Path) -> Any:
