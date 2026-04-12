@@ -25,3 +25,5 @@ venv/
 
 # Ephemeral evaluation files — must never be committed
 docs/features/**/evaluation_coder.md
+
+TODO.md
