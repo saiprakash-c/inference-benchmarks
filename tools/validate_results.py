@@ -63,6 +63,7 @@ RESULT_SCHEMA = {
         },
         "timestamp":     {"type": "string", "format": "date-time"},
         "status":        {"type": "string", "enum": ["ok", "error", "anomaly"]},
+        "profile_file":  {"type": ["string", "null"]},
     },
     "additionalProperties": False,
 }
