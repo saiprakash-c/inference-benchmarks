@@ -1,7 +1,17 @@
 #!/usr/bin/env bash
-# Build the runtime Docker image (GPU, Thor only).
-# Run this after `git pull` to rebuild with latest changes.
+# Build Docker images for inference-benchmarks.
+#
+# Usage:
+#   ./bin/docker_build          # build both dev and runtime
+#   ./bin/docker_build dev      # build dev only (CPU, Mac/CI)
+#   ./bin/docker_build runtime  # build runtime only (GPU, Thor)
 set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
-docker compose -f "$REPO_ROOT/docker/docker-compose.yml" build runtime
+TARGET="${1:-}"
+
+if [[ -z "$TARGET" ]]; then
+    docker compose -f "$REPO_ROOT/docker/docker-compose.yml" build dev runtime
+else
+    docker compose -f "$REPO_ROOT/docker/docker-compose.yml" build "$TARGET"
+fi
