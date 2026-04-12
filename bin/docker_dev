@@ -1,13 +1,30 @@
 #!/usr/bin/env bash
-# Enter the dev container (CPU-only, Mac/CI).
-# Repo is mounted at /workspace; network is host.
+# Manage the dev container (CPU-only, Mac/CI).
+#
+# Usage:
+#   ./bin/docker_dev           # enter the container (default)
+#   ./bin/docker_dev --start   # enter the container
+#   ./bin/docker_dev --build   # build the dev image
 set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
-# Ensure bind-mounted paths exist (Docker creates a dir if the host path is missing)
-touch ~/.gitconfig ~/.claude.json
-mkdir -p ~/.claude ~/.config/gh
+CMD="${1:---start}"
 
-docker compose -f "$REPO_ROOT/docker/docker-compose.yml" run --rm --build \
-    --entrypoint zsh \
-    dev
+case "$CMD" in
+  --build)
+    docker compose -f "$REPO_ROOT/docker/docker-compose.yml" build dev
+    ;;
+  --start)
+    # Ensure bind-mounted paths exist (Docker creates dirs as root if missing)
+    touch ~/.gitconfig ~/.claude.json
+    mkdir -p ~/.claude ~/.config/gh
+
+    docker compose -f "$REPO_ROOT/docker/docker-compose.yml" run --rm \
+        --entrypoint zsh \
+        dev
+    ;;
+  *)
+    echo "Usage: $0 [--build|--start]" >&2
+    exit 1
+    ;;
+esac
