@@ -81,7 +81,10 @@ ARG NODE_VERSION=18.20.8
 ARG CLAUDE_CODE_VERSION=2.1.92
 RUN curl -fsSL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-arm64.tar.gz" \
     | tar -xz -C /usr/local --strip-components=1
-RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
+RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION} && \
+    chown -R ${USERNAME}:${USERNAME} \
+        /usr/local/lib/node_modules/@anthropic-ai \
+        /usr/local/bin/claude
 
 # ── User ──────────────────────────────────────────────────────────────────────
 ARG UID=1000
