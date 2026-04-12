@@ -56,9 +56,14 @@ class TorchTensorRTRuntime(RuntimeBase):
         if cache_path.exists():
             L.info("torch_tensorrt.init.cache_hit", path=str(cache_path))
             import torch_tensorrt  # type: ignore[import]
-            # load() returns an ExportedProgram; .module() gives the callable GraphModule.
-            ep = torch_tensorrt.load(str(cache_path))
-            runner = ep.module()
+            try:
+                # load() returns an ExportedProgram; .module() gives the callable GraphModule.
+                ep = torch_tensorrt.load(str(cache_path))
+                runner = ep.module()
+            except Exception as exc:  # noqa: BLE001
+                L.warn("torch_tensorrt.init.cache_invalid", path=str(cache_path), reason=str(exc)[:120])
+                cache_path.unlink()
+                runner = _compile_and_cache(model_name, cache_path, dummy_input, dtype, device)
         else:
             L.info("torch_tensorrt.init.cache_miss", path=str(cache_path))
             runner = _compile_and_cache(model_name, cache_path, dummy_input, dtype, device)
