@@ -1,0 +1,45 @@
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                                   Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg     Self CUDA   Self CUDA %    CUDA total  CUDA time avg    # of Calls  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+__myl_Corr_0x27254c081a1025ad1cb0414229bcabdd_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us      78.520us        11.17%      78.520us      39.260us             2  
+cutlass3x_sm100_tensorop_s128x64x16implicit_gemm_fpr...         0.00%       0.000us         0.00%       0.000us       0.000us      75.834us        10.78%      75.834us      12.639us             6  
+__myl_Corr_0xcf2218348b7db89433799057d96a84f1_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us      44.636us         6.35%      44.636us       8.927us             5  
+cutlass3x_sm100_tensorop_s64x64x16implicit_gemm_fpro...         0.00%       0.000us         0.00%       0.000us       0.000us      41.500us         5.90%      41.500us      41.500us             1  
+__myl_Corr_0xa9d51b62a9c288b4703488aec562940d_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us      39.804us         5.66%      39.804us      19.902us             2  
+__myl_Corr_0xe3a532423be9b2e3f86a984b58a3f73d_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us      35.581us         5.06%      35.581us       7.116us             5  
+__myl_Corr_0x7ce3219b9d96ac15f453d1091a007877_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us      34.620us         4.92%      34.620us      17.310us             2  
+__myl_Corr_0xe219d1a06db8bbab0b22f1dcfdd2cb42_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us      33.757us         4.80%      33.757us      33.757us             1  
+sm80_xmma_fprop_implicit_gemm_f16f16_f16f16_f16_nhwc...         0.00%       0.000us         0.00%       0.000us       0.000us      32.317us         4.60%      32.317us      10.772us             3  
+cutlass3x_sm100_tensorop_s256x64x16implicit_gemm_fpr...         0.00%       0.000us         0.00%       0.000us       0.000us      31.869us         4.53%      31.869us       7.967us             4  
+sm50_xmma_cublas_gemvx_f16f16_f16_f16_tn_n_int32_uni...         0.00%       0.000us         0.00%       0.000us       0.000us      30.205us         4.30%      30.205us      30.205us             1  
+sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16...         0.00%       0.000us         0.00%       0.000us       0.000us      29.629us         4.21%      29.629us      29.629us             1  
+__myl_Corr_0xc5609482b5bf4b8285743df11f5f8c88_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us      24.541us         3.49%      24.541us       8.180us             3  
+__myl_Corr_0x699d5a244c8138d1c5aafd6823a30bd6_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us      17.630us         2.51%      17.630us       8.815us             2  
+__myl_Corr_0xc1f0fb5f6fdf34edf80b66c9cb269b99_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us      16.479us         2.34%      16.479us      16.479us             1  
+sm80_xmma_gemm_f16f16_f16f32_f32_nn_n_tilesize96x64x...         0.00%       0.000us         0.00%       0.000us       0.000us      16.413us         2.33%      16.413us       8.207us             2  
+__myl_Corr_0x22a25fb857e319d88995113273bfd7d2_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us      16.318us         2.32%      16.318us       5.439us             3  
+__myl_Corr_0xdd7411a7e264f2845cb0ddc6418769ba_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us      11.327us         1.61%      11.327us      11.327us             1  
+__myl_Corr_0x3b91fb05eb4c66d9aafc978051cf2a38_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us      10.911us         1.55%      10.911us      10.911us             1  
+__myl_Corr_0x38480dc91740a9e2d65039cb670625ff_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us       9.663us         1.37%       9.663us       9.663us             1  
+__myl_Corr_0xa0b38d13a179bbd6150b8730e2d1f0ee_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us       9.247us         1.31%       9.247us       9.247us             1  
+sm50_xmma_pooling_coalescedC_NHWC_kMAX_3_False_execu...         0.00%       0.000us         0.00%       0.000us       0.000us       8.607us         1.22%       8.607us       8.607us             1  
+__myl_Corr_0x4df05d0070ede2c075aca2a0d461f99f_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us       8.287us         1.18%       8.287us       8.287us             1  
+__myl_Corr_0x4284039cd7e33859d95f87f09c8df88d_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us       8.000us         1.14%       8.000us       8.000us             1  
+__myl_Corr_0xb65672b97f13cdfd3eb1a1a3df03206e_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us       7.775us         1.11%       7.775us       7.775us             1  
+__myl_Corr_0x1c19c68d0ee51c79565b3a94565447f8_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us       6.975us         0.99%       6.975us       6.975us             1  
+__myl_Corr_0xb6a880fe647df3d47336edf731a2d24f_tensor...         0.00%       0.000us         0.00%       0.000us       0.000us       6.335us         0.90%       6.335us       6.335us             1  
+sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16...         0.00%       0.000us         0.00%       0.000us       0.000us       5.503us         0.78%       5.503us       5.503us             1  
+      __myl_MoveConc_0xc1455be378008feffc8e73982aa134dd         0.00%       0.000us         0.00%       0.000us       0.000us       4.736us         0.67%       4.736us       4.736us             1  
+sm50_xmma_pooling_fw_4d_FP16FP32NHWC_Average_FastDiv...         0.00%       0.000us         0.00%       0.000us       0.000us       4.032us         0.57%       4.032us       4.032us             1  
+void at::native::vectorized_elementwise_kernel<4, at...         0.00%       0.000us         0.00%       0.000us       0.000us       2.143us         0.30%       2.143us       2.143us             1  
+                                Activity Buffer Request         8.80%      65.528us         8.80%      65.528us      65.528us       0.000us         0.00%       0.000us       0.000us             1  
+                                       cudaLaunchKernel        32.24%     239.990us        32.24%     239.990us     239.990us       0.000us         0.00%       0.000us       0.000us             1  
+                                  cudaStreamIsCapturing         0.81%       6.047us         0.81%       6.047us       1.209us       0.000us         0.00%       0.000us       0.000us             5  
+                               cudaEventRecordWithFlags         1.40%      10.435us         1.40%      10.435us       5.217us       0.000us         0.00%       0.000us       0.000us             2  
+                                    cudaStreamWaitEvent         1.29%       9.621us         1.29%       9.621us       4.810us       0.000us         0.00%       0.000us       0.000us             2  
+                                     cudaGetDeviceCount         0.15%       1.147us         0.15%       1.147us       0.229us       0.000us         0.00%       0.000us       0.000us             5  
+                                       cuLaunchKernelEx        50.95%     379.266us        50.95%     379.266us       6.654us       0.000us         0.00%       0.000us       0.000us            57  
+                                  cudaDeviceSynchronize         4.36%      32.425us         4.36%      32.425us      32.425us       0.000us         0.00%       0.000us       0.000us             1  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+Self CPU time total: 744.459us
+Self CUDA time total: 703.194us

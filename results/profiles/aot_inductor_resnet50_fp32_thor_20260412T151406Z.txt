@@ -1,0 +1,46 @@
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                                   Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg     Self CUDA   Self CUDA %    CUDA total  CUDA time avg    # of Calls  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+cutlass3x_sm100_tensorop_s64x64x8tf32implicit_gemm_f...         0.00%       0.000us         0.00%       0.000us       0.000us     264.994us        17.10%     264.994us      15.588us            17  
+cutlass3x_sm100_tensorop_s128x64x8tf32gemm_f32_f32_f...         0.00%       0.000us         0.00%       0.000us       0.000us     206.816us        13.35%     206.816us      20.682us            10  
+                   triton_poi_fused_convolution_relu_19         0.00%       0.000us         0.00%       0.000us       0.000us     193.311us        12.47%     193.311us      64.437us             3  
+cutlass3x_sm100_tensorop_s128x128x8tf32gemm_f32_f32_...         0.00%       0.000us         0.00%       0.000us       0.000us     149.760us         9.66%     149.760us      11.520us            13  
+cutlass3x_sm100_tensorop_s64x64x8tf32implicit_gemm_f...         0.00%       0.000us         0.00%       0.000us       0.000us     113.568us         7.33%     113.568us      37.856us             3  
+void convolve_common_engine_float_NHWC<float, float,...         0.00%       0.000us         0.00%       0.000us       0.000us     110.177us         7.11%     110.177us     110.177us             1  
+                   triton_poi_fused_convolution_relu_14         0.00%       0.000us         0.00%       0.000us       0.000us     105.857us         6.83%     105.857us      17.643us             6  
+cutlass3x_sm100_tensorop_s128x256x8tf32gemm_f32_f32_...         0.00%       0.000us         0.00%       0.000us       0.000us      61.568us         3.97%      61.568us      10.261us             6  
+std::enable_if<true, void>::type internal::gemvx::ke...         0.00%       0.000us         0.00%       0.000us       0.000us      55.680us         3.59%      55.680us      55.680us             1  
+cutlass3x_sm100_tensorop_s128x128x8tf32implicit_gemm...         0.00%       0.000us         0.00%       0.000us       0.000us      40.576us         2.62%      40.576us      13.525us             3  
+                    triton_poi_fused_convolution_relu_4         0.00%       0.000us         0.00%       0.000us       0.000us      33.696us         2.17%      33.696us       5.616us             6  
+                    triton_poi_fused_convolution_relu_9         0.00%       0.000us         0.00%       0.000us       0.000us      23.136us         1.49%      23.136us       5.784us             4  
+triton_poi_fused_convolution_max_pool2d_with_indices...         0.00%       0.000us         0.00%       0.000us       0.000us      21.568us         1.39%      21.568us      21.568us             1  
+                   triton_poi_fused_convolution_relu_15         0.00%       0.000us         0.00%       0.000us       0.000us      20.640us         1.33%      20.640us       1.876us            11  
+               triton_poi_fused_add_convolution_relu_12         0.00%       0.000us         0.00%       0.000us       0.000us      19.136us         1.23%      19.136us       6.379us             3  
+                triton_poi_fused_add_convolution_relu_7         0.00%       0.000us         0.00%       0.000us       0.000us      15.744us         1.02%      15.744us       7.872us             2  
+               triton_poi_fused_add_convolution_relu_17         0.00%       0.000us         0.00%       0.000us       0.000us      14.944us         0.96%      14.944us       2.989us             5  
+                   triton_poi_fused_convolution_relu_10         0.00%       0.000us         0.00%       0.000us       0.000us      14.592us         0.94%      14.592us       2.085us             7  
+                triton_poi_fused_add_convolution_relu_6         0.00%       0.000us         0.00%       0.000us       0.000us      11.584us         0.75%      11.584us      11.584us             1  
+               triton_poi_fused_add_convolution_relu_11         0.00%       0.000us         0.00%       0.000us       0.000us      10.945us         0.71%      10.945us      10.945us             1  
+                    triton_poi_fused_convolution_relu_2         0.00%       0.000us         0.00%       0.000us       0.000us      10.208us         0.66%      10.208us      10.208us             1  
+                    triton_poi_fused_convolution_relu_8         0.00%       0.000us         0.00%       0.000us       0.000us       9.472us         0.61%       9.472us       9.472us             1  
+                   triton_poi_fused_convolution_relu_20         0.00%       0.000us         0.00%       0.000us       0.000us       9.088us         0.59%       9.088us       1.818us             5  
+                    triton_poi_fused_convolution_relu_5         0.00%       0.000us         0.00%       0.000us       0.000us       7.424us         0.48%       7.424us       2.475us             3  
+          triton_per_fused_add_convolution_mean_relu_23         0.00%       0.000us         0.00%       0.000us       0.000us       4.608us         0.30%       4.608us       4.608us             1  
+               triton_poi_fused_add_convolution_relu_16         0.00%       0.000us         0.00%       0.000us       0.000us       3.520us         0.23%       3.520us       3.520us             1  
+               triton_poi_fused_add_convolution_relu_22         0.00%       0.000us         0.00%       0.000us       0.000us       3.488us         0.23%       3.488us       3.488us             1  
+                   triton_poi_fused_convolution_relu_13         0.00%       0.000us         0.00%       0.000us       0.000us       3.200us         0.21%       3.200us       3.200us             1  
+               triton_poi_fused_add_convolution_relu_21         0.00%       0.000us         0.00%       0.000us       0.000us       3.008us         0.19%       3.008us       3.008us             1  
+                         triton_poi_fused_convolution_0         0.00%       0.000us         0.00%       0.000us       0.000us       2.816us         0.18%       2.816us       2.816us             1  
+                   triton_poi_fused_convolution_relu_18         0.00%       0.000us         0.00%       0.000us       0.000us       2.464us         0.16%       2.464us       2.464us             1  
+                         triton_poi_fused_convolution_1         0.00%       0.000us         0.00%       0.000us       0.000us       2.112us         0.14%       2.112us       2.112us             1  
+                                         cudaEventQuery         0.77%      11.740us         0.77%      11.740us      11.740us       0.000us         0.00%       0.000us       0.000us             1  
+                                Activity Buffer Request        46.70%     709.065us        46.70%     709.065us     709.065us       0.000us         0.00%       0.000us       0.000us             1  
+                                         cuLaunchKernel        26.42%     401.179us        26.42%     401.179us       5.900us       0.000us         0.00%       0.000us       0.000us            68  
+                                       cudaLaunchKernel         2.28%      34.612us         2.28%      34.612us      17.306us       0.000us         0.00%       0.000us       0.000us             2  
+                                     cudaGetErrorString         0.22%       3.334us         0.22%       3.334us       1.667us       0.000us         0.00%       0.000us       0.000us             2  
+                                       cuLaunchKernelEx        19.65%     298.322us        19.65%     298.322us       5.737us       0.000us         0.00%       0.000us       0.000us            52  
+                                        cudaEventRecord         0.95%      14.482us         0.95%      14.482us      14.482us       0.000us         0.00%       0.000us       0.000us             1  
+                                  cudaDeviceSynchronize         3.00%      45.574us         3.00%      45.574us      45.574us       0.000us         0.00%       0.000us       0.000us             1  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+Self CPU time total: 1.518ms
+Self CUDA time total: 1.550ms
