@@ -1,0 +1,30 @@
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                                   Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg     Self CUDA   Self CUDA %    CUDA total  CUDA time avg    # of Calls  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+void pytorch_flash::flash_fwd_kernel<Flash_fwd_kerne...         0.00%       0.000us         0.00%       0.000us       0.000us       2.147ms        36.76%       2.147ms     178.926us            12  
+         nvjet_sm110_hsh_176x128_64x5_2x1_v_bz_bias_TNN         0.00%       0.000us         0.00%       0.000us       0.000us     874.580us        14.97%     874.580us      72.882us            12  
+         nvjet_sm110_hsh_256x128_64x4_1x1_h_bz_bias_TNT         0.00%       0.000us         0.00%       0.000us       0.000us     683.991us        11.71%     683.991us      56.999us            12  
+    nvjet_sm110_hsh_192x288_64x5_2x1_2cta_v_bz_bias_TNT         0.00%       0.000us         0.00%       0.000us       0.000us     674.871us        11.55%     674.871us      28.120us            24  
+                           triton_poi_fused_gelu_view_2         0.00%       0.000us         0.00%       0.000us       0.000us     567.193us         9.71%     567.193us      47.266us            12  
+sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16...         0.00%       0.000us         0.00%       0.000us       0.000us     271.421us         4.65%     271.421us     271.421us             1  
+void cudnn::engines_precompiled::nchwToNhwcKernel<__...         0.00%       0.000us         0.00%       0.000us       0.000us     188.606us         3.23%     188.606us      94.303us             2  
+      triton_per_fused_add_mul_native_layer_norm_view_3         0.00%       0.000us         0.00%       0.000us       0.000us     167.134us         2.86%     167.134us      15.194us            11  
+      triton_per_fused_add_mul_native_layer_norm_view_4         0.00%       0.000us         0.00%       0.000us       0.000us     146.463us         2.51%     146.463us      13.315us            11  
+triton_red_fused_add_cat_convolution_expand_mul_nati...         0.00%       0.000us         0.00%       0.000us       0.000us      46.623us         0.80%      46.623us      46.623us             1  
+triton_red_fused_add_cat_convolution_expand_native_l...         0.00%       0.000us         0.00%       0.000us       0.000us      44.543us         0.76%      44.543us      44.543us             1  
+      triton_per_fused_add_mul_native_layer_norm_view_5         0.00%       0.000us         0.00%       0.000us       0.000us      14.976us         0.26%      14.976us      14.976us             1  
+void cudnn::engines_precompiled::nhwcToNchwKernel<__...         0.00%       0.000us         0.00%       0.000us       0.000us      13.344us         0.23%      13.344us      13.344us             1  
+                                         cudaEventQuery         0.25%       8.732us         0.25%       8.732us       8.732us       0.000us         0.00%       0.000us       0.000us             1  
+                                Activity Buffer Request         2.32%      81.963us         2.32%      81.963us      81.963us       0.000us         0.00%       0.000us       0.000us             1  
+                                       cudaLaunchKernel        10.55%     373.251us        10.55%     373.251us      24.883us       0.000us         0.00%       0.000us       0.000us            15  
+                                     cudaGetErrorString         0.08%       2.686us         0.08%       2.686us       0.672us       0.000us         0.00%       0.000us       0.000us             4  
+                                    cudaPeekAtLastError         0.02%       0.629us         0.02%       0.629us       0.315us       0.000us         0.00%       0.000us       0.000us             2  
+                                    cudaLaunchKernelExC         0.39%      13.704us         0.39%      13.704us      13.704us       0.000us         0.00%       0.000us       0.000us             1  
+                                         cuLaunchKernel         7.38%     261.144us         7.38%     261.144us       7.058us       0.000us         0.00%       0.000us       0.000us            37  
+                                       cuLaunchKernelEx        10.25%     362.620us        10.25%     362.620us       7.555us       0.000us         0.00%       0.000us       0.000us            48  
+                                   cudaFuncSetAttribute         1.10%      38.760us         1.10%      38.760us       3.230us       0.000us         0.00%       0.000us       0.000us            12  
+                                        cudaEventRecord         0.38%      13.602us         0.38%      13.602us      13.602us       0.000us         0.00%       0.000us       0.000us             1  
+                                  cudaDeviceSynchronize        67.30%       2.382ms        67.30%       2.382ms       2.382ms       0.000us         0.00%       0.000us       0.000us             1  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+Self CPU time total: 3.539ms
+Self CUDA time total: 5.841ms

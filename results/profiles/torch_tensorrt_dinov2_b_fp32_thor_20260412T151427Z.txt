@@ -1,0 +1,29 @@
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                                   Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg     Self CUDA   Self CUDA %    CUDA total  CUDA time avg    # of Calls  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+fmha_cutlassF_f32_aligned_64x64_rf_sm80(PyTorchMemEf...         0.00%       0.000us         0.00%       0.000us       0.000us      14.780ms        60.78%      14.780ms       1.232ms            12  
+cutlass3x_sm100_tensorop_s256x256x8tf32gemm_f32_f32_...         0.00%       0.000us         0.00%       0.000us       0.000us       4.782ms        19.67%       4.782ms      99.626us            48  
+__myl_DivErfAddMulMul_0xd8d6e8da405e76ae081fed9b4113...         0.00%       0.000us         0.00%       0.000us       0.000us       1.182ms         4.86%       1.182ms      98.504us            12  
+__myl_MulAddMeanSubMulMeanAddSqrtDivMulMulAdd_0x240e...         0.00%       0.000us         0.00%       0.000us       0.000us       1.176ms         4.84%       1.176ms      51.125us            23  
+          __myl_Tran_0x34ce27841d874048470c073ae7b30305         0.00%       0.000us         0.00%       0.000us       0.000us     822.814us         3.38%     822.814us      22.856us            36  
+          __myl_Slic_0x6230208b29f529b8f1474b960e9679a9         0.00%       0.000us         0.00%       0.000us       0.000us     324.352us         1.33%     324.352us      27.029us            12  
+void at::native::elementwise_kernel<128, 2, at::nati...         0.00%       0.000us         0.00%       0.000us       0.000us     285.887us         1.18%     285.887us      23.824us            12  
+          __myl_Slic_0x37236b3a4840e214a15e06312948aeae         0.00%       0.000us         0.00%       0.000us       0.000us     253.248us         1.04%     253.248us      21.104us            12  
+          __myl_Tran_0x6893b3661d508699b6dc3cb22d44b46e         0.00%       0.000us         0.00%       0.000us       0.000us     228.928us         0.94%     228.928us      19.077us            12  
+sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f32f32...         0.00%       0.000us         0.00%       0.000us       0.000us     195.807us         0.81%     195.807us     195.807us             1  
+          __myl_Slic_0x4060900110afc04971e5cf44cc620147         0.00%       0.000us         0.00%       0.000us       0.000us     171.456us         0.71%     171.456us      14.288us            12  
+__myl_MulAddMeanSubMulMean_0xa2b00bc45e4617df83560e1...         0.00%       0.000us         0.00%       0.000us       0.000us      43.616us         0.18%      43.616us      43.616us             1  
+__myl_TranConcAddMeanSubMulMeanAddSqrtDivMulMulAdd_0...         0.00%       0.000us         0.00%       0.000us       0.000us      42.528us         0.17%      42.528us      42.528us             1  
+      __myl_MoveConc_0x4ba555e26f5999b21b1ed6fa9175a6f4         0.00%       0.000us         0.00%       0.000us       0.000us      24.384us         0.10%      24.384us      24.384us             1  
+__myl_AddSqrtDivMulMulAddSlic_0x1b9314894b8c205e9554...         0.00%       0.000us         0.00%       0.000us       0.000us       2.432us         0.01%       2.432us       2.432us             1  
+                                Activity Buffer Request         0.42%      82.583us         0.42%      82.583us      82.583us       0.000us         0.00%       0.000us       0.000us             1  
+                                  cudaStreamIsCapturing         0.34%      65.690us         0.34%      65.690us       0.853us       0.000us         0.00%       0.000us       0.000us            77  
+                               cudaEventRecordWithFlags         0.47%      92.558us         0.47%      92.558us       3.560us       0.000us         0.00%       0.000us       0.000us            26  
+                                    cudaStreamWaitEvent         0.42%      82.886us         0.42%      82.886us       3.188us       0.000us         0.00%       0.000us       0.000us            26  
+                                     cudaGetDeviceCount         0.08%      15.324us         0.08%      15.324us       0.236us       0.000us         0.00%       0.000us       0.000us            65  
+                                       cuLaunchKernelEx         8.63%       1.684ms         8.63%       1.684ms       9.788us       0.000us         0.00%       0.000us       0.000us           172  
+                                       cudaLaunchKernel         2.10%     409.814us         2.10%     409.814us      17.076us       0.000us         0.00%       0.000us       0.000us            24  
+                                  cudaDeviceSynchronize        87.54%      17.085ms        87.54%      17.085ms      17.085ms       0.000us         0.00%       0.000us       0.000us             1  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+Self CPU time total: 19.518ms
+Self CUDA time total: 24.315ms

@@ -1,0 +1,20 @@
+{
+  "runtime": "tensorrt",
+  "model": "dinov2_b",
+  "precision": "fp32",
+  "batch_size": 1,
+  "latency_ms": {
+    "p50": 32.736826105974615,
+    "p99": 38.55144249042496
+  },
+  "throughput": 30.54663872309526,
+  "hw_id": "thor",
+  "docker_image": "sha256:9a2c5ae934ee1a37d710abfa7f7a1b75efbd21a180abb86bb3a90b91422f4ff7",
+  "sw_versions": {
+    "tensorrt": "10.15.1.29",
+    "cuda": "13.0",
+    "driver": "580.00"
+  },
+  "timestamp": "2026-04-12T02:00:29.011740+00:00",
+  "status": "ok"
+}

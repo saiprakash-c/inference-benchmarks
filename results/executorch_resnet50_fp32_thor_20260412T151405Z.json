@@ -1,0 +1,21 @@
+{
+  "runtime": "executorch",
+  "model": "resnet50",
+  "precision": "fp32",
+  "batch_size": 1,
+  "latency_ms": {
+    "p50": 79.77738103363663,
+    "p99": 92.62488962849602
+  },
+  "throughput": 12.534881278922516,
+  "hw_id": "thor",
+  "docker_image": "sha256:9a2c5ae934ee1a37d710abfa7f7a1b75efbd21a180abb86bb3a90b91422f4ff7",
+  "sw_versions": {
+    "executorch": "1.2.0",
+    "cuda": "13.0",
+    "driver": "580.00"
+  },
+  "timestamp": "2026-04-12T15:14:05.657958+00:00",
+  "status": "ok",
+  "profile_file": "executorch_resnet50_fp32_thor_20260412T151405Z.txt"
+}

@@ -1,0 +1,33 @@
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                                   Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg     Self CUDA   Self CUDA %    CUDA total  CUDA time avg    # of Calls  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+cutlass3x_sm100_tensorop_s128x128x8tf32implicit_gemm...         0.00%       0.000us         0.00%       0.000us       0.000us     375.610us        27.07%     375.610us      37.561us            10  
+sm80_xmma_fprop_implicit_gemm_f32f32_tf32f32_f32_nhw...         0.00%       0.000us         0.00%       0.000us       0.000us     143.357us        10.33%     143.357us      23.893us             6  
+cutlass3x_sm100_tensorop_s64x128x8tf32implicit_gemm_...         0.00%       0.000us         0.00%       0.000us       0.000us     121.951us         8.79%     121.951us      24.390us             5  
+sm80_xmma_fprop_implicit_gemm_f32f32_tf32f32_f32_nhw...         0.00%       0.000us         0.00%       0.000us       0.000us      94.878us         6.84%      94.878us      18.976us             5  
+sm80_xmma_fprop_implicit_gemm_f32f32_tf32f32_f32_nhw...         0.00%       0.000us         0.00%       0.000us       0.000us      82.140us         5.92%      82.140us      16.428us             5  
+sm80_xmma_fprop_implicit_gemm_f32f32_tf32f32_f32_nhw...         0.00%       0.000us         0.00%       0.000us       0.000us      78.719us         5.67%      78.719us      26.240us             3  
+sm80_xmma_gemm_f32f32_tf32f32_f32_tn_n_tilesize64x32...         0.00%       0.000us         0.00%       0.000us       0.000us      64.702us         4.66%      64.702us      32.351us             2  
+sm80_xmma_fprop_implicit_gemm_f32f32_tf32f32_f32_nhw...         0.00%       0.000us         0.00%       0.000us       0.000us      64.351us         4.64%      64.351us      21.450us             3  
+sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f32f32...         0.00%       0.000us         0.00%       0.000us       0.000us      58.366us         4.21%      58.366us      29.183us             2  
+sm50_xmma_cublas_gemvx_f32f32_f32_f32_tn_n_int32_uni...         0.00%       0.000us         0.00%       0.000us       0.000us      55.007us         3.96%      55.007us      55.007us             1  
+sm80_xmma_fprop_implicit_gemm_f32f32_tf32f32_f32_nhw...         0.00%       0.000us         0.00%       0.000us       0.000us      52.960us         3.82%      52.960us      17.653us             3  
+sm86_xmma_gemm_f32f32_tf32f32_f32_tn_n_tilesize128x1...         0.00%       0.000us         0.00%       0.000us       0.000us      47.838us         3.45%      47.838us      23.919us             2  
+sm80_xmma_gemm_f32f32_tf32f32_f32_tn_n_tilesize64x12...         0.00%       0.000us         0.00%       0.000us       0.000us      30.943us         2.23%      30.943us      15.472us             2  
+sm80_xmma_gemm_f32f32_tf32f32_f32_tn_n_tilesize128x6...         0.00%       0.000us         0.00%       0.000us       0.000us      27.519us         1.98%      27.519us      13.760us             2  
+sm80_xmma_fprop_implicit_gemm_f32f32_tf32f32_f32_nhw...         0.00%       0.000us         0.00%       0.000us       0.000us      25.024us         1.80%      25.024us      25.024us             1  
+sm86_xmma_gemm_f32f32_tf32f32_f32_tn_n_tilesize64x12...         0.00%       0.000us         0.00%       0.000us       0.000us      23.456us         1.69%      23.456us      23.456us             1  
+sm80_xmma_gemm_f32f32_tf32f32_f32_nn_n_tilesize128x1...         0.00%       0.000us         0.00%       0.000us       0.000us      16.607us         1.20%      16.607us      16.607us             1  
+sm50_xmma_pooling_max_nhwc_FP32FP32_WINDOWSIZE_3_NOT...         0.00%       0.000us         0.00%       0.000us       0.000us      13.791us         0.99%      13.791us      13.791us             1  
+      __myl_MoveConc_0x5909563ffd5f00e692fbc3d095aeba3d         0.00%       0.000us         0.00%       0.000us       0.000us       5.824us         0.42%       5.824us       5.824us             1  
+sm50_xmma_pooling_fw_4d_FP32FP32NHWC_Average_FastDiv...         0.00%       0.000us         0.00%       0.000us       0.000us       4.352us         0.31%       4.352us       4.352us             1  
+                                Activity Buffer Request        50.43%       1.240ms        50.43%       1.240ms       1.240ms       0.000us         0.00%       0.000us       0.000us             1  
+                                  cudaStreamIsCapturing         0.33%       8.039us         0.33%       8.039us       1.608us       0.000us         0.00%       0.000us       0.000us             5  
+                               cudaEventRecordWithFlags         0.62%      15.130us         0.62%      15.130us       7.565us       0.000us         0.00%       0.000us       0.000us             2  
+                                    cudaStreamWaitEvent         0.44%      10.723us         0.44%      10.723us       5.361us       0.000us         0.00%       0.000us       0.000us             2  
+                                     cudaGetDeviceCount         0.05%       1.222us         0.05%       1.222us       0.244us       0.000us         0.00%       0.000us       0.000us             5  
+                                       cuLaunchKernelEx        18.75%     461.006us        18.75%     461.006us       8.088us       0.000us         0.00%       0.000us       0.000us            57  
+                                  cudaDeviceSynchronize        29.39%     722.481us        29.39%     722.481us     722.481us       0.000us         0.00%       0.000us       0.000us             1  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+Self CPU time total: 2.458ms
+Self CUDA time total: 1.387ms
