@@ -1,0 +1,33 @@
+name: Weekly Doc Review
+
+on:
+  schedule:
+    - cron: '0 6 * * 0'   # Every Sunday at 06:00 UTC
+  workflow_dispatch:        # Manual trigger
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  weekly-doc-review:
+    name: Weekly doc review (//ci:weekly_doc_review)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set review date
+        id: date
+        run: echo "value=$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+
+      - name: Run weekly doc review
+        run: |
+          docker compose -f docker/docker-compose.yml run --rm \
+            --entrypoint python3 dev ci/weekly_doc_review.py
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WEEKLY_CI: "1"
+          REVIEW_DATE: ${{ steps.date.outputs.value }}
