@@ -66,7 +66,8 @@ class ExecuTorchRuntime(RuntimeBase):
 
     def profile(self, handle: Any, input_tensor: Any) -> str | None:
         """Run one inference under torch.profiler (CPU activities) and return key_averages table."""
-        from torch.profiler import ProfilerActivity, profile as torch_profile
+        from torch.profiler import ProfilerActivity
+        from torch.profiler import profile as torch_profile
 
         cpu_input = input_tensor.cpu()
         with torch_profile(activities=[ProfilerActivity.CPU]) as prof:

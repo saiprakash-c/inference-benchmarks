@@ -91,7 +91,8 @@ class TorchTensorRTRuntime(RuntimeBase):
 
     def profile(self, handle: Any, input_tensor: Any) -> str | None:
         """Run one inference under torch.profiler (CUDA activities) and return key_averages table."""
-        from torch.profiler import ProfilerActivity, profile as torch_profile
+        from torch.profiler import ProfilerActivity
+        from torch.profiler import profile as torch_profile
 
         device_tensor = input_tensor.to(device=handle["device"], dtype=handle["dtype"])
         runner = handle["runner"]
