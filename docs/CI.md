@@ -51,11 +51,16 @@ matches its documented interface.
 
 ### On every PR
 
+- Dev image build — required by lint/ruff/doc-review jobs; not a standalone gate
 - `//ci:lint` — hard blocker (mechanical: target existence, schema, style rules)
-- `//tools:validate_results` on any new files in `results/` — hard blocker
+- `//tools:validate_results` on any new files in `results/` — hard blocker (checks out LFS objects)
 - Dockerfile lint (`hadolint`) — hard blocker
 - Python lint (`ruff` via Bazel) — hard blocker
 - Agent doc review — hard blocker (agent reads PR diff + affected docs, flags inconsistencies)
+
+Note: the runtime image (GPU/arm64, targets Thor's sm_110a) is **not** built in CI —
+it cannot run on GitHub's x86 ubuntu runners. Runtime image builds happen on Thor
+as part of the daily benchmark workflow.
 
 ### On merge to main
 
@@ -108,6 +113,13 @@ by adding a reviewer; the agent never blocks on it by default.
 - Dockerfile lint (`hadolint`) must pass
 - Python lint (`ruff`) must pass
 - Agent doc review must pass
+
+## Git LFS
+
+Result files (`results/*.json`) and profile artifacts (`results/profiles/*`) are
+stored in Git LFS. Git history holds small pointer files; LFS holds the actual
+content. The `validate-results` CI job uses `lfs: true` on checkout to pull real
+JSON for validation.
 
 ## Non-Blocking
 
