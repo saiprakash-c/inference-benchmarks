@@ -35,7 +35,7 @@ Two images, one `pyproject.toml`, one entry point per environment.
           │                    │   │                    │
           │ python:3.12-slim   │   │ cuda:13.0.2-       │
           │ + Bazel + gh CLI   │   │ ubuntu24.04        │
-          │ + Node + Claude    │   │ + TensorRT 10.16   │
+          │ + Node + Claude    │   │ + TensorRT 10.16.0 │
           │                    │   │ + Bazel + gh CLI   │
           │ CPU only           │   │ + Node + Claude    │
           │ Mac · CI · dev     │   │ Thor only · GPU    │
@@ -67,7 +67,7 @@ dep isolation isn't worth it for a benchmarking project.
 ## Runtime image base
 
 ```
-nvcr.io/nvidia/cuda:13.0.2-runtime-ubuntu24.04   (arm64)
+nvcr.io/nvidia/cuda:13.0.2-devel-ubuntu24.04   (arm64)
          │
          │  apt install tensorrt          ← NVIDIA Jetson repo r38.4
          │  pip install .[gpu]            ← pypi.jetson-ai-lab.io + PyPI
