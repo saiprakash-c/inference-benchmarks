@@ -67,11 +67,11 @@ class ExecuTorchRuntime(RuntimeBase):
 
 def _export_and_cache(model_name: str, pte_path: Path) -> None:
     """Export model with XNNPACK delegate and write the .pte program to pte_path."""
-    from torch.export import export as torch_export  # type: ignore[import]
-    from executorch.exir import to_edge, EdgeCompileConfig  # type: ignore[import]
     from executorch.backends.xnnpack.partition.xnnpack_partitioner import (  # type: ignore[import]
         XnnpackPartitioner,
     )
+    from executorch.exir import EdgeCompileConfig, to_edge  # type: ignore[import]
+    from torch.export import export as torch_export  # type: ignore[import]
 
     model = loader.load(model_name, device="cpu")
     in_shape = loader.input_shape(model_name)

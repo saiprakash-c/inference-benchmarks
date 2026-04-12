@@ -31,7 +31,7 @@ def main() -> int:
         L.error("site.deploy", reason="site/public/ does not exist — run //site:build first")
         return 2
 
-    # Get the remote URL so we can push from a temp worktree
+    # Get the remote URL and normalise to SSH form for pushing
     remote_result = subprocess.run(
         ["git", "remote", "get-url", "origin"],
         cwd=str(REPO_ROOT), capture_output=True, text=True,
@@ -40,6 +40,9 @@ def main() -> int:
         L.error("site.deploy", reason="could not get origin remote URL")
         return 1
     remote_url = remote_result.stdout.strip()
+    # Convert HTTPS URL to SSH: https://github.com/owner/repo.git → git@github.com:owner/repo.git
+    if remote_url.startswith("https://github.com/"):
+        remote_url = "git@github.com:" + remote_url[len("https://github.com/"):]
 
     with tempfile.TemporaryDirectory() as tmp:
         # Init a fresh repo and create an orphan gh-pages branch
