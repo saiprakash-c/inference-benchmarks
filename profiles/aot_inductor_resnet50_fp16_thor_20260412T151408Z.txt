@@ -1,0 +1,54 @@
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                                   Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg     Self CUDA   Self CUDA %    CUDA total  CUDA time avg    # of Calls  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+cutlass3x_sm100_tensorop_s64x64x16implicit_gemm_fpro...         0.00%       0.000us         0.00%       0.000us       0.000us     154.078us        17.27%     154.078us      14.007us            11  
+                   triton_poi_fused_convolution_relu_19         0.00%       0.000us         0.00%       0.000us       0.000us     100.799us        11.30%     100.799us      33.600us             3  
+                   triton_poi_fused_convolution_relu_14         0.00%       0.000us         0.00%       0.000us       0.000us      57.343us         6.43%      57.343us       9.557us             6  
+cutlass3x_sm100_tensorop_s128x64x16implicit_gemm_fpr...         0.00%       0.000us         0.00%       0.000us       0.000us      52.320us         5.87%      52.320us       8.720us             6  
+sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16...         0.00%       0.000us         0.00%       0.000us       0.000us      49.376us         5.54%      49.376us      49.376us             1  
+               nvjet_sm110_hsh_112x64_64x9_2x1_v_bz_TNN         0.00%       0.000us         0.00%       0.000us       0.000us      44.352us         4.97%      44.352us      14.784us             3  
+         nvjet_sm110_hsh_128x160_64x8_2x1_2cta_v_bz_TNT         0.00%       0.000us         0.00%       0.000us       0.000us      40.000us         4.48%      40.000us       5.000us             8  
+               nvjet_sm110_hsh_256x40_64x5_2x1_v_bz_TNT         0.00%       0.000us         0.00%       0.000us       0.000us      35.424us         3.97%      35.424us       5.904us             6  
+          nvjet_sm110_hsh_64x32_64x16_2x2_2cta_h_bz_TNT         0.00%       0.000us         0.00%       0.000us       0.000us      30.080us         3.37%      30.080us      15.040us             2  
+               nvjet_sm110_hsh_64x40_64x16_2x1_v_bz_TNT         0.00%       0.000us         0.00%       0.000us       0.000us      28.320us         3.18%      28.320us       5.664us             5  
+                   triton_poi_fused_convolution_relu_15         0.00%       0.000us         0.00%       0.000us       0.000us      26.176us         2.93%      26.176us       2.380us            11  
+           nvjet_sm110_hsh_64x8_64x16_4x1_v_bz_bias_TNT         0.00%       0.000us         0.00%       0.000us       0.000us      25.120us         2.82%      25.120us      25.120us             1  
+               triton_poi_fused_add_convolution_relu_12         0.00%       0.000us         0.00%       0.000us       0.000us      22.783us         2.55%      22.783us       7.594us             3  
+cutlass3x_sm100_tensorop_s128x128x16implicit_gemm_fp...         0.00%       0.000us         0.00%       0.000us       0.000us      21.440us         2.40%      21.440us      10.720us             2  
+                   triton_poi_fused_convolution_relu_10         0.00%       0.000us         0.00%       0.000us       0.000us      17.536us         1.97%      17.536us       2.505us             7  
+                    triton_poi_fused_convolution_relu_4         0.00%       0.000us         0.00%       0.000us       0.000us      15.200us         1.70%      15.200us       2.533us             6  
+                    triton_poi_fused_convolution_relu_9         0.00%       0.000us         0.00%       0.000us       0.000us      15.007us         1.68%      15.007us       3.752us             4  
+               triton_poi_fused_add_convolution_relu_17         0.00%       0.000us         0.00%       0.000us       0.000us      14.464us         1.62%      14.464us       2.893us             5  
+                triton_poi_fused_add_convolution_relu_7         0.00%       0.000us         0.00%       0.000us       0.000us      13.919us         1.56%      13.919us       6.960us             2  
+          nvjet_sm110_hsh_64x80_64x16_2x1_2cta_v_bz_TNT         0.00%       0.000us         0.00%       0.000us       0.000us      12.608us         1.41%      12.608us       4.203us             3  
+                triton_poi_fused_add_convolution_relu_6         0.00%       0.000us         0.00%       0.000us       0.000us      12.576us         1.41%      12.576us      12.576us             1  
+               nvjet_sm110_hsh_64x160_64x7_1x2_h_bz_TNT         0.00%       0.000us         0.00%       0.000us       0.000us      11.680us         1.31%      11.680us       3.893us             3  
+              nvjet_sm110_hsh_128x40_64x10_2x1_v_bz_TNT         0.00%       0.000us         0.00%       0.000us       0.000us      11.072us         1.24%      11.072us      11.072us             1  
+                    triton_poi_fused_convolution_relu_2         0.00%       0.000us         0.00%       0.000us       0.000us       9.920us         1.11%       9.920us       9.920us             1  
+                   triton_poi_fused_convolution_relu_20         0.00%       0.000us         0.00%       0.000us       0.000us       9.568us         1.07%       9.568us       1.914us             5  
+triton_poi_fused_convolution_max_pool2d_with_indices...         0.00%       0.000us         0.00%       0.000us       0.000us       7.648us         0.86%       7.648us       7.648us             1  
+               triton_poi_fused_add_convolution_relu_11         0.00%       0.000us         0.00%       0.000us       0.000us       6.720us         0.75%       6.720us       6.720us             1  
+                    triton_poi_fused_convolution_relu_5         0.00%       0.000us         0.00%       0.000us       0.000us       6.336us         0.71%       6.336us       2.112us             3  
+                    triton_poi_fused_convolution_relu_8         0.00%       0.000us         0.00%       0.000us       0.000us       6.208us         0.70%       6.208us       6.208us             1  
+              nvjet_sm110_hsh_128x160_64x5_1x2_h_bz_TNT         0.00%       0.000us         0.00%       0.000us       0.000us       5.312us         0.60%       5.312us       5.312us             1  
+               nvjet_sm110_hsh_128x80_64x8_1x2_h_bz_TNT         0.00%       0.000us         0.00%       0.000us       0.000us       5.152us         0.58%       5.152us       5.152us             1  
+                         triton_poi_fused_convolution_0         0.00%       0.000us         0.00%       0.000us       0.000us       4.160us         0.47%       4.160us       4.160us             1  
+          triton_per_fused_add_convolution_mean_relu_23         0.00%       0.000us         0.00%       0.000us       0.000us       4.096us         0.46%       4.096us       4.096us             1  
+               triton_poi_fused_add_convolution_relu_16         0.00%       0.000us         0.00%       0.000us       0.000us       4.064us         0.46%       4.064us       4.064us             1  
+               triton_poi_fused_add_convolution_relu_21         0.00%       0.000us         0.00%       0.000us       0.000us       2.944us         0.33%       2.944us       2.944us             1  
+                   triton_poi_fused_convolution_relu_13         0.00%       0.000us         0.00%       0.000us       0.000us       2.144us         0.24%       2.144us       2.144us             1  
+               triton_poi_fused_add_convolution_relu_22         0.00%       0.000us         0.00%       0.000us       0.000us       2.048us         0.23%       2.048us       2.048us             1  
+                   triton_poi_fused_convolution_relu_18         0.00%       0.000us         0.00%       0.000us       0.000us       2.016us         0.23%       2.016us       2.016us             1  
+                         triton_poi_fused_convolution_1         0.00%       0.000us         0.00%       0.000us       0.000us       1.952us         0.22%       1.952us       1.952us             1  
+                                         cudaEventQuery         0.89%       7.944us         0.89%       7.944us       7.944us       0.000us         0.00%       0.000us       0.000us             1  
+                                Activity Buffer Request         6.40%      56.824us         6.40%      56.824us      56.824us       0.000us         0.00%       0.000us       0.000us             1  
+                                         cuLaunchKernel        56.53%     501.888us        56.53%     501.888us       7.381us       0.000us         0.00%       0.000us       0.000us            68  
+                                    cudaPeekAtLastError         0.12%       1.055us         0.12%       1.055us       0.527us       0.000us         0.00%       0.000us       0.000us             2  
+                                    cudaLaunchKernelExC         1.54%      13.676us         1.54%      13.676us      13.676us       0.000us         0.00%       0.000us       0.000us             1  
+                                       cuLaunchKernelEx        29.28%     259.921us        29.28%     259.921us       4.904us       0.000us         0.00%       0.000us       0.000us            53  
+                                        cudaEventRecord         1.25%      11.129us         1.25%      11.129us      11.129us       0.000us         0.00%       0.000us       0.000us             1  
+                                     cudaGetErrorString         0.17%       1.472us         0.17%       1.472us       1.472us       0.000us         0.00%       0.000us       0.000us             1  
+                                  cudaDeviceSynchronize         3.82%      33.945us         3.82%      33.945us      33.945us       0.000us         0.00%       0.000us       0.000us             1  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+Self CPU time total: 887.854us
+Self CUDA time total: 891.961us
