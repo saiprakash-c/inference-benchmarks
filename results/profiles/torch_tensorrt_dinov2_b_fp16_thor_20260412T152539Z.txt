@@ -1,0 +1,32 @@
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                                   Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg     Self CUDA   Self CUDA %    CUDA total  CUDA time avg    # of Calls  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+void pytorch_flash::flash_fwd_kernel<Flash_fwd_kerne...         0.00%       0.000us         0.00%       0.000us       0.000us       2.146ms        29.93%       2.146ms     178.848us            12  
+cutlass3x_sm100_tensorop_s256x256x16gemm_f16_f16_f32...         0.00%       0.000us         0.00%       0.000us       0.000us       1.051ms        14.66%       1.051ms      87.621us            12  
+cutlass3x_sm100_tensorop_s256x256x16gemm_f16_f16_f32...         0.00%       0.000us         0.00%       0.000us       0.000us     648.607us         9.05%     648.607us      54.051us            12  
+          __myl_Tran_0x10f6a436f2b2fc2193171b06903fbc57         0.00%       0.000us         0.00%       0.000us       0.000us     623.933us         8.70%     623.933us      17.331us            36  
+__myl_Fc_0x22cffb3a9c65b67c67ff9e28da66b793_tensorop...         0.00%       0.000us         0.00%       0.000us       0.000us     600.736us         8.38%     600.736us      50.061us            12  
+void at::native::vectorized_elementwise_kernel<4, at...         0.00%       0.000us         0.00%       0.000us       0.000us     595.583us         8.31%     595.583us      12.155us            49  
+__myl_MulAddCastMeanSubMulMeanAddSqrtDivMulCastMulAd...         0.00%       0.000us         0.00%       0.000us       0.000us     501.822us         7.00%     501.822us      21.818us            23  
+__myl_Fc_0xdc80d9e8c089f393b4e76477388fdfe1_tensorop...         0.00%       0.000us         0.00%       0.000us       0.000us     271.168us         3.78%     271.168us      22.597us            12  
+sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_f16f16...         0.00%       0.000us         0.00%       0.000us       0.000us     172.095us         2.40%     172.095us     172.095us             1  
+          __myl_Slic_0x01e5f77a4ea8dbcb5e01bd8730f2b5f6         0.00%       0.000us         0.00%       0.000us       0.000us     163.135us         2.28%     163.135us      13.595us            12  
+          __myl_Slic_0xc2c0859520ec18c85314ce2dd6d0207e         0.00%       0.000us         0.00%       0.000us       0.000us     119.136us         1.66%     119.136us       9.928us            12  
+          __myl_Tran_0x923335b670159f479ee8077c414d3097         0.00%       0.000us         0.00%       0.000us       0.000us     115.199us         1.61%     115.199us       9.600us            12  
+          __myl_Slic_0x1918736a47d673504ad12bd25f58a80e         0.00%       0.000us         0.00%       0.000us       0.000us     105.824us         1.48%     105.824us       8.819us            12  
+__myl_TranConcAddCastMeanSubMulMeanAddSqrtDivMulCast...         0.00%       0.000us         0.00%       0.000us       0.000us      19.520us         0.27%      19.520us      19.520us             1  
+      __myl_MoveConc_0x05f47c03fc0dc42d28198c5f7383b919         0.00%       0.000us         0.00%       0.000us       0.000us      18.432us         0.26%      18.432us      18.432us             1  
+__myl_MulAddCastMeanSubMulMean_0x8a19c00c83ef41c1758...         0.00%       0.000us         0.00%       0.000us       0.000us      15.392us         0.21%      15.392us      15.392us             1  
+__myl_AddSqrtDivMulCastMulAddSlic_0xc44974b414a28544...         0.00%       0.000us         0.00%       0.000us       0.000us       1.888us         0.03%       1.888us       1.888us             1  
+                                Activity Buffer Request         5.33%     144.176us         5.33%     144.176us     144.176us       0.000us         0.00%       0.000us       0.000us             1  
+                                       cudaLaunchKernel        27.52%     744.487us        27.52%     744.487us      12.205us       0.000us         0.00%       0.000us       0.000us            61  
+                                  cudaStreamIsCapturing         2.79%      75.436us         2.79%      75.436us       1.161us       0.000us         0.00%       0.000us       0.000us            65  
+                               cudaEventRecordWithFlags         3.14%      85.092us         3.14%      85.092us       3.273us       0.000us         0.00%       0.000us       0.000us            26  
+                                    cudaStreamWaitEvent         2.87%      77.602us         2.87%      77.602us       2.985us       0.000us         0.00%       0.000us       0.000us            26  
+                                     cudaGetDeviceCount         0.59%      15.953us         0.59%      15.953us       0.245us       0.000us         0.00%       0.000us       0.000us            65  
+                                       cuLaunchKernelEx        53.36%       1.444ms        53.36%       1.444ms       9.024us       0.000us         0.00%       0.000us       0.000us           160  
+                                   cudaFuncSetAttribute         1.86%      50.317us         1.86%      50.317us       4.193us       0.000us         0.00%       0.000us       0.000us            12  
+                                  cudaDeviceSynchronize         2.55%      68.879us         2.55%      68.879us      68.879us       0.000us         0.00%       0.000us       0.000us             1  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+Self CPU time total: 2.706ms
+Self CUDA time total: 7.170ms
