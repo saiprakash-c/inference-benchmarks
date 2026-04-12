@@ -89,7 +89,8 @@ ARG USERNAME=saip
 COPY docker/saip.zshrc /tmp/saip.zshrc
 RUN userdel -r ubuntu 2>/dev/null || true && \
     useradd -m -l -u ${UID} -s /bin/zsh ${USERNAME} && \
-    cat /tmp/saip.zshrc >> /home/${USERNAME}/.zshrc
+    cat /tmp/saip.zshrc >> /home/${USERNAME}/.zshrc && \
+    chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
 
 USER ${USERNAME}
 
