@@ -2,26 +2,35 @@
 # Manage the dev container (CPU-only, Mac/CI).
 #
 # Usage:
-#   ./bin/docker_dev          # enter the container
-#   ./bin/docker_dev --build  # build the dev image
+#   ./bin/docker_dev --build   build the dev image from current repo
+#   ./bin/docker_dev --start   enter the container (builds first if no image exists)
 set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+COMPOSE="docker compose -f $REPO_ROOT/docker/docker-compose.yml"
 
 case "${1:-}" in
   --build)
-    docker compose -f "$REPO_ROOT/docker/docker-compose.yml" build dev
+    $COMPOSE build dev
     ;;
-  "")
+  --start)
+    # Build first if no image exists yet
+    if [[ -z "$(docker images -q inference-benchmarks-dev 2>/dev/null)" ]]; then
+        echo "No cached image found — building first..."
+        $COMPOSE build dev
+    fi
+
     # Ensure bind-mounted paths exist (Docker creates dirs as root if missing)
     touch ~/.gitconfig ~/.claude.json
     mkdir -p ~/.claude ~/.config/gh
 
-    docker compose -f "$REPO_ROOT/docker/docker-compose.yml" run --rm \
-        --entrypoint zsh \
-        dev
+    $COMPOSE run --rm --entrypoint zsh dev
     ;;
   *)
-    echo "Usage: $0 [--build]" >&2
+    echo "Usage: $0 <command>"
+    echo ""
+    echo "Commands:"
+    echo "  --build   Build the dev image from the current repo state"
+    echo "  --start   Enter the container (builds first if no cached image exists)"
     exit 1
     ;;
 esac

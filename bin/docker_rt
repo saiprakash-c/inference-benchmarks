@@ -2,26 +2,35 @@
 # Manage the runtime container (GPU, Thor only).
 #
 # Usage:
-#   ./bin/docker_rt          # enter the container
-#   ./bin/docker_rt --build  # build the runtime image
+#   ./bin/docker_rt --build   build the runtime image from current repo
+#   ./bin/docker_rt --start   enter the container (builds first if no image exists)
 set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+COMPOSE="docker compose -f $REPO_ROOT/docker/docker-compose.yml"
 
 case "${1:-}" in
   --build)
-    docker compose -f "$REPO_ROOT/docker/docker-compose.yml" build runtime
+    $COMPOSE build runtime
     ;;
-  "")
+  --start)
+    # Build first if no image exists yet
+    if [[ -z "$(docker images -q ghcr.io/saiprakash-c/inference-benchmarks:latest 2>/dev/null)" ]]; then
+        echo "No cached image found — building first..."
+        $COMPOSE build runtime
+    fi
+
     # Ensure bind-mounted paths exist (Docker creates dirs as root if missing)
     touch ~/.gitconfig ~/.claude.json
     mkdir -p ~/.claude ~/.config/gh
 
-    docker compose -f "$REPO_ROOT/docker/docker-compose.yml" run --rm \
-        --entrypoint zsh \
-        runtime
+    $COMPOSE run --rm --entrypoint zsh runtime
     ;;
   *)
-    echo "Usage: $0 [--build]" >&2
+    echo "Usage: $0 <command>"
+    echo ""
+    echo "Commands:"
+    echo "  --build   Build the runtime image from the current repo state"
+    echo "  --start   Enter the container (builds first if no cached image exists)"
     exit 1
     ;;
 esac
