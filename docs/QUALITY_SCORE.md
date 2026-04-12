@@ -18,11 +18,11 @@ Overall grade = weighted average, expressed as A/B/C/D/F.
 
 | Component | Owner | Grade | Last Updated | Notes |
 |---|---|---|---|---|
-| benchmark harness | unassigned | — | — | pre-implementation |
-| version checker | unassigned | — | — | pre-implementation |
-| site builder | unassigned | — | — | pre-implementation |
-| CI jobs | unassigned | — | — | pre-implementation |
-| documentation coverage | unassigned | — | — | pre-implementation |
+| benchmark harness | unassigned | — | 2026-04-12 | pre-implementation |
+| version checker | unassigned | — | 2026-04-12 | pre-implementation |
+| site builder | unassigned | — | 2026-04-12 | pre-implementation |
+| CI jobs | unassigned | — | 2026-04-12 | pre-implementation |
+| documentation coverage | unassigned | — | 2026-04-12 | pre-implementation |
 
 ## Update Trigger
 
