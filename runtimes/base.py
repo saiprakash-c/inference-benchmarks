@@ -43,3 +43,14 @@ class RuntimeBase(ABC):
     @abstractmethod
     def version(self) -> str:
         """Return the installed runtime version string."""
+
+    def profile(self, handle: Any, input_tensor: Any) -> str | None:
+        """
+        Run a single-inference profiling pass and return a human-readable
+        layer-by-layer text report, or None if profiling is not supported.
+
+        Default implementation returns None. Runtimes that support profiling
+        should override this method. Called after measurement so p50/p99 are
+        unaffected.
+        """
+        return None

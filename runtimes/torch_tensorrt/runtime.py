@@ -89,6 +89,17 @@ class TorchTensorRTRuntime(RuntimeBase):
         import torch_tensorrt  # type: ignore[import]
         return torch_tensorrt.__version__
 
+    def profile(self, handle: Any, input_tensor: Any) -> str | None:
+        """Run one inference under torch.profiler (CUDA activities) and return key_averages table."""
+        from torch.profiler import ProfilerActivity
+        from torch.profiler import profile as torch_profile
+
+        device_tensor = input_tensor.to(device=handle["device"], dtype=handle["dtype"])
+        runner = handle["runner"]
+        with torch_profile(activities=[ProfilerActivity.CUDA]) as prof:
+            runner(device_tensor)
+        return prof.key_averages().table(sort_by="cuda_time_total", row_limit=50)
+
 
 class _ForwardWrapper(torch.nn.Module):
     """

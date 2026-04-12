@@ -64,6 +64,16 @@ class ExecuTorchRuntime(RuntimeBase):
         from importlib.metadata import version as pkg_version
         return pkg_version("executorch")
 
+    def profile(self, handle: Any, input_tensor: Any) -> str | None:
+        """Run one inference under torch.profiler (CPU activities) and return key_averages table."""
+        from torch.profiler import ProfilerActivity
+        from torch.profiler import profile as torch_profile
+
+        cpu_input = input_tensor.cpu()
+        with torch_profile(activities=[ProfilerActivity.CPU]) as prof:
+            handle.forward((cpu_input,))
+        return prof.key_averages().table(sort_by="cpu_time_total", row_limit=50)
+
 
 def _export_and_cache(model_name: str, pte_path: Path) -> None:
     """Export model with XNNPACK delegate and write the .pte program to pte_path."""

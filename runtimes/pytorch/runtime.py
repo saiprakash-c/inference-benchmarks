@@ -50,3 +50,12 @@ class PyTorchRuntime(RuntimeBase):
     def version(self) -> str:
         """Return the installed PyTorch version string."""
         return torch.__version__
+
+    def profile(self, handle: Any, input_tensor: Any) -> str | None:
+        """Run one inference under torch.autograd.profiler and return key_averages table."""
+        param = next(handle.parameters())
+        device_tensor = input_tensor.to(device=param.device, dtype=param.dtype)
+        with torch.autograd.profiler.profile(use_cuda=True) as prof:
+            with torch.inference_mode():
+                handle(device_tensor)
+        return prof.key_averages().table(sort_by="cuda_time_total", row_limit=50)

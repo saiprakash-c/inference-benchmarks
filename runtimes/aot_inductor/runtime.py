@@ -63,6 +63,17 @@ class AOTInductorRuntime(RuntimeBase):
         """Return the installed PyTorch version string (AOT Inductor is bundled with PyTorch)."""
         return torch.__version__
 
+    def profile(self, handle: Any, input_tensor: Any) -> str | None:
+        """Run one inference under torch.profiler (CUDA activities) and return key_averages table."""
+        from torch.profiler import ProfilerActivity
+        from torch.profiler import profile as torch_profile
+
+        device_tensor = input_tensor.to(device=handle["device"], dtype=handle["dtype"])
+        runner = handle["runner"]
+        with torch_profile(activities=[ProfilerActivity.CUDA]) as prof:
+            runner(device_tensor)
+        return prof.key_averages().table(sort_by="cuda_time_total", row_limit=50)
+
 
 def _compile_and_cache(model_name: str, cache_path: Path, device: str, precision: str, compile_options: dict) -> str:
     """Compile model via AOT Inductor, write the .so to cache_path, return its path string."""

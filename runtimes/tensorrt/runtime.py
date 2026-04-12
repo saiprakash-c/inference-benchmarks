@@ -90,6 +90,48 @@ class TensorRTRuntime(RuntimeBase):
         """Return the installed TensorRT version string."""
         return trt.__version__
 
+    def profile(self, handle: Any, input_tensor: Any) -> str | None:
+        """Attach a SimpleProfiler to the TRT context, run one iteration, return layer table."""
+        context: Any = handle["context"]
+        input_gpu_buffer: torch.Tensor = handle["input_gpu"]
+        output_gpu_buffer: torch.Tensor = handle["output_gpu"]
+
+        buf_dtype = input_gpu_buffer.dtype
+        gpu_input = input_tensor.to(device="cuda", dtype=buf_dtype)
+        input_gpu_buffer.copy_(gpu_input)
+        bindings = [input_gpu_buffer.data_ptr(), output_gpu_buffer.data_ptr()]
+
+        profiler = _TRTProfiler()
+        context.profiler = profiler
+        torch.cuda.synchronize()
+        context.execute_v2(bindings=bindings)
+        torch.cuda.synchronize()
+
+        return profiler.to_table()
+
+
+class _TRTProfiler(trt.IProfiler):
+    """Simple IProfiler subclass that records per-layer timing from TensorRT."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self._layers: list[tuple[str, float]] = []
+
+    def report_layer_time(self, layer_name: str, ms: float) -> None:  # type: ignore[override]
+        self._layers.append((layer_name, ms))
+
+    def to_table(self) -> str:
+        if not self._layers:
+            return "(no layer timing data recorded)"
+        lines = [f"{'Layer':<60}  {'ms':>8}", "-" * 70]
+        total = 0.0
+        for name, ms in self._layers:
+            lines.append(f"{name:<60}  {ms:>8.4f}")
+            total += ms
+        lines.append("-" * 70)
+        lines.append(f"{'TOTAL':<60}  {total:>8.4f}")
+        return "\n".join(lines)
+
 
 def _export_to_onnx(model_name: str) -> bytes:
     """Export model to ONNX bytes in memory using a dummy input."""
