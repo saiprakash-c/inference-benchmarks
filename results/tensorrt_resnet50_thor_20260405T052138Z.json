@@ -1,20 +1,3 @@
-{
-  "runtime": "tensorrt",
-  "model": "resnet50",
-  "precision": "fp32",
-  "batch_size": 1,
-  "latency_ms": {
-    "p50": 1.4832810265943408,
-    "p99": 2.6199315791018307
-  },
-  "throughput": 674.1810769979517,
-  "hw_id": "thor",
-  "docker_image": "sha256:f8c6eeaf853a43c9c9220c6302c6b9ecebf84235f74487157833245cdc6d1bd1",
-  "sw_versions": {
-    "tensorrt": "10.16.0.72",
-    "cuda": "13.0",
-    "driver": "580.00"
-  },
-  "timestamp": "2026-04-05T05:21:38.071956+00:00",
-  "status": "ok"
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:9e9e6915981db4131e09605419a7ceb3542b1881c5531efc87efa1398f51d32b
+size 489
