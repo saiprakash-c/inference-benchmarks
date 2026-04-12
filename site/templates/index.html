@@ -61,7 +61,7 @@
             <td>{{ "%.1f"|format(r.throughput) }}</td>
             <td class="status-{{ r.status }}">{{ r.status }}</td>
             <td>{{ r.timestamp[:19].replace("T", " ") }}</td>
-            <td>{% if r.get("profile_file") %}<a href="/profiles/{{ r.profile_file }}" target="_blank">view</a>{% else %}—{% endif %}</td>
+            <td>{% if r.get("profile_file") %}<a href="profiles/{{ r.profile_file }}" target="_blank">view</a>{% else %}—{% endif %}</td>
           </tr>
           {% endfor %}
         </tbody>
