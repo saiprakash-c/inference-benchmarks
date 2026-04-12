@@ -9,6 +9,7 @@ Usage:
 """
 
 import json
+import shutil
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -20,6 +21,7 @@ from lib import log as L  # noqa: E402
 
 REPO_ROOT = Path(__file__).parent.parent
 RESULTS_DIR = REPO_ROOT / "results"
+PROFILES_DIR = RESULTS_DIR / "profiles"
 TEMPLATES_DIR = Path(__file__).parent / "templates"
 OUTPUT_DIR = REPO_ROOT / "site" / "public"
 
@@ -75,11 +77,38 @@ def latest_per_combo(agg: dict) -> dict:
     return dict(sorted(sections.items()))
 
 
+# ── Profile copying ────────────────────────────────────────────────────────────
+
+
+def copy_profiles(results: list[dict]) -> None:
+    """
+    Copy profile .txt files referenced by at least one result into
+    site/public/profiles/. Only copies files that are actually referenced
+    (avoids copying stale profiles).
+    """
+    dest_dir = OUTPUT_DIR / "profiles"
+    referenced = {r["profile_file"] for r in results if r.get("profile_file")}
+    if not referenced:
+        return
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    copied = 0
+    for filename in referenced:
+        src = PROFILES_DIR / filename
+        if src.exists():
+            shutil.copy2(src, dest_dir / filename)
+            copied += 1
+        else:
+            L.warn("site.build.profile_missing", file=str(src))
+    L.info("site.build.profiles_copied", count=copied, dest=str(dest_dir))
+
+
 # ── Rendering ──────────────────────────────────────────────────────────────────
 
 
 def render(results: list[dict]) -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    copy_profiles(results)
 
     agg = aggregate(results)
     sections = latest_per_combo(agg)

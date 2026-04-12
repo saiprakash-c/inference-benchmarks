@@ -24,6 +24,7 @@ from lib import log as L
 
 VERSIONS_TOML_PATH = Path(__file__).parent.parent / "versions.toml"
 RESULTS_DIR = Path(__file__).parent.parent / "results"
+PROFILES_DIR = RESULTS_DIR / "profiles"
 
 
 @dataclass
@@ -86,7 +87,7 @@ def _run_single_benchmark(
     precision: str,
     input_key: str,
     versions: dict,
-) -> dict:
+) -> tuple[dict, str | None]:
     """
     Run warmup and measurement iterations for one (model, runtime, precision) triple.
     Returns a result dict matching the OBSERVABILITY.md schema.
@@ -129,6 +130,15 @@ def _run_single_benchmark(
     driver_version = hardware_info.get("driver", "")
     docker_image_digest = versions.get("docker", {}).get("digest", "")
 
+    # Profiling — single inference pass after measurement so p50/p99 are unaffected.
+    profile_text: str | None = None
+    try:
+        profile_text = runtime_instance.profile(engine_handle, input_tensor)
+    except Exception as exc:  # noqa: BLE001
+        L.warn("benchmark.profile_failed", model=model_key, runtime=runtime_key, error=str(exc))
+
+    runtime_instance.teardown(engine_handle)
+
     result = {
         "runtime": runtime_key,
         "model": model_key,
@@ -145,9 +155,8 @@ def _run_single_benchmark(
         },
         "timestamp": _utcnow_iso8601(),
         "status": "ok",
+        "profile_file": None,
     }
-
-    runtime_instance.teardown(engine_handle)
 
     L.info(
         "benchmark.result",
@@ -158,7 +167,16 @@ def _run_single_benchmark(
         throughput=throughput,
     )
 
-    return result
+    return result, profile_text
+
+
+def _write_profile_txt(profile_text: str, stem: str) -> Path:
+    """Write profile text to results/profiles/<stem>.txt and return the path."""
+    PROFILES_DIR.mkdir(parents=True, exist_ok=True)
+    profile_path = PROFILES_DIR / f"{stem}.txt"
+    profile_path.write_text(profile_text)
+    L.info("benchmark.profile_write", path=str(profile_path))
+    return profile_path
 
 
 def _write_result_json(result: dict, runtime_key: str, model_key: str) -> Path:
@@ -167,11 +185,12 @@ def _write_result_json(result: dict, runtime_key: str, model_key: str) -> Path:
     hardware_identifier = result["hw_id"]
     precision = result["precision"]
     timestamp_compact = _utcnow_compact()
-    filename = f"{runtime_key}_{model_key}_{precision}_{hardware_identifier}_{timestamp_compact}.json"
+    stem = f"{runtime_key}_{model_key}_{precision}_{hardware_identifier}_{timestamp_compact}"
+    filename = f"{stem}.json"
     output_path = RESULTS_DIR / filename
     output_path.write_text(json.dumps(result, indent=2))
     L.info("benchmark.write", path=str(output_path))
-    return output_path
+    return output_path, stem
 
 
 def run(config: BenchmarkConfig) -> int:
@@ -212,8 +231,13 @@ def run(config: BenchmarkConfig) -> int:
                     continue
 
                 try:
-                    result = _run_single_benchmark(model_key, runtime_key, precision, input_key, versions)
-                    _write_result_json(result, runtime_key, model_key)
+                    result, profile_text = _run_single_benchmark(model_key, runtime_key, precision, input_key, versions)
+                    output_path, stem = _write_result_json(result, runtime_key, model_key)
+                    if profile_text is not None:
+                        _write_profile_txt(profile_text, stem)
+                        # Patch profile_file into the JSON now that we know the stem.
+                        result["profile_file"] = f"{stem}.txt"
+                        output_path.write_text(json.dumps(result, indent=2))
                 except Exception as exc:  # noqa: BLE001
                     L.error("benchmark.failed", model=model_key, runtime=runtime_key, precision=precision, error=str(exc))
                     any_failed = True
