@@ -9,9 +9,9 @@ Forward-only: imports only torch and torchvision/hub. Does not import from
 benchmark/, inputs/, runtimes/, results/, or site/.
 """
 
-import torch  # type: ignore[import]
 from typing import Any
 
+import torch  # type: ignore[import]
 
 # ── Shape registry ────────────────────────────────────────────────────────────
 
