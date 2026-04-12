@@ -1,20 +1,3 @@
-{
-  "runtime": "executorch",
-  "model": "resnet50",
-  "precision": "fp32",
-  "batch_size": 1,
-  "latency_ms": {
-    "p50": 81.80639951024204,
-    "p99": 94.33241438586265
-  },
-  "throughput": 12.223982548881171,
-  "hw_id": "thor",
-  "docker_image": "sha256:9a2c5ae934ee1a37d710abfa7f7a1b75efbd21a180abb86bb3a90b91422f4ff7",
-  "sw_versions": {
-    "executorch": "1.2.0",
-    "cuda": "13.0",
-    "driver": "580.00"
-  },
-  "timestamp": "2026-04-05T19:17:02.531001+00:00",
-  "status": "ok"
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:d470f234edc4e532d6e005141f04e0b460bc8590a6a4e3207c8699c1e2401ed1
+size 487
