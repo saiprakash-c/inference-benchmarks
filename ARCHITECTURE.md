@@ -84,7 +84,8 @@ Thor. `//docker:build` and `//docker:push` manage the image lifecycle.
 
 ### `results/`
 Append-only flat JSON files, one per `(runtime, model, precision, timestamp)`.
-Never mutated after creation. Git history is the audit log.
+Never mutated after creation. Stored in Git LFS — git history holds pointer
+commits; LFS holds the actual content.
 
 ### `site/`
 Static website generated from `results/`. `//site:build` reads all result
