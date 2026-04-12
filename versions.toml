@@ -1,18 +1,19 @@
 [meta]
 last_checked = "2026-03-28T00:00:00Z"
-last_benchmarked = "2026-04-05T05:21:38.083442+00:00"
+last_benchmarked = "2026-04-05T18:18:03.961707+00:00"
 
 [runtimes]
-tensorrt = "10.16.0"
-pytorch = "2.7.0"
-executorch = "0.5.1"
-aot_inductor = "2.7.0"
+tensorrt = "10.16.0.72"
+torch_tensorrt = "2.11.0"
+pytorch = "2.11.0"
+executorch = "1.2.0"
+aot_inductor = "2.11.0"
 cuda = "13.0"
 jetpack = "38.4.0"
 
 [docker]
 image = "ghcr.io/saiprakash-c/inference-benchmarks:latest"
-digest = "sha256:f8c6eeaf853a43c9c9220c6302c6b9ecebf84235f74487157833245cdc6d1bd1"
+digest = "sha256:9a2c5ae934ee1a37d710abfa7f7a1b75efbd21a180abb86bb3a90b91422f4ff7"
 cuda = "13.0"
 jetpack = "38.4.0"
 

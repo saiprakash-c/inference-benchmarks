@@ -12,7 +12,7 @@
 # Push:   bazel run //docker:push
 # After push: update [docker].digest in versions.toml with the new digest.
 
-FROM nvcr.io/nvidia/cuda:13.0.2-runtime-ubuntu24.04
+FROM nvcr.io/nvidia/cuda:13.0.2-devel-ubuntu24.04
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -24,6 +24,8 @@ LABEL org.opencontainers.image.description="Inference benchmark environment: Ten
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-pip \
     python3-dev \
+    gcc \
+    g++ \
     curl \
     git \
     ca-certificates \
@@ -65,12 +67,24 @@ RUN pip3 install --no-cache-dir --break-system-packages \
     --extra-index-url https://pypi.jetson-ai-lab.io/jp7/cu130 \
     "/workspace[gpu]"
 
+# ── Triton ptxas fix for Jetson AGX Thor (sm_110a) ────────────────────────────
+# Triton 3.6 bundles ptxas-blackwell built against CUDA 12.8, which does not
+# recognise sm_110a (Blackwell variant on Thor). Replace it with the CUDA 13.0
+# ptxas bundled with PyTorch, which supports sm_110a.
+# hadolint ignore=SC2046
+RUN torch_ptxas=$(find /usr/local/lib/python3* -name ptxas -path "*/torch/bin/*" 2>/dev/null | head -1) && \
+    triton_blackwell=$(find /usr/local/lib/python3* -name ptxas-blackwell -path "*/triton/*" 2>/dev/null | head -1) && \
+    cp "$torch_ptxas" "$triton_blackwell"
+
 # ── Node.js 18 LTS + Claude Code ──────────────────────────────────────────────
 ARG NODE_VERSION=18.20.8
 ARG CLAUDE_CODE_VERSION=2.1.92
 RUN curl -fsSL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-arm64.tar.gz" \
     | tar -xz -C /usr/local --strip-components=1
-RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
+RUN npm install -g "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}" && \
+    chown -R "${USERNAME}:${USERNAME}" \
+        /usr/local/lib/node_modules/@anthropic-ai \
+        /usr/local/bin/claude
 
 # ── User ──────────────────────────────────────────────────────────────────────
 ARG UID=1000
@@ -78,7 +92,8 @@ ARG USERNAME=saip
 COPY docker/saip.zshrc /tmp/saip.zshrc
 RUN userdel -r ubuntu 2>/dev/null || true && \
     useradd -m -l -u ${UID} -s /bin/zsh ${USERNAME} && \
-    cat /tmp/saip.zshrc >> /home/${USERNAME}/.zshrc
+    cat /tmp/saip.zshrc >> /home/${USERNAME}/.zshrc && \
+    chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
 
 USER ${USERNAME}
 

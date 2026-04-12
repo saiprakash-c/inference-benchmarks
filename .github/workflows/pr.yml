@@ -43,13 +43,14 @@ jobs:
       - name: Find new result files
         id: new_results
         run: |
-          NEW=$(git diff --name-only origin/main...HEAD -- 'results/*.json' | tr '\n' ' ')
+          NEW=$(git diff --name-only origin/main...HEAD -- 'results/*.json' | grep -v '^results/profiles/' | tr '\n' ' ')
           echo "files=${NEW}" >> $GITHUB_OUTPUT
 
       - name: Validate new results
         if: steps.new_results.outputs.files != ''
         run: |
           for f in ${{ steps.new_results.outputs.files }}; do
+            [ -f "$f" ] || continue
             docker compose -f docker/docker-compose.yml run --rm \
               --entrypoint python3 dev tools/validate_results.py "$f"
           done

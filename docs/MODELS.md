@@ -12,7 +12,7 @@ Active precision: **FP32**. FP16/INT8/FP8 are planned but out of scope until mod
 | Model | Task | Input Shape (B, C, H, W) | Bazel target | FP32 | Status |
 |---|---|---|---|---|---|
 | ResNet50 | Image classification | (1, 3, 224, 224) | `//models/resnet50` | active | active |
-| DINOv2-B | Vision encoder (robotics) | (1, 3, 518, 518) | `//models/dinov2_b` | planned | planned |
+| DINOv2-B | Vision encoder (robotics) | (1, 3, 518, 518) | `//models/dinov2_b` | active | active |
 
 
 ## Input Shape Convention

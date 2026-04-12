@@ -13,8 +13,17 @@ See docs/RUNTIMES.md for the full pluggability contract.
 from abc import ABC, abstractmethod
 from typing import Any
 
+import torch  # type: ignore[import]
+
+PRECISION_TO_DTYPE: dict[str, torch.dtype] = {
+    "fp32": torch.float32,
+    "fp16": torch.float16,
+}
+
 
 class RuntimeBase(ABC):
+
+    SUPPORTED_PRECISIONS: frozenset[str] = frozenset({"fp32", "fp16"})
 
     @abstractmethod
     def init(self, model_path: str, precision: str, device: str) -> Any:

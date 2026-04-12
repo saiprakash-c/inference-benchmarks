@@ -41,31 +41,38 @@ def load_results() -> list[dict]:
 def aggregate(results: list[dict]) -> dict:
     """
     Returns a nested dict:
-      { runtime: { model: [result, ...] } }
-    sorted by (runtime, model).
+      { (model, precision): { runtime: [result, ...] } }
+    sorted by (model, precision, runtime).
     """
-    agg: dict[str, dict[str, list[dict]]] = {}
+    agg: dict[tuple[str, str], dict[str, list[dict]]] = {}
     for r in results:
-        runtime = r.get("runtime", "unknown")
         model = r.get("model", "unknown")
-        agg.setdefault(runtime, {}).setdefault(model, []).append(r)
+        precision = r.get("precision", "fp32")
+        runtime = r.get("runtime", "unknown")
+        agg.setdefault((model, precision), {}).setdefault(runtime, []).append(r)
 
-    # Sort each model's results by timestamp descending
-    for runtime in agg:
-        for model in agg[runtime]:
-            agg[runtime][model].sort(key=lambda x: x.get("timestamp", ""), reverse=True)
+    # Sort each runtime's results by timestamp descending
+    for key in agg:
+        for runtime in agg[key]:
+            agg[key][runtime].sort(key=lambda x: x.get("timestamp", ""), reverse=True)
 
     return dict(sorted(agg.items()))
 
 
-def latest_per_combo(agg: dict) -> list[dict]:
-    """Flat list of the most recent result per (runtime, model)."""
-    rows = []
-    for runtime, models in agg.items():
-        for model, results in models.items():
+def latest_per_combo(agg: dict) -> dict:
+    """
+    Returns sections for the template:
+      { (model, precision): [latest result per runtime, ...] }
+    rows within each section sorted by runtime name.
+    """
+    sections = {}
+    for (model, precision), runtimes in agg.items():
+        rows = []
+        for runtime, results in runtimes.items():
             if results:
                 rows.append(results[0])
-    return sorted(rows, key=lambda r: (r["runtime"], r["model"]))
+        sections[(model, precision)] = sorted(rows, key=lambda r: r["runtime"])
+    return dict(sorted(sections.items()))
 
 
 # ── Rendering ──────────────────────────────────────────────────────────────────
@@ -75,16 +82,17 @@ def render(results: list[dict]) -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     agg = aggregate(results)
-    rows = latest_per_combo(agg)
+    sections = latest_per_combo(agg)
     generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
     env = Environment(loader=FileSystemLoader(str(TEMPLATES_DIR)), autoescape=True)
     tmpl = env.get_template("index.html")
-    html = tmpl.render(rows=rows, agg=agg, generated_at=generated_at)
+    html = tmpl.render(sections=sections, generated_at=generated_at)
 
     out = OUTPUT_DIR / "index.html"
     out.write_text(html)
-    L.info("site.build", output=str(out), result_count=len(rows))
+    total = sum(len(rows) for rows in sections.values())
+    L.info("site.build", output=str(out), result_count=total)
 
 
 # ── Main ───────────────────────────────────────────────────────────────────────

@@ -1,34 +1,38 @@
 """
 runtimes/pytorch/runtime.py
 
-PyTorch eager-mode runtime adapter for ResNet50 inference benchmarking.
+PyTorch eager-mode runtime adapter. Loads the requested model via
+models.loader and runs timed CUDA inference.
 """
 
 import time
+from pathlib import Path
 from typing import Any
 
 import torch  # type: ignore[import]
-import torchvision.models as tv_models  # type: ignore[import]
 
-from runtimes.base import RuntimeBase
+from lib import log as L
+from models import loader
+from runtimes.base import PRECISION_TO_DTYPE, RuntimeBase
 
 
 class PyTorchRuntime(RuntimeBase):
     """Runs inference using PyTorch eager mode with CUDA synchronisation timing."""
 
     def init(self, model_path: str, precision: str, device: str) -> Any:
-        """Load ResNet50 with IMAGENET1K_V2 weights, set eval mode, move to device."""
-        weights = tv_models.ResNet50_Weights.IMAGENET1K_V2
-        model = tv_models.resnet50(weights=weights)
-        model.eval()
-        model.to(device)
-        return model
+        """Load the model, set eval mode, move to device, cast to requested precision."""
+        model_name = Path(model_path).stem if model_path else "resnet50"
+        L.info("pytorch.init", model=model_name, device=device, precision=precision)
+        dtype = PRECISION_TO_DTYPE[precision]
+        model = loader.load(model_name, device)
+        return model.to(dtype=dtype)
 
     def run(self, handle: Any, input_tensor: Any, n_iters: int) -> list[float]:
         """Run inference n_iters times with CUDA-synchronised timing; return latencies in ms."""
-        device_tensor = input_tensor.to(next(handle.parameters()).device)
+        param = next(handle.parameters())
+        device_tensor = input_tensor.to(device=param.device, dtype=param.dtype)
         latencies: list[float] = []
-        with torch.no_grad():
+        with torch.inference_mode():
             for _ in range(n_iters):
                 torch.cuda.synchronize()
                 start_time = time.perf_counter()
