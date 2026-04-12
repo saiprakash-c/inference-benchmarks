@@ -30,6 +30,31 @@ Published site (updated daily)
 - Runs only after //site:build exits 0
 - Triggered automatically after a successful daily benchmark run (see CI.md)
 
+### Manual deployment procedure
+
+Use HTTPS + `gh auth git-credential` (the token in `.env` is already configured).
+The persistent clone at `/tmp/gh-pages-deploy` is pre-configured and persists
+across sessions — reuse it, do not re-clone:
+
+```bash
+# 1. Pull latest gh-pages (in case it diverged)
+git -C /tmp/gh-pages-deploy pull
+
+# 2. Copy new site content
+cp -r /workspace/site/public/. /tmp/gh-pages-deploy/
+
+# 3. Commit and push
+git -C /tmp/gh-pages-deploy add -A
+git -C /tmp/gh-pages-deploy commit -m "deploy: <description>"
+git -C /tmp/gh-pages-deploy -c credential.helper="!gh auth git-credential" push origin gh-pages
+```
+
+If `/tmp/gh-pages-deploy` is missing (e.g. after a reboot), re-create it once:
+```bash
+git -c credential.helper="!gh auth git-credential" clone --branch gh-pages --depth 1 \
+    https://github.com/saiprakash-c/inference-benchmarks.git /tmp/gh-pages-deploy
+```
+
 ## Site Content
 
 The published site shows, for each (runtime, model, precision) combination:
