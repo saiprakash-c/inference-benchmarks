@@ -18,15 +18,6 @@ jobs:
       - name: Build dev image
         run: docker compose -f docker/docker-compose.yml build dev
 
-  build-runtime:
-    name: Build runtime image
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Build runtime image
-        run: docker compose -f docker/docker-compose.yml build runtime
-
   lint:
     name: Mechanical lint (//ci:lint)
     runs-on: ubuntu-latest
