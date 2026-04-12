@@ -2,19 +2,16 @@
 # Manage the runtime container (GPU, Thor only).
 #
 # Usage:
-#   ./bin/docker_rt           # enter the container (default)
-#   ./bin/docker_rt --start   # enter the container
-#   ./bin/docker_rt --build   # build the runtime image
+#   ./bin/docker_rt          # enter the container
+#   ./bin/docker_rt --build  # build the runtime image
 set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
-CMD="${1:---start}"
-
-case "$CMD" in
+case "${1:-}" in
   --build)
     docker compose -f "$REPO_ROOT/docker/docker-compose.yml" build runtime
     ;;
-  --start)
+  "")
     # Ensure bind-mounted paths exist (Docker creates dirs as root if missing)
     touch ~/.gitconfig ~/.claude.json
     mkdir -p ~/.claude ~/.config/gh
@@ -24,7 +21,7 @@ case "$CMD" in
         runtime
     ;;
   *)
-    echo "Usage: $0 [--build|--start]" >&2
+    echo "Usage: $0 [--build]" >&2
     exit 1
     ;;
 esac
