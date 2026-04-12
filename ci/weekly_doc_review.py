@@ -253,6 +253,10 @@ def call_claude(user_message: str) -> dict | None:
                 messages=[{"role": "user", "content": user_message}],
             )
             raw = message.content[0].text.strip()
+            # Strip markdown code fences if present
+            if raw.startswith("```"):
+                raw = raw.split("\n", 1)[1] if "\n" in raw else raw
+                raw = raw.rsplit("```", 1)[0].strip()
             return json.loads(raw)
         except json.JSONDecodeError as exc:
             L.error("weekly_doc_review.parse", attempt=attempt, reason=str(exc), raw=raw[:200])
