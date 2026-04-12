@@ -24,6 +24,7 @@ High-level system design for the inference-benchmarks pipeline.
 │               │            │                                    │
 │               │ pytorch    │                                    │
 │               │ tensorrt   │                                    │
+│               │ torch_trt  │                                    │
 │               │ executorch │                                    │
 │               │ aot_indctr │                                    │
 │               └─────┬──────┘                                    │
@@ -68,6 +69,7 @@ Populated into every result JSON so runs are fully traceable to hardware.
 ### `runtimes/`
 Runtime adapters. Each runtime subclasses `RuntimeBase` (`runtimes/base.py`)
 and implements four methods: `init`, `run`, `teardown`, `version`.
+Active runtimes: `pytorch`, `tensorrt`, `torch_tensorrt`, `executorch`, `aot_inductor`.
 A runtime only knows how to load a model and execute inference on a tensor —
 it does not know about models, inputs, or hardware.
 

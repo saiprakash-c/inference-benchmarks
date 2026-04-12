@@ -18,22 +18,25 @@ last_checked     = "2026-03-28T00:00:00Z"   # ISO 8601, UTC — when //versions:
 last_benchmarked = "2026-03-27T00:00:00Z"   # ISO 8601, UTC — when last valid result produced
 
 [runtimes]
-tensorrt   = "10.9.0"
-pytorch    = "2.7.0"
-executorch = "0.5.1"
-cuda       = "12.8"
-jetpack    = "6.2"
+tensorrt       = "10.16.0.72"
+torch_tensorrt = "2.11.0"
+pytorch        = "2.11.0"
+executorch     = "1.2.0"
+aot_inductor   = "2.11.0"
+cuda           = "13.0"
+jetpack        = "38.4.0"
 
 [docker]
-image   = "inference-benchmarks:latest"
+image   = "ghcr.io/saiprakash-c/inference-benchmarks:latest"
 digest  = "sha256:abc123..."   # full digest — never just a tag
-cuda    = "12.8"
-jetpack = "6.2"
+cuda    = "13.0"
+jetpack = "38.4.0"
 
 [sources]
-tensorrt   = "https://github.com/NVIDIA/TensorRT/releases"
-pytorch    = "https://github.com/pytorch/pytorch/releases"
-executorch = "https://github.com/pytorch/executorch/releases"
+tensorrt       = "https://github.com/NVIDIA/TensorRT/releases"
+torch_tensorrt = "https://github.com/pytorch/TensorRT/releases"
+pytorch        = "https://github.com/pytorch/pytorch/releases"
+executorch     = "https://github.com/pytorch/executorch/releases"
 ```
 
 ## Section Definitions
@@ -71,7 +74,8 @@ in `[runtimes]` that has an upstream release page must have an entry here.
 `cuda` and `jetpack` are managed via the Docker image and do not require a
 `[sources]` entry. Runtimes bundled inside another runtime (e.g. `aot_inductor`
 bundled with PyTorch) share the parent's `[sources]` entry and do not need their
-own.
+own. `torch_tensorrt` is a separate package with its own release page and has
+its own `[sources]` entry.
 
 ## Docker Image Rebuild Trigger
 

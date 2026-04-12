@@ -30,3 +30,14 @@ py_binary(
     deps = ["//lib:log"],
     visibility = ["//visibility:public"],
 )
+
+py_binary(
+    name = "weekly_doc_review",
+    srcs = ["weekly_doc_review.py"],
+    main = "weekly_doc_review.py",
+    deps = [
+        "//lib:log",
+        requirement("anthropic"),
+    ],
+    visibility = ["//visibility:public"],
+)
