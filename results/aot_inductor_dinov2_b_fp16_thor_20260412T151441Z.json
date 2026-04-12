@@ -1,0 +1,21 @@
+{
+  "runtime": "aot_inductor",
+  "model": "dinov2_b",
+  "precision": "fp16",
+  "batch_size": 1,
+  "latency_ms": {
+    "p50": 6.278799497522414,
+    "p99": 6.642492306418717
+  },
+  "throughput": 159.26611454858457,
+  "hw_id": "thor",
+  "docker_image": "sha256:9a2c5ae934ee1a37d710abfa7f7a1b75efbd21a180abb86bb3a90b91422f4ff7",
+  "sw_versions": {
+    "aot_inductor": "2.11.0+cu130",
+    "cuda": "13.0",
+    "driver": "580.00"
+  },
+  "timestamp": "2026-04-12T15:14:41.558480+00:00",
+  "status": "ok",
+  "profile_file": "aot_inductor_dinov2_b_fp16_thor_20260412T151441Z.txt"
+}

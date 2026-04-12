@@ -27,9 +27,17 @@ Runs on the daily cron or when explicitly triggered.
 
 3. **Benchmark (conditional)** — If versions changed or `--force`:
 
-   **3a. Execute on Thor inside Docker** — All `//benchmark:run` invocations
-   go via `//tools:ssh_run`. Verify container digest matches versions.toml
-   `[docker].digest` before running. Local execution is a lint error.
+   **3a. Execute on Thor inside Docker** — Always use `bazel run` for all scripts.
+   Detect the environment to know how to get into Docker first:
+
+   | Environment | How to detect | How to run |
+   |---|---|---|
+   | Already inside Docker on Thor | `import torch` succeeds AND `hw_id() == "thor"` | `bazel run //benchmark:run` directly |
+   | On Thor, outside Docker | `hw_id() == "thor"` but `docker` CLI present | `docker run --rm --gpus all --volume /workspace:/workspace <image>@<digest> bazel run //benchmark:run` |
+   | Remote dev machine | `hw_id()` != `"thor"` | `bazel run //tools:ssh_run -- //benchmark:run` |
+
+   All three paths converge on `bazel run` inside Docker. Never call `python3 <script>` directly.
+   Always verify the container digest matches versions.toml `[docker].digest` before running.
 
 4. **Validate** — Run `//tools:validate_results`. Confirm all mandatory fields
    present, no NaN, `docker_image` matches versions.toml digest.

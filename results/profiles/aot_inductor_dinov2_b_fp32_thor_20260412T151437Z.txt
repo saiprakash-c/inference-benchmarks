@@ -1,0 +1,31 @@
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                                   Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg     Self CUDA   Self CUDA %    CUDA total  CUDA time avg    # of Calls  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+void cutlass::Kernel2<cutlass_80_simt_sgemm_256x128_...         0.00%       0.000us         0.00%       0.000us       0.000us      46.781ms        57.93%      46.781ms       1.299ms            36  
+void magma_sgemmEx_kernel<float, float, float, true,...         0.00%       0.000us         0.00%       0.000us       0.000us      16.030ms        19.85%      16.030ms       1.336ms            12  
+fmha_cutlassF_f32_aligned_64x64_rf_sm80(PyTorchMemEf...         0.00%       0.000us         0.00%       0.000us       0.000us      14.799ms        18.33%      14.799ms       1.233ms            12  
+                     triton_poi_fused_addmm_gelu_view_2         0.00%       0.000us         0.00%       0.000us       0.000us       1.110ms         1.37%       1.110ms      92.483us            12  
+triton_per_fused_add_addmm_mul_native_layer_norm_vie...         0.00%       0.000us         0.00%       0.000us       0.000us     897.535us         1.11%     897.535us      81.594us            11  
+triton_per_fused_add_addmm_mul_native_layer_norm_vie...         0.00%       0.000us         0.00%       0.000us       0.000us     492.128us         0.61%     492.128us      44.739us            11  
+sm80_xmma_fprop_implicit_gemm_indexed_wo_smem_tf32f3...         0.00%       0.000us         0.00%       0.000us       0.000us     245.152us         0.30%     245.152us     245.152us             1  
+void cudnn::engines_precompiled::nchwToNhwcKernel<fl...         0.00%       0.000us         0.00%       0.000us       0.000us     196.287us         0.24%     196.287us      98.144us             2  
+triton_red_fused_add_addmm_cat_convolution_expand_mu...         0.00%       0.000us         0.00%       0.000us       0.000us      68.352us         0.08%      68.352us      68.352us             1  
+triton_red_fused_add_cat_convolution_expand_native_l...         0.00%       0.000us         0.00%       0.000us       0.000us      50.752us         0.06%      50.752us      50.752us             1  
+triton_per_fused_add_addmm_mul_native_layer_norm_vie...         0.00%       0.000us         0.00%       0.000us       0.000us      44.224us         0.05%      44.224us      44.224us             1  
+                                        Memset (Device)         0.00%       0.000us         0.00%       0.000us       0.000us      24.608us         0.03%      24.608us       1.025us            24  
+void cudnn::engines_precompiled::nhwcToNchwKernel<fl...         0.00%       0.000us         0.00%       0.000us       0.000us      15.712us         0.02%      15.712us      15.712us             1  
+                                         cudaEventQuery         0.01%      10.639us         0.01%      10.639us      10.639us       0.000us         0.00%       0.000us       0.000us             1  
+                                Activity Buffer Request         0.10%      81.722us         0.10%      81.722us      81.722us       0.000us         0.00%       0.000us       0.000us             1  
+                                       cudaLaunchKernel         0.65%     510.393us         0.65%     510.393us      18.903us       0.000us         0.00%       0.000us       0.000us            27  
+                                     cudaGetErrorString         0.00%       3.593us         0.00%       3.593us       0.898us       0.000us         0.00%       0.000us       0.000us             4  
+                                    cudaPeekAtLastError         0.00%       0.620us         0.00%       0.620us       0.310us       0.000us         0.00%       0.000us       0.000us             2  
+                                    cudaLaunchKernelExC         0.02%      17.630us         0.02%      17.630us      17.630us       0.000us         0.00%       0.000us       0.000us             1  
+                                         cuLaunchKernel         0.62%     494.295us         0.62%     494.295us       6.771us       0.000us         0.00%       0.000us       0.000us            73  
+                                  cudaStreamIsCapturing         0.02%      12.843us         0.02%      12.843us       1.070us       0.000us         0.00%       0.000us       0.000us            12  
+                                 cudaDeviceGetAttribute         0.03%      23.446us         0.03%      23.446us       0.651us       0.000us         0.00%       0.000us       0.000us            36  
+                                        cudaMemsetAsync         0.17%     130.733us         0.17%     130.733us       5.447us       0.000us         0.00%       0.000us       0.000us            24  
+                                        cudaEventRecord         0.02%      12.639us         0.02%      12.639us      12.639us       0.000us         0.00%       0.000us       0.000us             1  
+                                  cudaDeviceSynchronize        98.36%      77.827ms        98.36%      77.827ms      77.827ms       0.000us         0.00%       0.000us       0.000us             1  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+Self CPU time total: 79.125ms
+Self CUDA time total: 80.755ms
