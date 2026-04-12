@@ -179,18 +179,19 @@ def _write_profile_txt(profile_text: str, stem: str) -> Path:
     return profile_path
 
 
-def _write_result_json(result: dict, runtime_key: str, model_key: str) -> Path:
+def _make_stem(runtime_key: str, model_key: str, precision: str, hw_id_val: str, timestamp_compact: str) -> str:
+    """Return the filename stem for a result/profile pair."""
+    return f"{runtime_key}_{model_key}_{precision}_{hw_id_val}_{timestamp_compact}"
+
+
+def _write_result_json(result: dict, stem: str) -> Path:
     """Write one result dict to a timestamped JSON file under results/."""
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-    hardware_identifier = result["hw_id"]
-    precision = result["precision"]
-    timestamp_compact = _utcnow_compact()
-    stem = f"{runtime_key}_{model_key}_{precision}_{hardware_identifier}_{timestamp_compact}"
     filename = f"{stem}.json"
     output_path = RESULTS_DIR / filename
     output_path.write_text(json.dumps(result, indent=2))
     L.info("benchmark.write", path=str(output_path))
-    return output_path, stem
+    return output_path
 
 
 def run(config: BenchmarkConfig) -> int:
@@ -232,12 +233,11 @@ def run(config: BenchmarkConfig) -> int:
 
                 try:
                     result, profile_text = _run_single_benchmark(model_key, runtime_key, precision, input_key, versions)
-                    output_path, stem = _write_result_json(result, runtime_key, model_key)
+                    stem = _make_stem(runtime_key, model_key, result["precision"], result["hw_id"], _utcnow_compact())
                     if profile_text is not None:
                         _write_profile_txt(profile_text, stem)
-                        # Patch profile_file into the JSON now that we know the stem.
                         result["profile_file"] = f"{stem}.txt"
-                        output_path.write_text(json.dumps(result, indent=2))
+                    _write_result_json(result, stem)
                 except Exception as exc:  # noqa: BLE001
                     L.error("benchmark.failed", model=model_key, runtime=runtime_key, precision=precision, error=str(exc))
                     any_failed = True
