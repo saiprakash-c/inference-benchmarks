@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Build the runtime Docker image (GPU, Thor only).
+# Run this after `git pull` to rebuild with latest changes.
+set -euo pipefail
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
+docker compose -f "$REPO_ROOT/docker/docker-compose.yml" build runtime
