@@ -60,7 +60,7 @@ RUNTIME_PATTERN = "runtimes/*/runtime.py"
 # Config files (header only to stay within context limits)
 CONFIG_FILES = [
     "versions.toml",
-    "pyproject.toml",
+    "requirements.in",
 ]
 DOCKERFILE_PATH = "docker/Dockerfile"
 DOCKERFILE_HEADER_LINES = 40
@@ -152,7 +152,7 @@ and to flag violations of the project's core beliefs.
 You will be given:
 1. All documentation files (docs/ tree, ARCHITECTURE.md, README.md)
 2. Key source entry-point files (.py)
-3. Config files (versions.toml, pyproject.toml, Dockerfile header)
+3. Config files (versions.toml, requirements.in, Dockerfile header)
 
 Output ONLY valid JSON — no prose, no markdown fences — matching this schema exactly:
 {

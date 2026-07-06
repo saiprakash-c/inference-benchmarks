@@ -59,3 +59,4 @@ services:
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility
       - TERM=xterm-256color
+      - HF_TOKEN
