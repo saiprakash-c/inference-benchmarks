@@ -257,12 +257,24 @@ def run(config: BenchmarkConfig) -> int:
 
 def main() -> int:
     """Entry point: run benchmarks with the default full configuration."""
-    default_config = BenchmarkConfig(
-        models=list(MODEL_REGISTRY.keys()),
-        runtimes=list(RUNTIME_REGISTRY.keys()),
+    import argparse
+    parser = argparse.ArgumentParser(description="Run inference benchmarks.")
+    parser.add_argument(
+        "--models", nargs="+", default=list(MODEL_REGISTRY.keys()),
+        help="Model keys to benchmark (default: all registered models).",
+    )
+    parser.add_argument(
+        "--runtimes", nargs="+", default=list(RUNTIME_REGISTRY.keys()),
+        help="Runtime keys to benchmark (default: all registered runtimes).",
+    )
+    args = parser.parse_args()
+
+    config = BenchmarkConfig(
+        models=args.models,
+        runtimes=args.runtimes,
         hardware=["thor"],
     )
-    return run(default_config)
+    return run(config)
 
 
 if __name__ == "__main__":
