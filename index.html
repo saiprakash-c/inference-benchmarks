@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inference Runtime Benchmarks</title>
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 960px; margin: 2rem auto; padding: 0 1rem; color: #111; }
+    body { font-family: system-ui, sans-serif; max-width: 1100px; margin: 2rem auto; padding: 0 1rem; color: #111; }
     h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+    h2 { font-size: 1.2rem; font-weight: 700; margin: 2.5rem 0 1rem; border-bottom: 2px solid #eee; padding-bottom: 0.4rem; }
     .meta { color: #666; font-size: 0.85rem; margin-bottom: 2.5rem; }
     .section { margin-bottom: 2.5rem; }
     .section-title { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.1rem; }
@@ -26,13 +27,16 @@
     .tag { display: inline-block; font-size: 0.75rem; font-weight: 600; padding: 0.1rem 0.45rem; border-radius: 4px; vertical-align: middle; }
     .tag-fp32 { background: #dbeafe; color: #1d4ed8; }
     .tag-fp16 { background: #dcfce7; color: #15803d; }
+    .tag-bf16 { background: #fef3c7; color: #92400e; }
+    .lingo-ref { font-size: 0.8rem; color: #666; margin-top: 0.35rem; }
   </style>
 </head>
 <body>
   <h1>Inference Runtime Benchmarks</h1>
-  <p class="meta">Hardware: Jetson AGX Thor &nbsp;|&nbsp; Updated: 2026-04-12 16:02 UTC</p>
+  <p class="meta">Hardware: Jetson AGX Thor &nbsp;|&nbsp; Updated: 2026-07-09 17:12 UTC</p>
 
   
+  <h2>Vision Benchmarks</h2>
     
     <div class="section">
       <div class="section-title">
@@ -302,6 +306,63 @@
     
   
 
+  
+  <h2>VLM Benchmarks</h2>
+    
+    <div class="section">
+      <div class="section-title">
+        cosmos_reason2b
+        <span class="tag tag-bf16">BF16</span>
+      </div>
+      <div class="section-subtitle">
+        Precision: BF16 &nbsp;|&nbsp; Batch size: 1 &nbsp;|&nbsp; Eval: LingoQA 500-sample &nbsp;|&nbsp; Latest run per runtime
+      </div>
+      <div class="lingo-ref">Reference: Alpamayo 1.5 = 74.2% pass / 0.742 mean &nbsp;(same dataset + metric)</div>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th class="th-arrow" data-col="0">Runtime</th>
+            <th class="th-arrow" data-col="1">p50 (ms)</th>
+            <th class="th-arrow" data-col="2">p99 (ms)</th>
+            <th class="th-arrow" data-col="3">Samples/s</th>
+            <th class="th-arrow" data-col="4">Lingo-Judge pass %</th>
+            <th class="th-arrow" data-col="5">Lingo-Judge mean</th>
+            <th class="th-arrow" data-col="6">Status</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <td>hf_transformers</td>
+            <td>571.83</td>
+            <td>1862.46</td>
+            <td>1.75</td>
+            <td>53.6%</td>
+            <td>0.5278</td>
+            <td class="status-ok">ok</td>
+            <td>2026-07-09 17:02:24</td>
+          </tr>
+          
+          <tr>
+            <td>trt_edge_llm</td>
+            <td>483.49</td>
+            <td>1140.05</td>
+            <td>2.07</td>
+            <td>55.4%</td>
+            <td>0.5331</td>
+            <td class="status-ok">ok</td>
+            <td>2026-07-09 17:10:24</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+    
+  
+
+  
+
   <script>
     // Lightweight client-side sort per table
     document.querySelectorAll(".results-table").forEach(table => {
@@ -318,8 +379,8 @@
           const tbody = table.querySelector("tbody");
           const rows = Array.from(tbody.querySelectorAll("tr"));
           rows.sort((a, b) => {
-            const av = a.cells[col].textContent.trim();
-            const bv = b.cells[col].textContent.trim();
+            const av = a.cells[col].textContent.trim().replace("%", "");
+            const bv = b.cells[col].textContent.trim().replace("%", "");
             const an = parseFloat(av), bn = parseFloat(bv);
             const cmp = isNaN(an) ? av.localeCompare(bv) : an - bn;
             return sortAsc ? cmp : -cmp;
