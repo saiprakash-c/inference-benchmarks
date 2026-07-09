@@ -42,4 +42,6 @@ as stubs — they are fetched lazily at runtime and may be refreshed by re-runni
 | tensorrt | `//runtimes/tensorrt/` | https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/ | active |
 | torch_tensorrt | `//runtimes/torch_tensorrt/` | https://pytorch.org/TensorRT/stable/ | active |
 | executorch | `//runtimes/executorch/` | https://pytorch.org/executorch/stable/ | active |
-| aot_inductor | `//runtimes/aot_inductor/` | https://docs.pytorch.org/docs/stable/user_guide/torch_compiler/torch.compiler_aot_inductor.html | active |
+| aot_inductor    | `//runtimes/aot_inductor/`    | https://docs.pytorch.org/docs/stable/user_guide/torch_compiler/torch.compiler_aot_inductor.html | active |
+| hf_transformers | `//runtimes/hf_transformers/` | https://huggingface.co/docs/transformers | active |
+| trt_edge_llm    | `//runtimes/trt_edge_llm/`    | https://github.com/NVIDIA/TensorRT-Edge-LLM | active |

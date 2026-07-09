@@ -105,22 +105,42 @@ def copy_profiles(results: list[dict]) -> None:
 # ── Rendering ──────────────────────────────────────────────────────────────────
 
 
+def _split_sections(sections: dict) -> tuple[dict, dict]:
+    """
+    Split sections into vision and VLM buckets.
+    VLM results have lingo_judge_mean not None in at least one row.
+    """
+    vision: dict = {}
+    vlm: dict = {}
+    for key, rows in sections.items():
+        if any(r.get("lingo_judge_mean") is not None for r in rows):
+            vlm[key] = rows
+        else:
+            vision[key] = rows
+    return vision, vlm
+
+
 def render(results: list[dict]) -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     copy_profiles(results)
 
     agg = aggregate(results)
-    sections = latest_per_combo(agg)
+    all_sections = latest_per_combo(agg)
+    vision_sections, vlm_sections = _split_sections(all_sections)
     generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
     env = Environment(loader=FileSystemLoader(str(TEMPLATES_DIR)), autoescape=True)
     tmpl = env.get_template("index.html")
-    html = tmpl.render(sections=sections, generated_at=generated_at)
+    html = tmpl.render(
+        vision_sections=vision_sections,
+        vlm_sections=vlm_sections,
+        generated_at=generated_at,
+    )
 
     out = OUTPUT_DIR / "index.html"
     out.write_text(html)
-    total = sum(len(rows) for rows in sections.values())
+    total = sum(len(rows) for rows in all_sections.values())
     L.info("site.build", output=str(out), result_count=total)
 
 

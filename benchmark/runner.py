@@ -105,18 +105,23 @@ def _run_single_benchmark(
         precision=precision,
     )
 
-    input_tensor = input_module.load(model_spec.sample_image_path())
+    # For vision models this is a tensor; for VLMs it is (samples, zf).
+    input_data = input_module.load(model_spec.sample_image_path())
 
     runtime_instance = RuntimeClass()
     engine_handle = runtime_instance.init(model_path, precision=precision, device="cuda")
 
     # Warmup — discard latencies.
-    runtime_instance.run(engine_handle, input_tensor, model_spec.WARMUP_ITERS)
+    runtime_instance.run(engine_handle, input_data, model_spec.WARMUP_ITERS)
 
     # Measurement.
     measured_latencies = runtime_instance.run(
-        engine_handle, input_tensor, model_spec.MEASURE_ITERS
+        engine_handle, input_data, model_spec.MEASURE_ITERS
     )
+
+    # Accuracy — called after measurement, before teardown; VLM runtimes score
+    # predictions cached during run(). Non-VLM runtimes return None.
+    accuracy_metrics: dict | None = runtime_instance.accuracy(engine_handle)
 
     p50_latency = _compute_percentile(measured_latencies, 50)
     p99_latency = _compute_percentile(measured_latencies, 99)
@@ -133,7 +138,7 @@ def _run_single_benchmark(
     # Profiling — single inference pass after measurement so p50/p99 are unaffected.
     profile_text: str | None = None
     try:
-        profile_text = runtime_instance.profile(engine_handle, input_tensor)
+        profile_text = runtime_instance.profile(engine_handle, input_data)
     except Exception as exc:  # noqa: BLE001
         L.warn("benchmark.profile_failed", model=model_key, runtime=runtime_key, error=str(exc))
 
@@ -146,6 +151,8 @@ def _run_single_benchmark(
         "batch_size": 1,
         "latency_ms": {"p50": p50_latency, "p99": p99_latency},
         "throughput": throughput,
+        "lingo_judge_mean":      accuracy_metrics.get("lingo_judge_mean")      if accuracy_metrics else None,
+        "lingo_judge_pass_rate": accuracy_metrics.get("lingo_judge_pass_rate") if accuracy_metrics else None,
         "hw_id": hw_id(),
         "docker_image": docker_image_digest,
         "sw_versions": {

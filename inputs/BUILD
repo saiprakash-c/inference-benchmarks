@@ -10,3 +10,9 @@ py_library(
     deps = [":imagenet"],
     visibility = ["//visibility:public"],
 )
+
+py_library(
+    name = "lingoqa",
+    srcs = ["lingoqa.py"],
+    visibility = ["//visibility:public"],
+)
