@@ -1,5 +1,4 @@
 import sys
-from pathlib import Path
 sys.path.insert(0, "/workspace")
 from benchmark.runner import BenchmarkConfig, run
 cfg = BenchmarkConfig(
