@@ -57,7 +57,7 @@ def _preload_cuda_libs() -> None:
 _preload_cuda_libs()
 
 import transformers  # noqa: E402 — must follow preload  # type: ignore[import]
-from transformers import Qwen3VLForConditionalGeneration, Qwen3VLProcessor  # type: ignore[import]
+from transformers import Qwen3VLForConditionalGeneration  # noqa: E402  # type: ignore[import]
 
 
 def _run_lingo_judge(results: list[dict]) -> dict:

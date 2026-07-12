@@ -69,10 +69,10 @@ def _preload_cuda_libs() -> None:
 
 _preload_cuda_libs()
 
-import torch
-import transformers
-from PIL import Image as PILImage
-from transformers import Qwen3VLForConditionalGeneration, Qwen3VLProcessor
+import torch  # noqa: E402
+import transformers  # noqa: E402
+from PIL import Image as PILImage  # noqa: E402
+from transformers import Qwen3VLForConditionalGeneration, Qwen3VLProcessor  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Config
@@ -128,9 +128,9 @@ def stage0_download_image() -> Path:
         ctx.verify_mode = ssl.CERT_NONE
         with urllib.request.urlopen(req, context=ctx) as resp, open(SAMPLE_IMAGE_PATH, "wb") as f:
             f.write(resp.read())
-        print(f"  Downloaded OK")
+        print("  Downloaded OK")
     else:
-        print(f"  Reusing cached image")
+        print("  Reusing cached image")
     img = PILImage.open(SAMPLE_IMAGE_PATH)
     print(f"  Image saved to : {SAMPLE_IMAGE_PATH}")
     print(f"  File size      : {SAMPLE_IMAGE_PATH.stat().st_size:,} bytes")
@@ -145,7 +145,7 @@ def stage0_download_image() -> Path:
 def stage1_load_model() -> tuple[Qwen3VLForConditionalGeneration, Qwen3VLProcessor]:
     section("STAGE 1 — Load model and processor")
     print(f"  Model: {MODEL}")
-    print(f"  torch_dtype: bfloat16  |  device_map: auto")
+    print("  torch_dtype: bfloat16  |  device_map: auto")
 
     model: Qwen3VLForConditionalGeneration = (
         Qwen3VLForConditionalGeneration.from_pretrained(
@@ -194,8 +194,8 @@ def stage2_build_messages(image_path: Path) -> list[dict[str, Any]]:
         parts: list[str] = [c["type"] for c in msg["content"]]
         print(f"  messages[{i}]  : role={msg['role']}  content_types={parts}")
 
-    print(f"\n  OUTPUT TYPE  : list[dict]")
-    print(f"  No pixel data yet — just structured metadata.")
+    print("\n  OUTPUT TYPE  : list[dict]")
+    print("  No pixel data yet — just structured metadata.")
     return messages
 
 
@@ -214,14 +214,14 @@ def stage3_apply_chat_template(
         add_generation_prompt=True,
     )
 
-    print(f"  OUTPUT TYPE   : str")
+    print("  OUTPUT TYPE   : str")
     print(f"  len(text)     : {len(text)} chars")
-    print(f"\n  --- text (first 400 chars) ---")
+    print("\n  --- text (first 400 chars) ---")
     print(text[:400])
-    print(f"  --- text (last 100 chars) ---")
+    print("  --- text (last 100 chars) ---")
     print(repr(text[-100:]))
-    print(f"\n  NOTE: <|vision_start|>...<|vision_end|> is a placeholder;")
-    print(f"        pixel data is NOT encoded here yet.")
+    print("\n  NOTE: <|vision_start|>...<|vision_end|> is a placeholder;")
+    print("        pixel data is NOT encoded here yet.")
     return text
 
 
@@ -246,7 +246,7 @@ def stage4_process(
         return_tensors="pt",
     ).to(device)
 
-    print(f"\n  OUTPUT TYPE: transformers.BatchEncoding")
+    print("\n  OUTPUT TYPE: transformers.BatchEncoding")
     print(f"  Keys: {list(inputs.keys())}")
     print()
     describe_batch_encoding(inputs)
@@ -256,8 +256,8 @@ def stage4_process(
     print(f"  resized image  : {int(w)*16}×{int(h)*16} px  (original: {image.size[0]}×{image.size[1]})")
     print(f"  raw patches    : {int(t*h*w)}  →  {int(t*h*w)//4} visual tokens after 2×2 merge")
 
-    print(f"\n  NOTE: input_ids are INTEGER token IDs — not embeddings yet.")
-    print(f"        pixel_values are FLOAT patch tensors — vision encoder runs inside model.forward().")
+    print("\n  NOTE: input_ids are INTEGER token IDs — not embeddings yet.")
+    print("        pixel_values are FLOAT patch tensors — vision encoder runs inside model.forward().")
 
     # Show a snippet of input_ids so we can see special vision tokens
     ids: torch.Tensor = inputs["input_ids"][0]
@@ -277,15 +277,15 @@ def stage5_generate(
 ) -> torch.Tensor:
     section("STAGE 5 — model.generate() → output token IDs")
     print(f"  max_new_tokens : {max_new_tokens}")
-    print(f"  Internally: input_ids → embedding table → text embeddings")
-    print(f"              pixel_values → ViT (model.visual) → vision embeddings")
-    print(f"              splice at <|vision_start|> positions → flat (seq, hidden) tensor")
-    print(f"              LLM transformer layers → logits → greedy decode → token IDs")
+    print("  Internally: input_ids → embedding table → text embeddings")
+    print("              pixel_values → ViT (model.visual) → vision embeddings")
+    print("              splice at <|vision_start|> positions → flat (seq, hidden) tensor")
+    print("              LLM transformer layers → logits → greedy decode → token IDs")
 
     with torch.inference_mode():
         output_ids: torch.Tensor = model.generate(**inputs, max_new_tokens=max_new_tokens)
 
-    print(f"\n  OUTPUT TYPE     : torch.Tensor")
+    print("\n  OUTPUT TYPE     : torch.Tensor")
     describe_tensor("output_ids", output_ids)
     print(f"  full seq length : {output_ids.shape[1]}  (prompt + generated)")
     print(f"  prompt length   : {inputs['input_ids'].shape[1]}")
@@ -309,11 +309,11 @@ def stage6_decode(
 
     result: str = processor.batch_decode(generated, skip_special_tokens=True)[0]
 
-    print(f"\n  OUTPUT TYPE : str")
+    print("\n  OUTPUT TYPE : str")
     print(f"  len(result) : {len(result)} chars")
-    print(f"\n  --- MODEL OUTPUT ---")
+    print("\n  --- MODEL OUTPUT ---")
     print(result)
-    print(f"  --- END ---")
+    print("  --- END ---")
     return result
 
 

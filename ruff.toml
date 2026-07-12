@@ -1,0 +1,15 @@
+# ruff configuration for inference-benchmarks
+# Exclude third-party and generated directories
+
+exclude = [
+    "TensorRT-Edge-LLM",
+    "data",
+    ".bazel",
+    "bazel-*",
+]
+
+[lint]
+select = ["E", "F", "W"]
+ignore = [
+    "E501",   # line too long — handled by formatter if needed
+]
