@@ -35,45 +35,6 @@
   <h1>Inference Runtime Benchmarks</h1>
   <p class="meta">Hardware: Jetson AGX Thor &nbsp;|&nbsp; Updated: {{ generated_at }}</p>
 
-  {% if vision_sections %}
-  <h2>Vision Benchmarks</h2>
-    {% for (model, precision), rows in vision_sections.items() %}
-    <div class="section">
-      <div class="section-title">
-        {{ model }}
-        <span class="tag tag-{{ precision }}">{{ precision.upper() }}</span>
-      </div>
-      <div class="section-subtitle">Precision: {{ precision.upper() }} &nbsp;|&nbsp; Batch size: 1 &nbsp;|&nbsp; Latest run per runtime</div>
-      <table class="results-table">
-        <thead>
-          <tr>
-            <th class="th-arrow" data-col="0">Runtime</th>
-            <th class="th-arrow" data-col="1">p50 (ms)</th>
-            <th class="th-arrow" data-col="2">p99 (ms)</th>
-            <th class="th-arrow" data-col="3">Throughput (inf/s)</th>
-            <th class="th-arrow" data-col="4">Status</th>
-            <th>Timestamp</th>
-            <th>Profile</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for r in rows %}
-          <tr>
-            <td>{{ r.runtime }}</td>
-            <td>{{ "%.2f"|format(r.latency_ms.p50) }}</td>
-            <td>{{ "%.2f"|format(r.latency_ms.p99) }}</td>
-            <td>{{ "%.1f"|format(r.throughput) }}</td>
-            <td class="status-{{ r.status }}">{{ r.status }}</td>
-            <td>{{ r.timestamp[:19].replace("T", " ") }}</td>
-            <td>{% if r.get("profile_file") %}<a href="profiles/{{ r.profile_file }}" target="_blank">view</a>{% else %}—{% endif %}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-    {% endfor %}
-  {% endif %}
-
   {% if vlm_sections %}
   <h2>VLM Benchmarks</h2>
     {% for (model, precision), rows in vlm_sections.items() %}
@@ -110,6 +71,45 @@
             <td>{% if r.get("lingo_judge_mean") is not none %}{{ "%.4f"|format(r.lingo_judge_mean) }}{% else %}—{% endif %}</td>
             <td class="status-{{ r.status }}">{{ r.status }}</td>
             <td>{{ r.timestamp[:19].replace("T", " ") }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endfor %}
+  {% endif %}
+
+  {% if vision_sections %}
+  <h2>Vision Benchmarks</h2>
+    {% for (model, precision), rows in vision_sections.items() %}
+    <div class="section">
+      <div class="section-title">
+        {{ model }}
+        <span class="tag tag-{{ precision }}">{{ precision.upper() }}</span>
+      </div>
+      <div class="section-subtitle">Precision: {{ precision.upper() }} &nbsp;|&nbsp; Batch size: 1 &nbsp;|&nbsp; Latest run per runtime</div>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th class="th-arrow" data-col="0">Runtime</th>
+            <th class="th-arrow" data-col="1">p50 (ms)</th>
+            <th class="th-arrow" data-col="2">p99 (ms)</th>
+            <th class="th-arrow" data-col="3">Throughput (inf/s)</th>
+            <th class="th-arrow" data-col="4">Status</th>
+            <th>Timestamp</th>
+            <th>Profile</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in rows %}
+          <tr>
+            <td>{{ r.runtime }}</td>
+            <td>{{ "%.2f"|format(r.latency_ms.p50) }}</td>
+            <td>{{ "%.2f"|format(r.latency_ms.p99) }}</td>
+            <td>{{ "%.1f"|format(r.throughput) }}</td>
+            <td class="status-{{ r.status }}">{{ r.status }}</td>
+            <td>{{ r.timestamp[:19].replace("T", " ") }}</td>
+            <td>{% if r.get("profile_file") %}<a href="profiles/{{ r.profile_file }}" target="_blank">view</a>{% else %}—{% endif %}</td>
           </tr>
           {% endfor %}
         </tbody>
