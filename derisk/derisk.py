@@ -45,6 +45,11 @@ def _preload_cuda_libs() -> None:
         except OSError:
             continue
         for pkg in pkg_names:
+            # Skip cudnn — torch has its own bundled cuDNN and loading a
+            # pip-installed nvidia-cudnn before it causes
+            # CUDNN_STATUS_SUBLIBRARY_VERSION_MISMATCH on Conv3d.
+            if pkg == "cudnn":
+                continue
             lib_dir = os.path.join(nvidia_dir, pkg, "lib")
             if not os.path.isdir(lib_dir):
                 continue

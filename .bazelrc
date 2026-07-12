@@ -25,3 +25,4 @@ build --incompatible_use_python_toolchains=false
 # sets LD_LIBRARY_PATH to a CUDA lib dir manually, Bazel won't strip it.
 build --action_env=LD_LIBRARY_PATH
 build --action_env=HF_TOKEN
+build --action_env=EDGELLM_PLUGIN_PATH

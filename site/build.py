@@ -43,20 +43,20 @@ def load_results() -> list[dict]:
 def aggregate(results: list[dict]) -> dict:
     """
     Returns a nested dict:
-      { (model, precision): { runtime: [result, ...] } }
-    sorted by (model, precision, runtime).
+      { model: { (runtime, precision): [result, ...] } }
+    sorted by model.
     """
-    agg: dict[tuple[str, str], dict[str, list[dict]]] = {}
+    agg: dict[str, dict[tuple[str, str], list[dict]]] = {}
     for r in results:
         model = r.get("model", "unknown")
         precision = r.get("precision", "fp32")
         runtime = r.get("runtime", "unknown")
-        agg.setdefault((model, precision), {}).setdefault(runtime, []).append(r)
+        agg.setdefault(model, {}).setdefault((runtime, precision), []).append(r)
 
-    # Sort each runtime's results by timestamp descending
-    for key in agg:
-        for runtime in agg[key]:
-            agg[key][runtime].sort(key=lambda x: x.get("timestamp", ""), reverse=True)
+    # Sort each (runtime, precision)'s results by timestamp descending
+    for model in agg:
+        for key in agg[model]:
+            agg[model][key].sort(key=lambda x: x.get("timestamp", ""), reverse=True)
 
     return dict(sorted(agg.items()))
 
@@ -64,16 +64,16 @@ def aggregate(results: list[dict]) -> dict:
 def latest_per_combo(agg: dict) -> dict:
     """
     Returns sections for the template:
-      { (model, precision): [latest result per runtime, ...] }
-    rows within each section sorted by runtime name.
+      { model: [latest result per (runtime, precision), ...] }
+    rows within each section sorted by (runtime, precision).
     """
     sections = {}
-    for (model, precision), runtimes in agg.items():
+    for model, combos in agg.items():
         rows = []
-        for runtime, results in runtimes.items():
+        for (runtime, precision), results in combos.items():
             if results:
                 rows.append(results[0])
-        sections[(model, precision)] = sorted(rows, key=lambda r: r["runtime"])
+        sections[model] = sorted(rows, key=lambda r: (r["runtime"], r.get("precision", "")))
     return dict(sorted(sections.items()))
 
 
@@ -112,11 +112,11 @@ def _split_sections(sections: dict) -> tuple[dict, dict]:
     """
     vision: dict = {}
     vlm: dict = {}
-    for key, rows in sections.items():
+    for model, rows in sections.items():
         if any(r.get("lingo_judge_mean") is not None for r in rows):
-            vlm[key] = rows
+            vlm[model] = rows
         else:
-            vision[key] = rows
+            vision[model] = rows
     return vision, vlm
 
 

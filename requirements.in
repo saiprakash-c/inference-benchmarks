@@ -26,3 +26,4 @@ huggingface-hub>=0.20.0
 pillow>=10.0.0
 numpy>=1.26.0
 qwen-vl-utils>=0.0.8
+pyarrow>=14.0.0         # parquet reading (LingoQA val.parquet)
