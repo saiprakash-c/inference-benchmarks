@@ -15,7 +15,13 @@ TASK = "video_qa"
 INPUT_KEY = "lingoqa"
 ACTIVE_PRECISION = "bf16"
 SUPPORTED_PRECISIONS = ["bf16"]
-EXCLUDED_RUNTIMES: frozenset[str] = frozenset()
+EXCLUDED_RUNTIMES: frozenset[str] = frozenset({
+    "pytorch",        # no VLM generate() path
+    "tensorrt",       # no TRT engine for cosmos_reason2b
+    "torch_tensorrt", # no TRT engine for cosmos_reason2b
+    "executorch",     # no VLM support
+    "aot_inductor",   # no VLM support
+})
 
 WARMUP_ITERS = 5        # 5 samples; VLM init is expensive
 MEASURE_ITERS = 500     # full LingoQA eval set
