@@ -33,7 +33,62 @@
 </head>
 <body>
   <h1>Inference Runtime Benchmarks</h1>
-  <p class="meta">Hardware: Jetson AGX Thor &nbsp;|&nbsp; Updated: 2026-07-09 17:12 UTC</p>
+  <p class="meta">Hardware: Jetson AGX Thor &nbsp;|&nbsp; Updated: 2026-07-12 02:51 UTC</p>
+
+  
+  <h2>VLM Benchmarks</h2>
+    
+    <div class="section">
+      <div class="section-title">
+        cosmos_reason2b
+        <span class="tag tag-bf16">BF16</span>
+      </div>
+      <div class="section-subtitle">
+        Precision: BF16 &nbsp;|&nbsp; Batch size: 1 &nbsp;|&nbsp; Eval: LingoQA 500-sample &nbsp;|&nbsp; Latest run per runtime
+      </div>
+      <div class="lingo-ref">Reference: Alpamayo 1.5 = 74.2% pass / 0.742 mean &nbsp;(same dataset + metric)</div>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th class="th-arrow" data-col="0">Runtime</th>
+            <th class="th-arrow" data-col="1">p50 (ms)</th>
+            <th class="th-arrow" data-col="2">p99 (ms)</th>
+            <th class="th-arrow" data-col="3">Samples/s</th>
+            <th class="th-arrow" data-col="4">Lingo-Judge pass %</th>
+            <th class="th-arrow" data-col="5">Lingo-Judge mean</th>
+            <th class="th-arrow" data-col="6">Status</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <td>hf_transformers</td>
+            <td>571.83</td>
+            <td>1862.46</td>
+            <td>1.75</td>
+            <td>53.6%</td>
+            <td>0.5278</td>
+            <td class="status-ok">ok</td>
+            <td>2026-07-09 17:02:24</td>
+          </tr>
+          
+          <tr>
+            <td>trt_edge_llm</td>
+            <td>483.49</td>
+            <td>1140.05</td>
+            <td>2.07</td>
+            <td>55.4%</td>
+            <td>0.5331</td>
+            <td class="status-ok">ok</td>
+            <td>2026-07-09 17:10:24</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+    
+  
 
   
   <h2>Vision Benchmarks</h2>
@@ -298,61 +353,6 @@
             <td class="status-ok">ok</td>
             <td>2026-04-12 15:13:55</td>
             <td><a href="profiles/torch_tensorrt_resnet50_fp32_thor_20260412T151355Z.txt" target="_blank">view</a></td>
-          </tr>
-          
-        </tbody>
-      </table>
-    </div>
-    
-  
-
-  
-  <h2>VLM Benchmarks</h2>
-    
-    <div class="section">
-      <div class="section-title">
-        cosmos_reason2b
-        <span class="tag tag-bf16">BF16</span>
-      </div>
-      <div class="section-subtitle">
-        Precision: BF16 &nbsp;|&nbsp; Batch size: 1 &nbsp;|&nbsp; Eval: LingoQA 500-sample &nbsp;|&nbsp; Latest run per runtime
-      </div>
-      <div class="lingo-ref">Reference: Alpamayo 1.5 = 74.2% pass / 0.742 mean &nbsp;(same dataset + metric)</div>
-      <table class="results-table">
-        <thead>
-          <tr>
-            <th class="th-arrow" data-col="0">Runtime</th>
-            <th class="th-arrow" data-col="1">p50 (ms)</th>
-            <th class="th-arrow" data-col="2">p99 (ms)</th>
-            <th class="th-arrow" data-col="3">Samples/s</th>
-            <th class="th-arrow" data-col="4">Lingo-Judge pass %</th>
-            <th class="th-arrow" data-col="5">Lingo-Judge mean</th>
-            <th class="th-arrow" data-col="6">Status</th>
-            <th>Timestamp</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            <td>hf_transformers</td>
-            <td>571.83</td>
-            <td>1862.46</td>
-            <td>1.75</td>
-            <td>53.6%</td>
-            <td>0.5278</td>
-            <td class="status-ok">ok</td>
-            <td>2026-07-09 17:02:24</td>
-          </tr>
-          
-          <tr>
-            <td>trt_edge_llm</td>
-            <td>483.49</td>
-            <td>1140.05</td>
-            <td>2.07</td>
-            <td>55.4%</td>
-            <td>0.5331</td>
-            <td class="status-ok">ok</td>
-            <td>2026-07-09 17:10:24</td>
           </tr>
           
         </tbody>
