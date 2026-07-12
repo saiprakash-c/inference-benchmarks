@@ -25,6 +25,12 @@ PROFILES_DIR = RESULTS_DIR / "profiles"
 TEMPLATES_DIR = Path(__file__).parent / "templates"
 OUTPUT_DIR = REPO_ROOT / "site" / "public"
 
+# Extra tags shown after [precision] in the results table.
+RUNTIME_FEATURES: dict[str, list[str]] = {
+    "hf_transformers": ["kvcache"],
+    "trt_edge_llm":    ["kvcache"],
+}
+
 
 # ── Data loading ───────────────────────────────────────────────────────────────
 
@@ -136,6 +142,7 @@ def render(results: list[dict]) -> None:
         vision_sections=vision_sections,
         vlm_sections=vlm_sections,
         generated_at=generated_at,
+        runtime_features=RUNTIME_FEATURES,
     )
 
     out = OUTPUT_DIR / "index.html"

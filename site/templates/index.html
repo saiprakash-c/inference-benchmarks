@@ -50,7 +50,7 @@
         <tbody>
           {% for r in rows %}
           <tr>
-            <td>{{ r.runtime }} [{{ r.precision }}]</td>
+            <td>{{ r.runtime }} [{{ r.precision }}]{% for f in runtime_features.get(r.runtime, []) %} [{{ f }}]{% endfor %}</td>
             <td>{{ "%.2f"|format(r.latency_ms.p50) }}</td>
             <td>{{ "%.2f"|format(r.latency_ms.p99) }}</td>
             <td>{% if r.get("lingo_judge_pass_rate") is not none %}{{ "%.1f"|format(r.lingo_judge_pass_rate * 100) }}%{% else %}—{% endif %}</td>
@@ -80,7 +80,7 @@
         <tbody>
           {% for r in rows %}
           <tr>
-            <td>{{ r.runtime }} [{{ r.precision }}]</td>
+            <td>{{ r.runtime }} [{{ r.precision }}]{% for f in runtime_features.get(r.runtime, []) %} [{{ f }}]{% endfor %}</td>
             <td>{{ "%.2f"|format(r.latency_ms.p50) }}</td>
             <td>{{ "%.2f"|format(r.latency_ms.p99) }}</td>
             <td>{% if r.get("profile_file") %}<a href="profiles/{{ r.profile_file }}" target="_blank">view</a>{% else %}—{% endif %}</td>
