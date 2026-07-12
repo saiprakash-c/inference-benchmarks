@@ -18,7 +18,6 @@ import time
 from pathlib import Path
 from typing import Any
 
-import torch  # type: ignore[import]
 
 from lib import log as L
 from runtimes.base import RuntimeBase
