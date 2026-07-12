@@ -1,6 +1,7 @@
 # Bzlmod is default in Bazel 7; explicit here for clarity.
 common --enable_bzlmod
 
+
 # Tests: only print output on failure.
 test --test_output=errors
 
@@ -10,3 +11,18 @@ test --test_timeout=120
 # CI: no interactive TTY.
 common:ci --noshow_progress
 common:ci --color=no
+
+# Use system Python (non-hermetic). This is non-standard but required on Jetson:
+# torch's CUDA .so files use relative RPATHs that assume all nvidia-* packages
+# are siblings in a single site-packages/. Bazel's hermetic layout puts each
+# package in its own isolated directory, breaking those RPATHs at load time.
+# Tracked upstream: github.com/bazel-contrib/rules_python/issues/2156
+# Revisit when rules_python venv-based layout (--venvs_site_packages) matures.
+build --incompatible_use_python_toolchains=false
+
+# Forward LD_LIBRARY_PATH from the calling shell into Bazel-run binaries.
+# Belt-and-suspenders alongside derisk.py's _preload_cuda_libs(): if a user
+# sets LD_LIBRARY_PATH to a CUDA lib dir manually, Bazel won't strip it.
+build --action_env=LD_LIBRARY_PATH
+build --action_env=HF_TOKEN
+build --action_env=EDGELLM_PLUGIN_PATH

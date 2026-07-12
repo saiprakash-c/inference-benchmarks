@@ -5,62 +5,84 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inference Runtime Benchmarks</title>
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 960px; margin: 2rem auto; padding: 0 1rem; color: #111; }
-    h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
-    .meta { color: #666; font-size: 0.85rem; margin-bottom: 2.5rem; }
-    .section { margin-bottom: 2.5rem; }
-    .section-title { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.1rem; }
-    .section-subtitle { font-size: 0.85rem; color: #666; margin-bottom: 0.75rem; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-    th { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid #ddd; background: #f9f9f9; cursor: pointer; user-select: none; }
+    body { font-family: system-ui, sans-serif; max-width: 560px; margin: 1.5rem auto; padding: 0 1rem; color: #111; }
+    h1 { font-size: 1.2rem; margin-bottom: 0.2rem; }
+    h2 { font-size: 0.95rem; font-weight: 700; margin: 1.75rem 0 0.6rem; border-bottom: 2px solid #eee; padding-bottom: 0.3rem; }
+    .meta { color: #666; font-size: 0.78rem; margin-bottom: 1.5rem; }
+    .section { margin-bottom: 1.5rem; }
+    .section-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.1rem; }
+    .section-subtitle { font-size: 0.75rem; color: #666; margin-bottom: 0.5rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    th { text-align: left; padding: 0.35rem 0.55rem; border-bottom: 2px solid #ddd; background: #f9f9f9; cursor: pointer; user-select: none; white-space: nowrap; }
     th:hover { background: #eee; }
-    td { padding: 0.4rem 0.75rem; border-bottom: 1px solid #eee; }
+    td { padding: 0.28rem 0.55rem; border-bottom: 1px solid #eee; white-space: nowrap; }
     tr:hover td { background: #fafafa; }
     .status-ok      { color: #1a7f37; font-weight: 600; }
     .status-anomaly { color: #9a6700; font-weight: 600; }
     .status-error   { color: #cf222e; font-weight: 600; }
-    .empty { color: #666; font-style: italic; padding: 2rem 0; }
+    .empty { color: #666; font-style: italic; padding: 1rem 0; }
     .th-arrow::after { content: " ↕"; opacity: 0.4; }
     .th-asc::after  { content: " ↑"; opacity: 1; }
     .th-desc::after { content: " ↓"; opacity: 1; }
-    .tag { display: inline-block; font-size: 0.75rem; font-weight: 600; padding: 0.1rem 0.45rem; border-radius: 4px; vertical-align: middle; }
-    .tag-fp32 { background: #dbeafe; color: #1d4ed8; }
-    .tag-fp16 { background: #dcfce7; color: #15803d; }
+    .lingo-ref { font-size: 0.72rem; color: #666; margin-top: 0.25rem; margin-bottom: 0.5rem; }
   </style>
 </head>
 <body>
   <h1>Inference Runtime Benchmarks</h1>
   <p class="meta">Hardware: Jetson AGX Thor &nbsp;|&nbsp; Updated: {{ generated_at }}</p>
 
-  {% if sections %}
-    {% for (model, precision), rows in sections.items() %}
+  {% if vlm_sections %}
+  <h2>VLM Benchmarks</h2>
+    {% for model, rows in vlm_sections.items() %}
     <div class="section">
-      <div class="section-title">
-        {{ model }}
-        <span class="tag tag-{{ precision }}">{{ precision.upper() }}</span>
-      </div>
-      <div class="section-subtitle">Precision: {{ precision.upper() }} &nbsp;|&nbsp; Batch size: 1 &nbsp;|&nbsp; Latest run per runtime</div>
+      <div class="section-title">{{ model }}</div>
+      <div class="section-subtitle">Batch size: 1 &nbsp;|&nbsp; Eval: LingoQA 500-sample &nbsp;|&nbsp; Latest run per runtime</div>
+      <div class="lingo-ref">Reference: Alpamayo 1.5 = 74.2% pass / 0.742 mean &nbsp;(same dataset + metric)</div>
       <table class="results-table">
         <thead>
           <tr>
             <th class="th-arrow" data-col="0">Runtime</th>
             <th class="th-arrow" data-col="1">p50 (ms)</th>
             <th class="th-arrow" data-col="2">p99 (ms)</th>
-            <th class="th-arrow" data-col="3">Throughput (inf/s)</th>
-            <th class="th-arrow" data-col="4">Status</th>
-            <th>Timestamp</th>
+            <th class="th-arrow" data-col="3">Lingo-Judge pass %</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in rows %}
+          <tr>
+            <td>{{ r.runtime }} [{{ r.precision }}]{% for f in runtime_features.get(r.runtime, []) %} [{{ f }}]{% endfor %}</td>
+            <td>{{ "%.2f"|format(r.latency_ms.p50) }}</td>
+            <td>{{ "%.2f"|format(r.latency_ms.p99) }}</td>
+            <td>{% if r.get("lingo_judge_pass_rate") is not none %}{{ "%.1f"|format(r.lingo_judge_pass_rate * 100) }}%{% else %}—{% endif %}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endfor %}
+  {% endif %}
+
+  {% if vision_sections %}
+  <h2>Vision Benchmarks</h2>
+    {% for model, rows in vision_sections.items() %}
+    <div class="section">
+      <div class="section-title">{{ model }}</div>
+      <div class="section-subtitle">Batch size: 1 &nbsp;|&nbsp; Latest run per runtime</div>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th class="th-arrow" data-col="0">Runtime</th>
+            <th class="th-arrow" data-col="1">p50 (ms)</th>
+            <th class="th-arrow" data-col="2">p99 (ms)</th>
             <th>Profile</th>
           </tr>
         </thead>
         <tbody>
           {% for r in rows %}
           <tr>
-            <td>{{ r.runtime }}</td>
+            <td>{{ r.runtime }} [{{ r.precision }}]{% for f in runtime_features.get(r.runtime, []) %} [{{ f }}]{% endfor %}</td>
             <td>{{ "%.2f"|format(r.latency_ms.p50) }}</td>
             <td>{{ "%.2f"|format(r.latency_ms.p99) }}</td>
-            <td>{{ "%.1f"|format(r.throughput) }}</td>
-            <td class="status-{{ r.status }}">{{ r.status }}</td>
-            <td>{{ r.timestamp[:19].replace("T", " ") }}</td>
             <td>{% if r.get("profile_file") %}<a href="profiles/{{ r.profile_file }}" target="_blank">view</a>{% else %}—{% endif %}</td>
           </tr>
           {% endfor %}
@@ -68,7 +90,9 @@
       </table>
     </div>
     {% endfor %}
-  {% else %}
+  {% endif %}
+
+  {% if not vision_sections and not vlm_sections %}
   <p class="empty">No benchmark results yet.</p>
   {% endif %}
 
@@ -88,8 +112,8 @@
           const tbody = table.querySelector("tbody");
           const rows = Array.from(tbody.querySelectorAll("tr"));
           rows.sort((a, b) => {
-            const av = a.cells[col].textContent.trim();
-            const bv = b.cells[col].textContent.trim();
+            const av = a.cells[col].textContent.trim().replace("%", "");
+            const bv = b.cells[col].textContent.trim().replace("%", "");
             const an = parseFloat(av), bn = parseFloat(bv);
             const cmp = isNaN(an) ? av.localeCompare(bv) : an - bn;
             return sortAsc ? cmp : -cmp;

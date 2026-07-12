@@ -1,9 +1,9 @@
 # inference-benchmarks runtime image
 #
 # Execution environment for benchmark runs on Thor (Jetson AGX Thor).
-# Base: nvcr.io/nvidia/cuda:13.0.2-runtime-ubuntu24.04 (arm64).
+# Base: nvcr.io/nvidia/cuda:13.0.2-devel-ubuntu24.04 (arm64).
 # TensorRT 10.16.0 installed via NVIDIA Jetson apt repo (r38.4).
-# Python deps installed from pyproject.toml [project.optional-dependencies.gpu].
+# All Python deps managed by Bazel via requirements.txt — none installed here.
 #
 # Versions here must match versions.toml [docker] section exactly.
 # See docs/VERSIONING.md for rebuild trigger rules.
@@ -32,6 +32,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gnupg \
     vim \
     zsh \
+    sox \
     && rm -rf /var/lib/apt/lists/*
 
 # ── TensorRT via NVIDIA Jetson apt repo ───────────────────────────────────────
@@ -59,22 +60,18 @@ RUN curl -fsSL \
     "https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_${GH_VERSION}_linux_arm64.tar.gz" \
     | tar -xz -C /usr/local --strip-components=1 gh_${GH_VERSION}_linux_arm64/bin/gh
 
-# ── Python deps from pyproject.toml ───────────────────────────────────────────
-# Jetson wheels come from pypi.jetson-ai-lab.io; PyPI is the fallback.
-COPY pyproject.toml /workspace/pyproject.toml
-# hadolint ignore=DL3013
-RUN pip3 install --no-cache-dir --break-system-packages \
-    --extra-index-url https://pypi.jetson-ai-lab.io/jp7/cu130 \
-    "/workspace[gpu]"
+# ── python → python3 shim ─────────────────────────────────────────────────────
+# Bazel's --incompatible_use_python_toolchains=false looks for `python` on PATH.
+# Ubuntu 24.04 only ships `python3`; add the shim so Bazel finds system Python.
+# This is required because torch's CUDA .so files use relative RPATHs that break
+# in Bazel's hermetic per-package runfiles layout.
+RUN ln -s /usr/bin/python3 /usr/local/bin/python
 
 # ── Triton ptxas fix for Jetson AGX Thor (sm_110a) ────────────────────────────
-# Triton 3.6 bundles ptxas-blackwell built against CUDA 12.8, which does not
-# recognise sm_110a (Blackwell variant on Thor). Replace it with the CUDA 13.0
-# ptxas bundled with PyTorch, which supports sm_110a.
-# hadolint ignore=SC2046
-RUN torch_ptxas=$(find /usr/local/lib/python3* -name ptxas -path "*/torch/bin/*" 2>/dev/null | head -1) && \
-    triton_blackwell=$(find /usr/local/lib/python3* -name ptxas-blackwell -path "*/triton/*" 2>/dev/null | head -1) && \
-    cp "$torch_ptxas" "$triton_blackwell"
+# Triton bundles ptxas-blackwell built against CUDA 12.8, which does not
+# recognise sm_110a (Blackwell variant on Thor). Point triton at the CUDA 13.0
+# ptxas from the base image instead.
+ENV TRITON_PTXAS_PATH=/usr/local/cuda/bin/ptxas
 
 # ── Node.js 18 LTS + Claude Code ──────────────────────────────────────────────
 ARG NODE_VERSION=18.20.8

@@ -1,0 +1,23 @@
+{
+  "runtime": "hf_transformers",
+  "model": "cosmos_reason2b",
+  "precision": "bf16",
+  "batch_size": 1,
+  "latency_ms": {
+    "p50": 571.8255409738049,
+    "p99": 1862.4641384906135
+  },
+  "throughput": 1.7487851247375632,
+  "lingo_judge_mean": 0.5278,
+  "lingo_judge_pass_rate": 0.536,
+  "hw_id": "thor",
+  "docker_image": "sha256:9a2c5ae934ee1a37d710abfa7f7a1b75efbd21a180abb86bb3a90b91422f4ff7",
+  "sw_versions": {
+    "hf_transformers": "5.9.0",
+    "cuda": "13.0",
+    "driver": "580.00"
+  },
+  "timestamp": "2026-07-09T17:02:24.127698+00:00",
+  "status": "ok",
+  "profile_file": null
+}

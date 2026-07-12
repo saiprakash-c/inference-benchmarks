@@ -8,28 +8,36 @@ the new key here — the runner resolves everything via these dicts.
 
 import inputs.dinov2 as dinov2_input
 import inputs.imagenet as imagenet
+import inputs.lingoqa as lingoqa
+from models.cosmos_reason2b import spec as cosmos_reason2b_spec
 from models.dinov2_b import spec as dinov2_b_spec
 from models.resnet50 import spec as resnet50_spec
 from runtimes.aot_inductor.runtime import AOTInductorRuntime
 from runtimes.executorch.runtime import ExecuTorchRuntime
+from runtimes.hf_transformers.runtime import HFTransformersRuntime
 from runtimes.pytorch.runtime import PyTorchRuntime
 from runtimes.tensorrt.runtime import TensorRTRuntime
 from runtimes.torch_tensorrt.runtime import TorchTensorRTRuntime
+from runtimes.trt_edge_llm.runtime import TRTEdgeLLMRuntime
 
 MODEL_REGISTRY: dict = {
-    "resnet50":  resnet50_spec,
-    "dinov2_b":  dinov2_b_spec,
+    "resnet50":          resnet50_spec,
+    "dinov2_b":          dinov2_b_spec,
+    "cosmos_reason2b":   cosmos_reason2b_spec,
 }
 
 RUNTIME_REGISTRY: dict = {
-    "pytorch":         PyTorchRuntime,
-    "tensorrt":        TensorRTRuntime,
-    "torch_tensorrt":  TorchTensorRTRuntime,
-    "executorch":      ExecuTorchRuntime,
-    "aot_inductor":    AOTInductorRuntime,
+    "pytorch":           PyTorchRuntime,
+    "tensorrt":          TensorRTRuntime,
+    "torch_tensorrt":    TorchTensorRTRuntime,
+    "executorch":        ExecuTorchRuntime,
+    "aot_inductor":      AOTInductorRuntime,
+    "hf_transformers":   HFTransformersRuntime,
+    "trt_edge_llm":      TRTEdgeLLMRuntime,
 }
 
 INPUT_REGISTRY: dict = {
     "imagenet": imagenet,
     "dinov2":   dinov2_input,
+    "lingoqa":  lingoqa,
 }

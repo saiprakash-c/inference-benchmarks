@@ -1,6 +1,6 @@
 # Docker Design
 
-Two images, one `pyproject.toml`, one entry point per environment.
+Two images, no Python packages installed — all deps managed by Bazel.
 
 ---
 
@@ -9,58 +9,52 @@ Two images, one `pyproject.toml`, one entry point per environment.
 | Goal | How it's achieved |
 |---|---|
 | **Reproducible benchmarks** | All GPU workloads run inside a pinned container; host GPU driver is the only variable |
-| **Works on Mac, CI, and Thor** | Two separate images share `pyproject.toml`; no multi-stage hacks or platform conditionals in Python deps — `dev` runs anywhere x86/arm64 CPU, `runtime` runs on Thor with the nvidia runtime |
+| **Works on Mac, CI, and Thor** | Two separate images; `dev` runs anywhere x86/arm64 CPU, `runtime` runs on Thor with the nvidia runtime |
 | **No root files on the host** | Container user matches host `$UID`/`$USER` — files written inside `/workspace` are owned by you on the host |
 | **Persistent identity** | `~/.claude`, `~/.config/gh`, `~/.zsh_history` are bind-mounted — sessions, auth, and history survive container restarts |
 | **One command to enter** | `bin/docker_dev` / `bin/docker_rt` handle pre-flight, build, and launch |
+| **Bazel owns all Python deps** | `requirements.in` / `requirements.txt` are the single source of truth; no pip installs in Docker |
 
 ---
 
 ## Two-image split
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        pyproject.toml                           │
-│                                                                 │
-│   [dependencies]       core (always)                            │
-│   [extras.dev]         linting, testing, CI tooling             │
-│   [extras.gpu]         TensorRT, PyTorch Jetson wheels          │
-└──────────────────────┬──────────────────────┬───────────────────┘
-                       │                      │
-           pip install .[dev]      pip install .[gpu]
-                       │                      │
-                       ▼                      ▼
-          ┌────────────────────┐   ┌────────────────────┐
-          │   Dockerfile.dev   │   │     Dockerfile     │
-          │                    │   │                    │
-          │ python:3.12-slim   │   │ cuda:13.0.2-       │
-          │ + Bazel + gh CLI   │   │ ubuntu24.04        │
-          │ + Node + Claude    │   │ + TensorRT 10.16.0 │
-          │                    │   │ + Bazel + gh CLI   │
-          │ CPU only           │   │ + Node + Claude    │
-          │ Mac · CI · dev     │   │ Thor only · GPU    │
-          └────────┬───────────┘   │ GPU (nvidia rt)    │
-                   │               │ Thor only          │
-                   │               └────────┬───────────┘
-                   │                        │
-                   ▼                        ▼
-            docker compose              docker compose
-            run dev                     run runtime
-            bin/docker_dev              bin/docker_rt
+                      requirements.in / requirements.txt
+                        (Bazel pip hub — all Python deps)
+                                      │
+                   ┌──────────────────┴──────────────────┐
+                   │                                      │
+                   ▼                                      ▼
+      ┌────────────────────┐                ┌────────────────────┐
+      │   Dockerfile.dev   │                │     Dockerfile     │
+      │                    │                │                    │
+      │ python:3.12-slim   │                │ cuda:13.0.2-       │
+      │ + Bazel + gh CLI   │                │ ubuntu24.04        │
+      │ + Node + Claude    │                │ + TensorRT 10.16.0 │
+      │                    │                │ + Bazel + gh CLI   │
+      │ CPU only           │                │ + Node + Claude    │
+      │ Mac · CI · dev     │                │ Thor only · GPU    │
+      └────────┬───────────┘                └────────┬───────────┘
+               │                                     │
+               ▼                                     ▼
+        docker compose                         docker compose
+        run dev                                run runtime
+        bin/docker_dev                         bin/docker_rt
 ```
 
 **Why two Dockerfiles instead of one multi-stage?**
 Jetson GPU wheels (`pypi.jetson-ai-lab.io`) and Mac/x86 wheels are
-incompatible binaries — there is no shared stage. Keeping two thin
-Dockerfiles that both point at `pyproject.toml` is simpler and more
-explicit than a multi-stage file with platform conditionals.
+incompatible binaries — there is no shared stage. Two thin Dockerfiles
+are simpler and more explicit than a multi-stage file with platform
+conditionals.
 
-**Why pip install in Docker instead of letting Bazel manage deps?**
-TensorRT Python bindings are installed via `apt`, not pip — Bazel can't
-own them. The Jetson custom wheel index also complicates `rules_python`'s
-`pip_parse`. Pre-installing in Docker is the right tradeoff here: the
-image is rebuilt infrequently, and the complexity of hermetic per-target
-dep isolation isn't worth it for a benchmarking project.
+**Why Bazel for Python deps instead of Docker pip installs?**
+`requirements.txt` is the single source of truth for all Python
+dependencies, including Jetson-specific wheels (torch, torch-tensorrt,
+executorch) via the Jetson extra index. This means deps are versioned,
+reproducible, and declared per-target in BUILD files — not baked
+opaquely into the image.
 
 ---
 
@@ -70,8 +64,8 @@ dep isolation isn't worth it for a benchmarking project.
 nvcr.io/nvidia/cuda:13.0.2-devel-ubuntu24.04   (arm64)
          │
          │  apt install tensorrt          ← NVIDIA Jetson repo r38.4
-         │  pip install .[gpu]            ← pypi.jetson-ai-lab.io + PyPI
          │  install Bazel, gh, Node, Claude Code
+         │  ENV TRITON_PTXAS_PATH=...     ← point triton at CUDA 13.0 ptxas
          │
          ▼
 ghcr.io/saiprakash-c/inference-benchmarks:latest
@@ -99,16 +93,6 @@ Host                          Container
 ~/.zsh_history             →  ~/.zsh_history      (read-write, shell history)
 ```
 
-**Why read-write on `.gitconfig`?**
-`gh auth setup-git` writes the credential helper into `.gitconfig`. Making
-it read-only would prevent the first-time auth setup inside the container.
-
-**Why pre-create the bind-mount files?**
-If a host path does not exist when Docker mounts it, Docker creates a
-*directory* at that path instead of a file. `bin/docker_dev` and
-`bin/docker_rt` both run `touch` / `mkdir -p` on these paths before
-launching compose to prevent this.
-
 ---
 
 ## User identity
@@ -126,8 +110,7 @@ USER $USERNAME
 ```
 
 Files written inside `/workspace` are owned by `$UID` on the host — no
-`sudo chown` needed after container exits. The `ubuntu` user in the CUDA
-base image is deleted first to avoid a UID collision.
+`sudo chown` needed after container exits.
 
 ---
 
@@ -152,7 +135,6 @@ bin/docker_dev              bin/docker_rt
 Or directly via compose for non-interactive use:
 
 ```bash
-# Run a single Bazel target and exit
 docker compose -f docker/docker-compose.yml run --rm dev     bazel run //ci:lint
 docker compose -f docker/docker-compose.yml run --rm runtime bazel run //benchmark:run
 ```
@@ -162,7 +144,7 @@ docker compose -f docker/docker-compose.yml run --rm runtime bazel run //benchma
 ## Build and push lifecycle
 
 ```
-Edit Dockerfile or pyproject.toml
+Edit Dockerfile or requirements.in
            │
            ▼
   bazel run //docker:build        ← builds ghcr.io/…:latest locally
@@ -193,3 +175,5 @@ Only the `runtime` image is published to GHCR and digest-pinned.
 | `bin/docker_rt` | Enter runtime container on Thor |
 | `bin/docker_dev` | Enter dev container on Mac/CI/any CPU host |
 | `versions.toml [docker]` | Pinned digest + CUDA/JetPack versions |
+| `requirements.in` | All Python dep declarations (source of truth) |
+| `requirements.txt` | Locked deps generated by pip-compile |

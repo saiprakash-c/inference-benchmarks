@@ -1,0 +1,23 @@
+{
+  "runtime": "trt_edge_llm",
+  "model": "cosmos_reason2b",
+  "precision": "bf16",
+  "batch_size": 1,
+  "latency_ms": {
+    "p50": 483.49349095951766,
+    "p99": 1140.0486829108559
+  },
+  "throughput": 2.0682801706708576,
+  "lingo_judge_mean": 0.5331,
+  "lingo_judge_pass_rate": 0.554,
+  "hw_id": "thor",
+  "docker_image": "sha256:9a2c5ae934ee1a37d710abfa7f7a1b75efbd21a180abb86bb3a90b91422f4ff7",
+  "sw_versions": {
+    "trt_edge_llm": "0.9.0",
+    "cuda": "13.0",
+    "driver": "580.00"
+  },
+  "timestamp": "2026-07-09T17:10:24.197990+00:00",
+  "status": "ok",
+  "profile_file": null
+}

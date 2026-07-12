@@ -42,7 +42,7 @@ RESULT_SCHEMA = {
     "properties": {
         "runtime":       {"type": "string", "minLength": 1},
         "model":         {"type": "string", "minLength": 1},
-        "precision":     {"type": "string", "enum": ["fp32", "fp16", "int8", "fp8"]},
+        "precision":     {"type": "string", "enum": ["fp32", "fp16", "int8", "fp8", "bf16"]},
         "batch_size":    {"type": "integer", "minimum": 1},
         "latency_ms": {
             "type": "object",
@@ -64,6 +64,8 @@ RESULT_SCHEMA = {
         "timestamp":     {"type": "string", "format": "date-time"},
         "status":        {"type": "string", "enum": ["ok", "error", "anomaly"]},
         "profile_file":  {"type": ["string", "null"]},
+        "lingo_judge_mean":      {"type": ["number", "null"]},
+        "lingo_judge_pass_rate": {"type": ["number", "null"]},
     },
     "additionalProperties": False,
 }

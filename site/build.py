@@ -25,6 +25,12 @@ PROFILES_DIR = RESULTS_DIR / "profiles"
 TEMPLATES_DIR = Path(__file__).parent / "templates"
 OUTPUT_DIR = REPO_ROOT / "site" / "public"
 
+# Extra tags shown after [precision] in the results table.
+RUNTIME_FEATURES: dict[str, list[str]] = {
+    "hf_transformers": ["kvcache"],
+    "trt_edge_llm":    ["kvcache"],
+}
+
 
 # ── Data loading ───────────────────────────────────────────────────────────────
 
@@ -43,20 +49,20 @@ def load_results() -> list[dict]:
 def aggregate(results: list[dict]) -> dict:
     """
     Returns a nested dict:
-      { (model, precision): { runtime: [result, ...] } }
-    sorted by (model, precision, runtime).
+      { model: { (runtime, precision): [result, ...] } }
+    sorted by model.
     """
-    agg: dict[tuple[str, str], dict[str, list[dict]]] = {}
+    agg: dict[str, dict[tuple[str, str], list[dict]]] = {}
     for r in results:
         model = r.get("model", "unknown")
         precision = r.get("precision", "fp32")
         runtime = r.get("runtime", "unknown")
-        agg.setdefault((model, precision), {}).setdefault(runtime, []).append(r)
+        agg.setdefault(model, {}).setdefault((runtime, precision), []).append(r)
 
-    # Sort each runtime's results by timestamp descending
-    for key in agg:
-        for runtime in agg[key]:
-            agg[key][runtime].sort(key=lambda x: x.get("timestamp", ""), reverse=True)
+    # Sort each (runtime, precision)'s results by timestamp descending
+    for model in agg:
+        for key in agg[model]:
+            agg[model][key].sort(key=lambda x: x.get("timestamp", ""), reverse=True)
 
     return dict(sorted(agg.items()))
 
@@ -64,16 +70,16 @@ def aggregate(results: list[dict]) -> dict:
 def latest_per_combo(agg: dict) -> dict:
     """
     Returns sections for the template:
-      { (model, precision): [latest result per runtime, ...] }
-    rows within each section sorted by runtime name.
+      { model: [latest result per (runtime, precision), ...] }
+    rows within each section sorted by (runtime, precision).
     """
     sections = {}
-    for (model, precision), runtimes in agg.items():
+    for model, combos in agg.items():
         rows = []
-        for runtime, results in runtimes.items():
+        for (runtime, precision), results in combos.items():
             if results:
                 rows.append(results[0])
-        sections[(model, precision)] = sorted(rows, key=lambda r: r["runtime"])
+        sections[model] = sorted(rows, key=lambda r: (r["runtime"], r.get("precision", "")))
     return dict(sorted(sections.items()))
 
 
@@ -105,22 +111,43 @@ def copy_profiles(results: list[dict]) -> None:
 # ── Rendering ──────────────────────────────────────────────────────────────────
 
 
+def _split_sections(sections: dict) -> tuple[dict, dict]:
+    """
+    Split sections into vision and VLM buckets.
+    VLM results have lingo_judge_mean not None in at least one row.
+    """
+    vision: dict = {}
+    vlm: dict = {}
+    for model, rows in sections.items():
+        if any(r.get("lingo_judge_mean") is not None for r in rows):
+            vlm[model] = rows
+        else:
+            vision[model] = rows
+    return vision, vlm
+
+
 def render(results: list[dict]) -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     copy_profiles(results)
 
     agg = aggregate(results)
-    sections = latest_per_combo(agg)
+    all_sections = latest_per_combo(agg)
+    vision_sections, vlm_sections = _split_sections(all_sections)
     generated_at = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
     env = Environment(loader=FileSystemLoader(str(TEMPLATES_DIR)), autoescape=True)
     tmpl = env.get_template("index.html")
-    html = tmpl.render(sections=sections, generated_at=generated_at)
+    html = tmpl.render(
+        vision_sections=vision_sections,
+        vlm_sections=vlm_sections,
+        generated_at=generated_at,
+        runtime_features=RUNTIME_FEATURES,
+    )
 
     out = OUTPUT_DIR / "index.html"
     out.write_text(html)
-    total = sum(len(rows) for rows in sections.values())
+    total = sum(len(rows) for rows in all_sections.values())
     L.info("site.build", output=str(out), result_count=total)
 
 

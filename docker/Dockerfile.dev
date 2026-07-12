@@ -47,10 +47,16 @@ RUN ARCH=$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/') && \
     "https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_${GH_VERSION}_linux_${ARCH}.tar.gz" \
     | tar -xz -C /usr/local --strip-components=1 "gh_${GH_VERSION}_linux_${ARCH}/bin/gh"
 
-# ── Python deps from pyproject.toml ───────────────────────────────────────────
-COPY pyproject.toml /workspace/pyproject.toml
+# ── CI tooling (invoked directly, not via Bazel) ──────────────────────────────
+# ruff: --entrypoint ruff in python-lint job
+# jsonschema: --entrypoint python3 tools/validate_results.py
+# jinja2 + tomli_w: --entrypoint python3 site/build.py (deploy-site job)
 # hadolint ignore=DL3013
-RUN pip install --no-cache-dir "/workspace[dev]"
+RUN pip install --no-cache-dir \
+    ruff==0.15.20 \
+    jsonschema==4.23.0 \
+    jinja2==3.1.6 \
+    tomli-w==1.1.0
 
 # ── User ──────────────────────────────────────────────────────────────────────
 ARG UID=501

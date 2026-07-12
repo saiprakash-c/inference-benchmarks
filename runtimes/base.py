@@ -18,6 +18,7 @@ import torch  # type: ignore[import]
 PRECISION_TO_DTYPE: dict[str, torch.dtype] = {
     "fp32": torch.float32,
     "fp16": torch.float16,
+    "bf16": torch.bfloat16,
 }
 
 
@@ -43,6 +44,17 @@ class RuntimeBase(ABC):
     @abstractmethod
     def version(self) -> str:
         """Return the installed runtime version string."""
+
+    def accuracy(self, handle: Any) -> dict | None:
+        """
+        Return accuracy metrics computed over predictions cached during run().
+        Called by the runner after run() completes, before teardown().
+        Return None if this runtime does not support accuracy evaluation.
+
+        VLM runtimes return a dict, e.g.:
+            {"lingo_judge_mean": 0.543, "lingo_judge_pass_rate": 0.566}
+        """
+        return None
 
     def profile(self, handle: Any, input_tensor: Any) -> str | None:
         """

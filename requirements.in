@@ -1,5 +1,29 @@
-# Direct dependencies. Run pip-compile requirements.in > requirements.txt to regenerate.
+# Direct dependencies.
+# Regenerate: pip-compile --allow-unsafe --extra-index-url https://pypi.jetson-ai-lab.io/jp7/cu130 requirements.in
+
+# Core tooling
 tomli-w>=1.0.0      # TOML writing (tomllib reads but doesn't write)
 jsonschema>=4.0.0   # JSON schema validation in //tools:validate_results
 jinja2>=3.0.0       # HTML templating in //site:build
 anthropic>=0.40.0   # Claude API client for //ci:doc_review
+
+# Dev tooling
+pytest>=8.0.0
+ruff>=0.4.0
+
+# Inference — Jetson-specific wheels resolved via pypi.jetson-ai-lab.io/jp7/cu130
+setuptools            # required by torch at runtime
+torch==2.11.0
+torchvision==0.26.0
+torch-tensorrt==2.11.0
+executorch==1.2.0
+onnx>=1.16.0
+onnxscript>=0.1.0
+transformers>=4.50.0
+accelerate>=0.26.0
+safetensors>=0.4.0
+huggingface-hub>=0.20.0
+pillow>=10.0.0
+numpy>=1.26.0
+qwen-vl-utils>=0.0.8
+pyarrow>=14.0.0         # parquet reading (LingoQA val.parquet)
