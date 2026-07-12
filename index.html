@@ -24,28 +24,19 @@
     .th-arrow::after { content: " ↕"; opacity: 0.4; }
     .th-asc::after  { content: " ↑"; opacity: 1; }
     .th-desc::after { content: " ↓"; opacity: 1; }
-    .tag { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 0.05rem 0.35rem; border-radius: 3px; vertical-align: middle; }
-    .tag-fp32 { background: #dbeafe; color: #1d4ed8; }
-    .tag-fp16 { background: #dcfce7; color: #15803d; }
-    .tag-bf16 { background: #fef3c7; color: #92400e; }
     .lingo-ref { font-size: 0.72rem; color: #666; margin-top: 0.25rem; margin-bottom: 0.5rem; }
   </style>
 </head>
 <body>
   <h1>Inference Runtime Benchmarks</h1>
-  <p class="meta">Hardware: Jetson AGX Thor &nbsp;|&nbsp; Updated: 2026-07-12 02:58 UTC</p>
+  <p class="meta">Hardware: Jetson AGX Thor &nbsp;|&nbsp; Updated: 2026-07-12 03:01 UTC</p>
 
   
   <h2>VLM Benchmarks</h2>
     
     <div class="section">
-      <div class="section-title">
-        cosmos_reason2b
-        <span class="tag tag-bf16">BF16</span>
-      </div>
-      <div class="section-subtitle">
-        Precision: BF16 &nbsp;|&nbsp; Batch size: 1 &nbsp;|&nbsp; Eval: LingoQA 500-sample &nbsp;|&nbsp; Latest run per runtime
-      </div>
+      <div class="section-title">cosmos_reason2b</div>
+      <div class="section-subtitle">Batch size: 1 &nbsp;|&nbsp; Eval: LingoQA 500-sample &nbsp;|&nbsp; Latest run per runtime</div>
       <div class="lingo-ref">Reference: Alpamayo 1.5 = 74.2% pass / 0.742 mean &nbsp;(same dataset + metric)</div>
       <table class="results-table">
         <thead>
@@ -59,14 +50,14 @@
         <tbody>
           
           <tr>
-            <td>hf_transformers</td>
+            <td>hf_transformers [bf16]</td>
             <td>571.83</td>
             <td>1862.46</td>
             <td>53.6%</td>
           </tr>
           
           <tr>
-            <td>trt_edge_llm</td>
+            <td>trt_edge_llm [bf16]</td>
             <td>483.49</td>
             <td>1140.05</td>
             <td>55.4%</td>
@@ -82,11 +73,8 @@
   <h2>Vision Benchmarks</h2>
     
     <div class="section">
-      <div class="section-title">
-        dinov2_b
-        <span class="tag tag-fp16">FP16</span>
-      </div>
-      <div class="section-subtitle">Precision: FP16 &nbsp;|&nbsp; Batch size: 1 &nbsp;|&nbsp; Latest run per runtime</div>
+      <div class="section-title">dinov2_b</div>
+      <div class="section-subtitle">Batch size: 1 &nbsp;|&nbsp; Latest run per runtime</div>
       <table class="results-table">
         <thead>
           <tr>
@@ -99,77 +87,56 @@
         <tbody>
           
           <tr>
-            <td>aot_inductor</td>
+            <td>aot_inductor [fp16]</td>
             <td>6.28</td>
             <td>6.64</td>
             <td><a href="profiles/aot_inductor_dinov2_b_fp16_thor_20260412T151441Z.txt" target="_blank">view</a></td>
           </tr>
           
           <tr>
-            <td>pytorch</td>
-            <td>7.59</td>
-            <td>7.87</td>
-            <td><a href="profiles/pytorch_dinov2_b_fp16_thor_20260412T151439Z.txt" target="_blank">view</a></td>
-          </tr>
-          
-          <tr>
-            <td>tensorrt</td>
-            <td>5.86</td>
-            <td>6.38</td>
-            <td><a href="profiles/tensorrt_dinov2_b_fp16_thor_20260412T151440Z.txt" target="_blank">view</a></td>
-          </tr>
-          
-          <tr>
-            <td>torch_tensorrt</td>
-            <td>8.24</td>
-            <td>8.77</td>
-            <td><a href="profiles/torch_tensorrt_dinov2_b_fp16_thor_20260412T152539Z.txt" target="_blank">view</a></td>
-          </tr>
-          
-        </tbody>
-      </table>
-    </div>
-    
-    <div class="section">
-      <div class="section-title">
-        dinov2_b
-        <span class="tag tag-fp32">FP32</span>
-      </div>
-      <div class="section-subtitle">Precision: FP32 &nbsp;|&nbsp; Batch size: 1 &nbsp;|&nbsp; Latest run per runtime</div>
-      <table class="results-table">
-        <thead>
-          <tr>
-            <th class="th-arrow" data-col="0">Runtime</th>
-            <th class="th-arrow" data-col="1">p50 (ms)</th>
-            <th class="th-arrow" data-col="2">p99 (ms)</th>
-            <th>Profile</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            <td>aot_inductor</td>
+            <td>aot_inductor [fp32]</td>
             <td>81.64</td>
             <td>81.82</td>
             <td><a href="profiles/aot_inductor_dinov2_b_fp32_thor_20260412T151437Z.txt" target="_blank">view</a></td>
           </tr>
           
           <tr>
-            <td>pytorch</td>
+            <td>pytorch [fp16]</td>
+            <td>7.59</td>
+            <td>7.87</td>
+            <td><a href="profiles/pytorch_dinov2_b_fp16_thor_20260412T151439Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+          <tr>
+            <td>pytorch [fp32]</td>
             <td>83.29</td>
             <td>83.60</td>
             <td><a href="profiles/pytorch_dinov2_b_fp32_thor_20260412T151419Z.txt" target="_blank">view</a></td>
           </tr>
           
           <tr>
-            <td>tensorrt</td>
+            <td>tensorrt [fp16]</td>
+            <td>5.86</td>
+            <td>6.38</td>
+            <td><a href="profiles/tensorrt_dinov2_b_fp16_thor_20260412T151440Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+          <tr>
+            <td>tensorrt [fp32]</td>
             <td>32.60</td>
             <td>38.18</td>
             <td><a href="profiles/tensorrt_dinov2_b_fp32_thor_20260412T151423Z.txt" target="_blank">view</a></td>
           </tr>
           
           <tr>
-            <td>torch_tensorrt</td>
+            <td>torch_tensorrt [fp16]</td>
+            <td>8.24</td>
+            <td>8.77</td>
+            <td><a href="profiles/torch_tensorrt_dinov2_b_fp16_thor_20260412T152539Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+          <tr>
+            <td>torch_tensorrt [fp32]</td>
             <td>25.07</td>
             <td>27.26</td>
             <td><a href="profiles/torch_tensorrt_dinov2_b_fp32_thor_20260412T152350Z.txt" target="_blank">view</a></td>
@@ -180,11 +147,8 @@
     </div>
     
     <div class="section">
-      <div class="section-title">
-        resnet50
-        <span class="tag tag-fp16">FP16</span>
-      </div>
-      <div class="section-subtitle">Precision: FP16 &nbsp;|&nbsp; Batch size: 1 &nbsp;|&nbsp; Latest run per runtime</div>
+      <div class="section-title">resnet50</div>
+      <div class="section-subtitle">Batch size: 1 &nbsp;|&nbsp; Latest run per runtime</div>
       <table class="results-table">
         <thead>
           <tr>
@@ -197,84 +161,63 @@
         <tbody>
           
           <tr>
-            <td>aot_inductor</td>
+            <td>aot_inductor [fp16]</td>
             <td>1.38</td>
             <td>1.63</td>
             <td><a href="profiles/aot_inductor_resnet50_fp16_thor_20260412T151408Z.txt" target="_blank">view</a></td>
           </tr>
           
           <tr>
-            <td>pytorch</td>
-            <td>3.18</td>
-            <td>3.45</td>
-            <td><a href="profiles/pytorch_resnet50_fp16_thor_20260412T151407Z.txt" target="_blank">view</a></td>
-          </tr>
-          
-          <tr>
-            <td>tensorrt</td>
-            <td>0.83</td>
-            <td>0.91</td>
-            <td><a href="profiles/tensorrt_resnet50_fp16_thor_20260412T151407Z.txt" target="_blank">view</a></td>
-          </tr>
-          
-          <tr>
-            <td>torch_tensorrt</td>
-            <td>1.01</td>
-            <td>1.20</td>
-            <td><a href="profiles/torch_tensorrt_resnet50_fp16_thor_20260412T151407Z.txt" target="_blank">view</a></td>
-          </tr>
-          
-        </tbody>
-      </table>
-    </div>
-    
-    <div class="section">
-      <div class="section-title">
-        resnet50
-        <span class="tag tag-fp32">FP32</span>
-      </div>
-      <div class="section-subtitle">Precision: FP32 &nbsp;|&nbsp; Batch size: 1 &nbsp;|&nbsp; Latest run per runtime</div>
-      <table class="results-table">
-        <thead>
-          <tr>
-            <th class="th-arrow" data-col="0">Runtime</th>
-            <th class="th-arrow" data-col="1">p50 (ms)</th>
-            <th class="th-arrow" data-col="2">p99 (ms)</th>
-            <th>Profile</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            <td>aot_inductor</td>
+            <td>aot_inductor [fp32]</td>
             <td>1.88</td>
             <td>2.01</td>
             <td><a href="profiles/aot_inductor_resnet50_fp32_thor_20260412T151406Z.txt" target="_blank">view</a></td>
           </tr>
           
           <tr>
-            <td>executorch</td>
+            <td>executorch [fp32]</td>
             <td>79.78</td>
             <td>92.62</td>
             <td><a href="profiles/executorch_resnet50_fp32_thor_20260412T151405Z.txt" target="_blank">view</a></td>
           </tr>
           
           <tr>
-            <td>pytorch</td>
+            <td>pytorch [fp16]</td>
+            <td>3.18</td>
+            <td>3.45</td>
+            <td><a href="profiles/pytorch_resnet50_fp16_thor_20260412T151407Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+          <tr>
+            <td>pytorch [fp32]</td>
             <td>3.20</td>
             <td>3.63</td>
             <td><a href="profiles/pytorch_resnet50_fp32_thor_20260412T151353Z.txt" target="_blank">view</a></td>
           </tr>
           
           <tr>
-            <td>tensorrt</td>
+            <td>tensorrt [fp16]</td>
+            <td>0.83</td>
+            <td>0.91</td>
+            <td><a href="profiles/tensorrt_resnet50_fp16_thor_20260412T151407Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+          <tr>
+            <td>tensorrt [fp32]</td>
             <td>1.35</td>
             <td>1.54</td>
             <td><a href="profiles/tensorrt_resnet50_fp32_thor_20260412T151353Z.txt" target="_blank">view</a></td>
           </tr>
           
           <tr>
-            <td>torch_tensorrt</td>
+            <td>torch_tensorrt [fp16]</td>
+            <td>1.01</td>
+            <td>1.20</td>
+            <td><a href="profiles/torch_tensorrt_resnet50_fp16_thor_20260412T151407Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+          <tr>
+            <td>torch_tensorrt [fp32]</td>
             <td>1.95</td>
             <td>2.13</td>
             <td><a href="profiles/torch_tensorrt_resnet50_fp32_thor_20260412T151355Z.txt" target="_blank">view</a></td>
