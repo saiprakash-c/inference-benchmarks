@@ -5,140 +5,260 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inference Runtime Benchmarks</title>
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 560px; margin: 1.5rem auto; padding: 0 1rem; color: #111; }
-    h1 { font-size: 1.2rem; margin-bottom: 0.2rem; }
-    h2 { font-size: 0.95rem; font-weight: 700; margin: 1.75rem 0 0.6rem; border-bottom: 2px solid #eee; padding-bottom: 0.3rem; }
-    .meta { color: #666; font-size: 0.78rem; margin-bottom: 1.5rem; }
-    .section { margin-bottom: 1.5rem; }
-    .section-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.1rem; }
-    .section-subtitle { font-size: 0.75rem; color: #666; margin-bottom: 0.5rem; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
-    th { text-align: left; padding: 0.35rem 0.55rem; border-bottom: 2px solid #ddd; background: #f9f9f9; cursor: pointer; user-select: none; white-space: nowrap; }
+    body { font-family: system-ui, sans-serif; max-width: 960px; margin: 2rem auto; padding: 0 1rem; color: #111; }
+    h1 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+    .meta { color: #666; font-size: 0.85rem; margin-bottom: 2.5rem; }
+    .section { margin-bottom: 2.5rem; }
+    .section-title { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.1rem; }
+    .section-subtitle { font-size: 0.85rem; color: #666; margin-bottom: 0.75rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 2px solid #ddd; background: #f9f9f9; cursor: pointer; user-select: none; }
     th:hover { background: #eee; }
-    td { padding: 0.28rem 0.55rem; border-bottom: 1px solid #eee; white-space: nowrap; }
+    td { padding: 0.4rem 0.75rem; border-bottom: 1px solid #eee; }
     tr:hover td { background: #fafafa; }
     .status-ok      { color: #1a7f37; font-weight: 600; }
     .status-anomaly { color: #9a6700; font-weight: 600; }
     .status-error   { color: #cf222e; font-weight: 600; }
-    .empty { color: #666; font-style: italic; padding: 1rem 0; }
+    .empty { color: #666; font-style: italic; padding: 2rem 0; }
     .th-arrow::after { content: " ↕"; opacity: 0.4; }
     .th-asc::after  { content: " ↑"; opacity: 1; }
     .th-desc::after { content: " ↓"; opacity: 1; }
-    .lingo-ref { font-size: 0.72rem; color: #666; margin-top: 0.25rem; margin-bottom: 0.5rem; }
+    .tag { display: inline-block; font-size: 0.75rem; font-weight: 600; padding: 0.1rem 0.45rem; border-radius: 4px; vertical-align: middle; }
+    .tag-fp32 { background: #dbeafe; color: #1d4ed8; }
+    .tag-fp16 { background: #dcfce7; color: #15803d; }
+    .tag-fp8  { background: #fef9c3; color: #854d0e; }
+    .tag-nvfp4 { background: #fce7f3; color: #9d174d; }
   </style>
 </head>
 <body>
   <h1>Inference Runtime Benchmarks</h1>
-  <p class="meta">Hardware: Jetson AGX Thor &nbsp;|&nbsp; Updated: 2026-07-12 16:05 UTC</p>
+  <p class="meta">Hardware: Jetson AGX Thor &nbsp;|&nbsp; Updated: 2026-07-13 02:59 UTC</p>
 
   
-  <h2>VLM Benchmarks</h2>
     
     <div class="section">
-      <div class="section-title">cosmos_reason2b</div>
-      <div class="section-subtitle">Batch size: 1 &nbsp;|&nbsp; Eval: LingoQA 500-sample &nbsp;|&nbsp; Latest run per runtime</div>
-      <div class="lingo-ref">Reference: Alpamayo 1.5 = 74.2% pass / 0.742 mean &nbsp;(same dataset + metric)</div>
+      <div class="section-title">
+        cosmos_reason2_2b
+        <span class="tag tag-fp8">FP8</span>
+      </div>
+      <div class="section-subtitle">Precision: FP8 &nbsp;|&nbsp; Batch size: 1 &nbsp;|&nbsp; Latest run per runtime</div>
       <table class="results-table">
         <thead>
           <tr>
             <th class="th-arrow" data-col="0">Runtime</th>
             <th class="th-arrow" data-col="1">p50 (ms)</th>
             <th class="th-arrow" data-col="2">p99 (ms)</th>
-            <th class="th-arrow" data-col="3">Lingo-Judge pass %</th>
+            <th class="th-arrow" data-col="3">Throughput (inf/s)</th>
+            
+            <th class="th-arrow" data-col="4">Accuracy</th>
+            <th class="th-arrow" data-col="5">Status</th>
+            <th>Timestamp</th>
+            <th>Profile</th>
+            
           </tr>
         </thead>
         <tbody>
           
-          <tr>
-            <td>hf_transformers [bf16] [kvcache]</td>
-            <td>571.83</td>
-            <td>1862.46</td>
-            <td>53.6%</td>
-          </tr>
           
           <tr>
-            <td>trt_edge_llm [bf16] [kvcache]</td>
-            <td>483.49</td>
-            <td>1140.05</td>
-            <td>55.4%</td>
+            <td>tensorrt_edgellm</td>
+            <td>366.16</td>
+            <td>366.16</td>
+            <td>2.7</td>
+            
+            <td>lingo_judge: 0.514</td>
+            
+            <td class="status-ok">ok</td>
+            <td>2026-07-13 02:51:49</td>
+            <td>—</td>
           </tr>
           
         </tbody>
       </table>
     </div>
     
-  
-
-  
-  <h2>Vision Benchmarks</h2>
-    
     <div class="section">
-      <div class="section-title">dinov2_b</div>
-      <div class="section-subtitle">Batch size: 1 &nbsp;|&nbsp; Latest run per runtime</div>
+      <div class="section-title">
+        cosmos_reason2_2b
+        <span class="tag tag-nvfp4">NVFP4</span>
+      </div>
+      <div class="section-subtitle">Precision: NVFP4 &nbsp;|&nbsp; Batch size: 1 &nbsp;|&nbsp; Latest run per runtime</div>
       <table class="results-table">
         <thead>
           <tr>
             <th class="th-arrow" data-col="0">Runtime</th>
             <th class="th-arrow" data-col="1">p50 (ms)</th>
             <th class="th-arrow" data-col="2">p99 (ms)</th>
+            <th class="th-arrow" data-col="3">Throughput (inf/s)</th>
+            
+            <th class="th-arrow" data-col="4">Accuracy</th>
+            <th class="th-arrow" data-col="5">Status</th>
+            <th>Timestamp</th>
             <th>Profile</th>
+            
           </tr>
         </thead>
         <tbody>
           
+          
           <tr>
-            <td>aot_inductor [fp16]</td>
+            <td>tensorrt_edgellm</td>
+            <td>289.10</td>
+            <td>289.10</td>
+            <td>3.5</td>
+            
+            <td>lingo_judge: 0.503</td>
+            
+            <td class="status-ok">ok</td>
+            <td>2026-07-13 02:57:39</td>
+            <td>—</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">
+        dinov2_b
+        <span class="tag tag-fp16">FP16</span>
+      </div>
+      <div class="section-subtitle">Precision: FP16 &nbsp;|&nbsp; Batch size: 1 &nbsp;|&nbsp; Latest run per runtime</div>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th class="th-arrow" data-col="0">Runtime</th>
+            <th class="th-arrow" data-col="1">p50 (ms)</th>
+            <th class="th-arrow" data-col="2">p99 (ms)</th>
+            <th class="th-arrow" data-col="3">Throughput (inf/s)</th>
+            
+            <th class="th-arrow" data-col="4">Status</th>
+            <th>Timestamp</th>
+            <th>Profile</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          
+          
+          <tr>
+            <td>aot_inductor</td>
             <td>6.28</td>
             <td>6.64</td>
+            <td>159.3</td>
+            
+            <td class="status-ok">ok</td>
+            <td>2026-04-12 15:14:41</td>
             <td><a href="profiles/aot_inductor_dinov2_b_fp16_thor_20260412T151441Z.txt" target="_blank">view</a></td>
           </tr>
           
-          <tr>
-            <td>aot_inductor [fp32]</td>
-            <td>81.64</td>
-            <td>81.82</td>
-            <td><a href="profiles/aot_inductor_dinov2_b_fp32_thor_20260412T151437Z.txt" target="_blank">view</a></td>
-          </tr>
           
           <tr>
-            <td>pytorch [fp16]</td>
+            <td>pytorch</td>
             <td>7.59</td>
             <td>7.87</td>
+            <td>131.7</td>
+            
+            <td class="status-ok">ok</td>
+            <td>2026-04-12 15:14:39</td>
             <td><a href="profiles/pytorch_dinov2_b_fp16_thor_20260412T151439Z.txt" target="_blank">view</a></td>
           </tr>
           
-          <tr>
-            <td>pytorch [fp32]</td>
-            <td>83.29</td>
-            <td>83.60</td>
-            <td><a href="profiles/pytorch_dinov2_b_fp32_thor_20260412T151419Z.txt" target="_blank">view</a></td>
-          </tr>
           
           <tr>
-            <td>tensorrt [fp16]</td>
+            <td>tensorrt</td>
             <td>5.86</td>
             <td>6.38</td>
+            <td>170.5</td>
+            
+            <td class="status-ok">ok</td>
+            <td>2026-04-12 15:14:40</td>
             <td><a href="profiles/tensorrt_dinov2_b_fp16_thor_20260412T151440Z.txt" target="_blank">view</a></td>
           </tr>
           
-          <tr>
-            <td>tensorrt [fp32]</td>
-            <td>32.60</td>
-            <td>38.18</td>
-            <td><a href="profiles/tensorrt_dinov2_b_fp32_thor_20260412T151423Z.txt" target="_blank">view</a></td>
-          </tr>
           
           <tr>
-            <td>torch_tensorrt [fp16]</td>
+            <td>torch_tensorrt</td>
             <td>8.24</td>
             <td>8.77</td>
+            <td>121.3</td>
+            
+            <td class="status-ok">ok</td>
+            <td>2026-04-12 15:25:39</td>
             <td><a href="profiles/torch_tensorrt_dinov2_b_fp16_thor_20260412T152539Z.txt" target="_blank">view</a></td>
           </tr>
           
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">
+        dinov2_b
+        <span class="tag tag-fp32">FP32</span>
+      </div>
+      <div class="section-subtitle">Precision: FP32 &nbsp;|&nbsp; Batch size: 1 &nbsp;|&nbsp; Latest run per runtime</div>
+      <table class="results-table">
+        <thead>
           <tr>
-            <td>torch_tensorrt [fp32]</td>
+            <th class="th-arrow" data-col="0">Runtime</th>
+            <th class="th-arrow" data-col="1">p50 (ms)</th>
+            <th class="th-arrow" data-col="2">p99 (ms)</th>
+            <th class="th-arrow" data-col="3">Throughput (inf/s)</th>
+            
+            <th class="th-arrow" data-col="4">Status</th>
+            <th>Timestamp</th>
+            <th>Profile</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          
+          
+          <tr>
+            <td>aot_inductor</td>
+            <td>81.64</td>
+            <td>81.82</td>
+            <td>12.2</td>
+            
+            <td class="status-ok">ok</td>
+            <td>2026-04-12 15:14:37</td>
+            <td><a href="profiles/aot_inductor_dinov2_b_fp32_thor_20260412T151437Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+          
+          <tr>
+            <td>pytorch</td>
+            <td>83.29</td>
+            <td>83.60</td>
+            <td>12.0</td>
+            
+            <td class="status-ok">ok</td>
+            <td>2026-04-12 15:14:19</td>
+            <td><a href="profiles/pytorch_dinov2_b_fp32_thor_20260412T151419Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+          
+          <tr>
+            <td>tensorrt</td>
+            <td>32.60</td>
+            <td>38.18</td>
+            <td>30.7</td>
+            
+            <td class="status-ok">ok</td>
+            <td>2026-04-12 15:14:23</td>
+            <td><a href="profiles/tensorrt_dinov2_b_fp32_thor_20260412T151423Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+          
+          <tr>
+            <td>torch_tensorrt</td>
             <td>25.07</td>
             <td>27.26</td>
+            <td>39.9</td>
+            
+            <td class="status-ok">ok</td>
+            <td>2026-04-12 15:23:50</td>
             <td><a href="profiles/torch_tensorrt_dinov2_b_fp32_thor_20260412T152350Z.txt" target="_blank">view</a></td>
           </tr>
           
@@ -147,79 +267,158 @@
     </div>
     
     <div class="section">
-      <div class="section-title">resnet50</div>
-      <div class="section-subtitle">Batch size: 1 &nbsp;|&nbsp; Latest run per runtime</div>
+      <div class="section-title">
+        resnet50
+        <span class="tag tag-fp16">FP16</span>
+      </div>
+      <div class="section-subtitle">Precision: FP16 &nbsp;|&nbsp; Batch size: 1 &nbsp;|&nbsp; Latest run per runtime</div>
       <table class="results-table">
         <thead>
           <tr>
             <th class="th-arrow" data-col="0">Runtime</th>
             <th class="th-arrow" data-col="1">p50 (ms)</th>
             <th class="th-arrow" data-col="2">p99 (ms)</th>
+            <th class="th-arrow" data-col="3">Throughput (inf/s)</th>
+            
+            <th class="th-arrow" data-col="4">Status</th>
+            <th>Timestamp</th>
             <th>Profile</th>
+            
           </tr>
         </thead>
         <tbody>
           
+          
           <tr>
-            <td>aot_inductor [fp16]</td>
+            <td>aot_inductor</td>
             <td>1.38</td>
             <td>1.63</td>
+            <td>723.3</td>
+            
+            <td class="status-ok">ok</td>
+            <td>2026-04-12 15:14:08</td>
             <td><a href="profiles/aot_inductor_resnet50_fp16_thor_20260412T151408Z.txt" target="_blank">view</a></td>
           </tr>
           
-          <tr>
-            <td>aot_inductor [fp32]</td>
-            <td>1.88</td>
-            <td>2.01</td>
-            <td><a href="profiles/aot_inductor_resnet50_fp32_thor_20260412T151406Z.txt" target="_blank">view</a></td>
-          </tr>
           
           <tr>
-            <td>executorch [fp32]</td>
-            <td>79.78</td>
-            <td>92.62</td>
-            <td><a href="profiles/executorch_resnet50_fp32_thor_20260412T151405Z.txt" target="_blank">view</a></td>
-          </tr>
-          
-          <tr>
-            <td>pytorch [fp16]</td>
+            <td>pytorch</td>
             <td>3.18</td>
             <td>3.45</td>
+            <td>314.3</td>
+            
+            <td class="status-ok">ok</td>
+            <td>2026-04-12 15:14:07</td>
             <td><a href="profiles/pytorch_resnet50_fp16_thor_20260412T151407Z.txt" target="_blank">view</a></td>
           </tr>
           
-          <tr>
-            <td>pytorch [fp32]</td>
-            <td>3.20</td>
-            <td>3.63</td>
-            <td><a href="profiles/pytorch_resnet50_fp32_thor_20260412T151353Z.txt" target="_blank">view</a></td>
-          </tr>
           
           <tr>
-            <td>tensorrt [fp16]</td>
+            <td>tensorrt</td>
             <td>0.83</td>
             <td>0.91</td>
+            <td>1207.8</td>
+            
+            <td class="status-ok">ok</td>
+            <td>2026-04-12 15:14:07</td>
             <td><a href="profiles/tensorrt_resnet50_fp16_thor_20260412T151407Z.txt" target="_blank">view</a></td>
           </tr>
           
-          <tr>
-            <td>tensorrt [fp32]</td>
-            <td>1.35</td>
-            <td>1.54</td>
-            <td><a href="profiles/tensorrt_resnet50_fp32_thor_20260412T151353Z.txt" target="_blank">view</a></td>
-          </tr>
           
           <tr>
-            <td>torch_tensorrt [fp16]</td>
+            <td>torch_tensorrt</td>
             <td>1.01</td>
             <td>1.20</td>
+            <td>994.4</td>
+            
+            <td class="status-ok">ok</td>
+            <td>2026-04-12 15:14:07</td>
             <td><a href="profiles/torch_tensorrt_resnet50_fp16_thor_20260412T151407Z.txt" target="_blank">view</a></td>
           </tr>
           
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">
+        resnet50
+        <span class="tag tag-fp32">FP32</span>
+      </div>
+      <div class="section-subtitle">Precision: FP32 &nbsp;|&nbsp; Batch size: 1 &nbsp;|&nbsp; Latest run per runtime</div>
+      <table class="results-table">
+        <thead>
           <tr>
-            <td>torch_tensorrt [fp32]</td>
+            <th class="th-arrow" data-col="0">Runtime</th>
+            <th class="th-arrow" data-col="1">p50 (ms)</th>
+            <th class="th-arrow" data-col="2">p99 (ms)</th>
+            <th class="th-arrow" data-col="3">Throughput (inf/s)</th>
+            
+            <th class="th-arrow" data-col="4">Status</th>
+            <th>Timestamp</th>
+            <th>Profile</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          
+          
+          <tr>
+            <td>aot_inductor</td>
+            <td>1.88</td>
+            <td>2.01</td>
+            <td>531.0</td>
+            
+            <td class="status-ok">ok</td>
+            <td>2026-04-12 15:14:06</td>
+            <td><a href="profiles/aot_inductor_resnet50_fp32_thor_20260412T151406Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+          
+          <tr>
+            <td>executorch</td>
+            <td>79.78</td>
+            <td>92.62</td>
+            <td>12.5</td>
+            
+            <td class="status-ok">ok</td>
+            <td>2026-04-12 15:14:05</td>
+            <td><a href="profiles/executorch_resnet50_fp32_thor_20260412T151405Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+          
+          <tr>
+            <td>pytorch</td>
+            <td>3.20</td>
+            <td>3.63</td>
+            <td>312.9</td>
+            
+            <td class="status-ok">ok</td>
+            <td>2026-04-12 15:13:53</td>
+            <td><a href="profiles/pytorch_resnet50_fp32_thor_20260412T151353Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+          
+          <tr>
+            <td>tensorrt</td>
+            <td>1.35</td>
+            <td>1.54</td>
+            <td>743.4</td>
+            
+            <td class="status-ok">ok</td>
+            <td>2026-04-12 15:13:53</td>
+            <td><a href="profiles/tensorrt_resnet50_fp32_thor_20260412T151353Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+          
+          <tr>
+            <td>torch_tensorrt</td>
             <td>1.95</td>
             <td>2.13</td>
+            <td>511.9</td>
+            
+            <td class="status-ok">ok</td>
+            <td>2026-04-12 15:13:55</td>
             <td><a href="profiles/torch_tensorrt_resnet50_fp32_thor_20260412T151355Z.txt" target="_blank">view</a></td>
           </tr>
           
@@ -227,8 +426,6 @@
       </table>
     </div>
     
-  
-
   
 
   <script>
@@ -247,8 +444,8 @@
           const tbody = table.querySelector("tbody");
           const rows = Array.from(tbody.querySelectorAll("tr"));
           rows.sort((a, b) => {
-            const av = a.cells[col].textContent.trim().replace("%", "");
-            const bv = b.cells[col].textContent.trim().replace("%", "");
+            const av = a.cells[col].textContent.trim();
+            const bv = b.cells[col].textContent.trim();
             const an = parseFloat(av), bn = parseFloat(bv);
             const cmp = isNaN(an) ? av.localeCompare(bv) : an - bn;
             return sortAsc ? cmp : -cmp;
