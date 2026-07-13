@@ -29,7 +29,7 @@
 </head>
 <body>
   <h1>Inference Runtime Benchmarks</h1>
-  <p class="meta">Hardware: Jetson AGX Thor &nbsp;|&nbsp; Updated: 2026-07-13 14:15 UTC</p>
+  <p class="meta">Hardware: Jetson AGX Thor &nbsp;|&nbsp; Updated: 2026-07-13 14:18 UTC</p>
 
   
   <h2>VLM Benchmarks</h2>
@@ -190,6 +190,88 @@
             <td>83.29</td>
             <td>83.60</td>
             <td><a href="profiles/pytorch_dinov2_b_fp32_thor_20260412T151419Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">resnet50</div>
+      <div class="section-subtitle">Batch size: 1 &nbsp;|&nbsp; Latest run per runtime</div>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th class="th-arrow" data-col="0">Runtime</th>
+            <th class="th-arrow" data-col="1">p50 (ms)</th>
+            <th class="th-arrow" data-col="2">p99 (ms)</th>
+            <th>Profile</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          
+          <tr>
+            <td>tensorrt [fp16] </td>
+            <td>0.83</td>
+            <td>0.91</td>
+            <td><a href="profiles/tensorrt_resnet50_fp16_thor_20260412T151407Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+          
+          <tr>
+            <td>torch_tensorrt [fp16] </td>
+            <td>1.01</td>
+            <td>1.20</td>
+            <td><a href="profiles/torch_tensorrt_resnet50_fp16_thor_20260412T151407Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+          
+          <tr>
+            <td>tensorrt [fp32] </td>
+            <td>1.35</td>
+            <td>1.54</td>
+            <td><a href="profiles/tensorrt_resnet50_fp32_thor_20260412T151353Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+          
+          <tr>
+            <td>aot_inductor [fp16] </td>
+            <td>1.38</td>
+            <td>1.63</td>
+            <td><a href="profiles/aot_inductor_resnet50_fp16_thor_20260412T151408Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+          
+          <tr>
+            <td>aot_inductor [fp32] </td>
+            <td>1.88</td>
+            <td>2.01</td>
+            <td><a href="profiles/aot_inductor_resnet50_fp32_thor_20260412T151406Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+          
+          <tr>
+            <td>torch_tensorrt [fp32] </td>
+            <td>1.95</td>
+            <td>2.13</td>
+            <td><a href="profiles/torch_tensorrt_resnet50_fp32_thor_20260412T151355Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+          
+          <tr>
+            <td>pytorch [fp16] </td>
+            <td>3.18</td>
+            <td>3.45</td>
+            <td><a href="profiles/pytorch_resnet50_fp16_thor_20260412T151407Z.txt" target="_blank">view</a></td>
+          </tr>
+          
+          
+          <tr>
+            <td>pytorch [fp32] </td>
+            <td>3.20</td>
+            <td>3.63</td>
+            <td><a href="profiles/pytorch_resnet50_fp32_thor_20260412T151353Z.txt" target="_blank">view</a></td>
           </tr>
           
         </tbody>
