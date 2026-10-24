@@ -32,7 +32,7 @@ Published site (updated daily)
 
 ### Manual deployment procedure
 
-Use HTTPS + `gh auth git-credential` (the token in `.env` is already configured).
+Use HTTPS + `gh auth git-credential` (uses the machine's `gh auth login`).
 The persistent clone at `/tmp/gh-pages-deploy` is pre-configured and persists
 across sessions — reuse it, do not re-clone:
 

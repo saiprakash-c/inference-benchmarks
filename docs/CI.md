@@ -9,7 +9,7 @@ Daily cron, GitHub Actions jobs, and PR lifecycle.
 - Docker image: `ghcr.io/saiprakash-c/inference-benchmarks` (GitHub Container Registry)
 - Thor is on Tailscale; its IP is discovered automatically via `tailscale status --json`
   — no static `THOR_HOST` variable. CI runners join the tailnet using `TAILSCALE_AUTH_KEY`.
-- `gh` CLI authenticated via `GITHUB_TOKEN` (standard Actions token; PAT for local use)
+- `gh` CLI authenticated via `GITHUB_TOKEN` (standard Actions token; `gh auth login` for local use)
 - All benchmark targets run on Thor inside the Docker container via `//tools:ssh_run`
   (see AGENT_LOOP.md step 3a). GitHub Actions runners are used only for CI checks,
   not for benchmark execution.
@@ -148,6 +148,14 @@ Documented here and in `.env.example` at the repo root.
 
 `THOR_HOST` is **not** a secret — Thor's IP is discovered at runtime via `tailscale status`.
 GHCR authentication uses `GITHUB_TOKEN`; no separate registry token is needed.
+
+### Local development
+
+There is no `.env` file. `.envrc` (loaded by [direnv](https://direnv.net) on `cd`, run
+`direnv allow` once) reads `ANTHROPIC_API_KEY` from Bitwarden Secrets Manager with
+`bws-get`. GitHub access uses the machine's own `gh auth login`; for a local GHCR push run
+`gh auth refresh -s write:packages` then
+`gh auth token | docker login ghcr.io -u saiprakash-c --password-stdin`.
 
 ## Mechanical Lint Rules (`//ci:lint`)
 
